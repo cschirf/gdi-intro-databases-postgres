@@ -1,0 +1,66 @@
+// Base settings for all themes that can optionally be
+// overridden by the super-theme
+
+// Include theme-specific fonts
+@font-face {
+	font-family: "Gentium";
+	src: local("Gentium"),
+	url("fonts/Gentium/Gentium.ttf") format("truetype");
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: "Gentium-Book";
+	src: local("Gentium-Book"),
+	url("fonts/Gentium/Gentium-Book.ttf") format("truetype");
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: "Gentium-Italic";
+	src: local("Gentium-Italic"),
+	url("fonts/Gentium/Gentium-Italic.ttf") format("truetype");
+	font-weight: normal;
+	font-style: italic;
+}
+
+@font-face {
+	font-family: "Gentium-Bold";
+	src: local("Gentium-Bold"),
+	url("fonts/Gentium/Gentium-Bold.ttf") format("truetype");
+	font-weight: bold;
+	font-style: bold;
+}
+
+// Background of the presentation
+$backgroundColor: #2b2b2b;
+
+// Primary/body text
+$mainFont: 'Gentium-Book', 'Helvetica', Arial, sans-serif;
+$mainFontSize: 36px;
+$mainColor: #eee;
+
+// Headings
+$headingFont: 'Gentium-Bold', Impact, sans-serif;
+$headingColor: #F05B62;
+$headingLineHeight: 0.9em;
+$headingLetterSpacing: 0.02em;
+$headingTextTransform: uppercase;
+$headingTextShadow: 0px 0px 6px rgba(0,0,0,0.2);
+$heading1TextShadow: $headingTextShadow;
+
+// Links and actions
+$linkColor: #F05B62;
+$linkColorHover: lighten( $linkColor, 20% );
+
+// Text selection
+$selectionBackgroundColor: lighten( $linkColor, 20% );
+$selectionColor: #fff;
+
+// Generates the presentation background, can be overridden
+// to return a background image or gradient
+@mixin bodyBackground() {
+	background: $backgroundColor;
+}
