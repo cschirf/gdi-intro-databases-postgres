@@ -77,49 +77,153 @@
 		    <section>
             <h3>What is data modeling?</h3>
 						<ul>
-							<li>First step in database design and object oriented programming</li>
-							<li>Goal is to create a conceptual model of how data relate to each other</li>
-							<li>Exploratory process that progresses from:</li>
-								<ul>
-									<li>Conceptual Models - high level domain models</li>
-									<li>Logical Data Models - describe logical entities and relationships</li>
-									<li>Physical Data Models - used to design internal database schemas</li>
-								</ul>
+							<li>How are we going to organize our data?</li>
+							<li>Are pieces of data related? If so, how?</li>
+						</ul>
+					</section>
+					<section>
+						<h3>Formal defintions</h3>
+						<ul>
+							<li>Conceptual Models - high level domain models</li>
+							<li>Logical Data Models - describe logical entities and relationships</li>
+							<li>Physical Data Models - used to design internal database schemas</li>
 						</ul>
         </section>
 
         <section>
             <h3>Modeling Real Things</h3>
-            <img src="images/herby_model.png" width="900px">
+            <img src="images/stuffed-animals/teddy-plain-brown.png" class="pic pic--xlarge">
         </section>
 
         <section>
             <h3>Kinds of data</h3>
-
-            <ul>
-                <li>Strings (characters within quotes, "Hi my name is Liz.")</li>
-                <li>Numbers (numeral characters - 1, 3, 27, 49)</li>
-                <li>Boolean (true or false)</li>
-                <li>Arrays(Lists of anything ["Hello", 27, "Arugula"])</li>
-                <li>Objects (key-value pairs)</li>
+            <ul class="compress">
+                <li>
+									<span class="keyword defined">Strings</span>
+									any sequence of characters (letters, numbers, symbols, whitespace), must be quoted
+								</li>
+                <li><span class="keyword">Numbers</span></li>
+								<ul>
+									<li>
+										<span class="keyword defined">Integers (int)</span>
+										whole numbers, can be negative, there&rsquo;s an upper limit
+									</li>
+									<li>
+										<span class="keyword defined">Doubles / Floating point</span>
+										decimals, details depend on system/language
+									</li>
+									<li>
+										<span class="keyword defined">Bigints / Longs</span>
+										whole numbers beyond the limit of regular integers; there&rsquo;s still an upper limit, though
+									</li>
+								</ul>
+                <li>
+									<span class="keyword defined">Boolean / Bit</span>
+									true or false; 1 or 0
+								</li>
+                <li>
+									<span class="keyword defined">Arrays</span>
+									Ordered lists; can contain anything
+								</li>
+                <li>
+									<span class="keyword defined">Objects</span>
+									A collection of key-value pairs
+								</li>
             </ul>
-            <h3>An object looks like this:</h3>
-            <pre><code contenteditable class="javascript">
+					</section>
+
+					<section>
+	            <h3>Kinds of data</h3>
+	            <ul class="compress">
+	                <li>
+										<span class="keyword defined">Strings</span>
+										<ul>
+											<li>names ("Mr. Teddy")</li>
+											<li>addresses ("1415 S. Congress Ave.")</li>
+										</ul>
+									</li>
+	                <li><span class="keyword">Numbers</span></li>
+									<ul>
+										<li>
+											<span class="keyword defined">Integers (int)</span>
+											<ul>
+												<li>ages (35)</li>
+												<li>quantities (14)</li>
+											</ul>
+										</li>
+										<li>
+											<span class="keyword defined">Doubles / Floating point</span>
+											<ul>
+												<li>currency (19.99)</li>
+												<li>GPS data (30.251163, -97.748949)</li>
+											</ul>
+										</li>
+										<li>
+											<span class="keyword defined">Bigints / Longs</span>
+											<ul>
+												<li>ids (4829182044)</li>
+											</ul>
+										</li>
+									</ul>
+								</ul>
+							</section>
+							<section>
+								<h3>Kinds of data</h3>
+								<ul class="compress">
+	                <li>
+										<span class="keyword defined">Boolean / Bit</span>
+										<ul>
+											<li>flags (shared: true, draft: false)</li>
+										</ul>
+									</li>
+	                <li>
+										<span class="keyword defined">Arrays</span>
+										<ul>
+												<li>can be anything!</li>
+												<li>random: ["Hello", 27, "Arugula"] </li>
+												<li>albums owned: ["Oceanborn", "A Fever You Can't Sweat Out"]
+										</ul>
+
+									</li>
+	                <li>
+										<span class="keyword defined">Objects</span>
+										A collection of key-value pairs
+									</li>
+	            </ul>
+						</section>
+
+					<section>
+            <h3>An example <i>Person</i> object</h3>
+            <pre>
+							<code contenteditable class="javascript">
 {
-"name" : "value",
-"property" : "value",
-"age" : "35",
-"weight" : "180",
-"favorite_foods" : ["Artichoke", "Alphalpha", "Anchovies"],
-"favorite_books" : [{"title": "Moby Dick", "author" : "Hermann Melville"}, {"title" : "Where the Wild Things Are", "author" : "Maurice Sendak"}]
+  "date_of_birth": "1989-09-04"
+  "weight_in_lbs" : "180",
+  "favorite_foods" : [
+    "Wine",
+    "Polenta",
+    "Cake"
+  ],
+  "favorite_books" : [
+    {
+      "title": "Waiting for Godot",
+      "author" : "Samuel Beckett"
+    }, {
+      "title" : "Falling Up",
+      "author" : "Shel Silverstein"
+    }
+  ]
 }
-                    </code></pre>
+                </code>
+							</pre>
         </section>
 
         <section>
-            <h3>Data Comes in Hierarchies</h3>
-            <p>Often, data is "nested" in "hierarchies" of objects within objects.</p>
-            <img src="images/hierarchy.png" width="500px">
+            <h3>Data is often hierarchical</h3>
+						<br>
+            <p>Often, data is nested in hierarchies of objects within objects.</p>
+						<br>
+            <p>For example, lists can contain objects, like in our person object.</p>
         </section>
 
         <section>
@@ -129,120 +233,523 @@
                 <li>Plain Text (.txt)</li>
                 <li>CSV (.csv)</li>
                 <li>JSON (JavaScript Object Notation)</li>
-                <li>Relational Database (SQL, Oracle)</li>
-                <li>Non-Relational Database (MongoDB, Cassandra, etc)</li>
+                <li>Relational Database
+										<br>(e.g., MySQL, PostgreSQL, SQL Server, Oracle)
+								</li>
+                <li>Non-Relational Database
+										<br> (e.g., MongoDB, Cassandra, Neo4j)
+									</li>
             </ul>
         </section>
 
         <section>
-            <h3>Structure</h3>
-						<pre><code contenteditable class="javascript">
-car = {
-"name": "Herby",
-"make": "BMW",
-"model": "Bug",
-"purpose": "Love",
-"engineType": "Back",
-"color": "Stripes",
-"year": "1970"
+            <h3>What we get with nested data</h3>
+						<pre>
+							<code contenteditable class="javascript">
+band = {
+  "name": "The Who",
+  "formed": "1964",
+  "style": "rock",
+  "frontman": "Pete Townshend"
+  "drummer": "Keith Moon"
+  "popular_album": "Tommy"
 }
-					  </code></pre>
+					  </code>
+					</pre>
 						<p>Might not be as helpful as...</p>
-						<pre><code contenteditable class="javascript">
-car = {
-"name": "Herby",
-"make": "BMW",
-"model": "Bug",
-"purposes": ["Love", "Driving around", "Saving people?"],
-"engine": {"location": "Back", "cylinders": 4, "fuel-injected": false, "loud": true},
-"description": {"paint_profile": "Stripes", "colors": ["black", "white", "silver"], "attitude": "sassy"},
-"year": "1970"
+					</section>
+					<section>
+						<pre class="compress">
+							<code contenteditable class="javascript">
+band = {
+  "name": "The Who",
+  "year_formed": "1964",
+  "musical_styles": ["rock", "power pop", "hard rock"]
+  "members": [
+    {
+      "name": "Pete Townshend",
+      "position": "frontman",
+      "tenure_start": "1964",
+      "tenure_end": null
+    },
+    {
+      "name": "Keith Moon",
+      "position": "drummer",
+      "tenure_start": "1964",
+      "tenure_end": "1978"
+    }, ...
+  ]
+  "discography": [
+    {
+      "title": "Tommy",
+      "release_date": "1969-05-23",
+      "tracks": ["Pinball Wizard", "Smash the Mirror", ...],
+      "num_certified_sales_usa": 2000000,
+      "num_certified_sales_france": 174300
+    }, ...
+  ]
 }
-					</code></pre>
+					</code>
+				</pre>
         </section>
 
         <section>
-            <h3>This matters a lot!</h3>
-            <p>Data can limit your capabilities, or expand them.</p>
-            <p>Grouping similar pieces of data together helps you stay organized, and helps the computer use it faster and easier. It also helps engineers program things more efficiently.</p>
-            <pre><code contenteditable class="javascript">
-if (car.engine.loud == true && car.description.attitude == "sassy") {
-console.log("I think Herby the love bug is comin' down the road!");
+            <h3>This is not academic</h3>
+            <div class="key-concept">The data you have and the format it&rsquo;s in
+							<br>informs what questions you can answer and potentially how quickly you can answer them.
+						</div>
+					</section>
+
+					<section>
+
+<!--
+	With the expanded data model, we can answer questions we couldn't begin to try to
+	with the abridged model, like:
+		* what was the original line up of The Who?
+		* what was the line up of The Who when Tommy was released?
+		* what was the most successful album in the US? in france?
+-->
+
+						<div class="column-container">
+
+							<pre class="item compress">
+								<code contenteditable class="javascript">
+band = {
+  "name": "The Who",
+  "formed": "1964",
+  "style": "rock",
+  "frontman": "Pete Townshend"
+  "drummer": "Keith Moon"
+  "popular_album": "Tommy"
 }
-            </code></pre>
+								</code>
+							</pre>
+
+							<pre class="item compress">
+								<code contenteditable class="javascript">
+	band = {
+	  "name": "The Who",
+	  "year_formed": "1964",
+	  "musical_styles": ["rock", "power pop", "hard rock"]
+	  "members": [
+	    {
+	      "name": "Pete Townshend",
+	      "position": "frontman",
+	      "tenure_start": "1964",
+	      "tenure_end": null
+	    },
+	    {
+	      "name": "Keith Moon",
+	      "position": "drummer",
+	      "tenure_start": "1964",
+	      "tenure_end": "1978"
+	    }, ...
+	  ]
+	  "discography": [
+	    {
+	      "title": "Tommy",
+	      "release_date": "1969-05-23",
+	      "tracks": ["Pinball Wizard", "Smash the Mirror", ...],
+	      "num_certified_sales_usa": 2000000,
+              "num_certified_sales_france": 174300
+	    }, ...
+	  ]
+	}
+						</code>
+					</pre>
+						</div>
+					</section>
+
+					<section>
+						<h3>The Great Balancing Act</h3>
+						<ul class="compress--mild">
+							<li><em>What data do you need? What data is irrelevant?</em>
+									<br>Slogging through unnecessary data makes processing slow.
+							</li>
+							<li><em>What&rsquo;s related? Can those pieces be grouped together?</em>
+									<br>Putting related information together makes it easier to
+									reason about and can potentionally increase processing efficiency.
+							</li>
+							<li><em>How hard will it be to update an existing schema?</em>
+									<br>Data models are rarely static.
+									What are things you&rsquo;ll most likely need to update in the
+									future and how hard will it be to do that with the model
+									you&rsquo;re currently considering?
+							</li>
+						</ul>
+
         </section>
 
-        <section>
-            <h3>How are things the same?</h3>
-            <p>Let's try to model these books together.</p>
-            <img src="images/powerofhabit.png" style="float:left; width:30%"> <img src="images/hyperspacebook.jpg" style="float:right; padding-left:20px; width:40%" >
-            <p>What unique properties do they have? What properties do they share?</p>
-        </section>
+				<section>
+						<div class="do-it">Modelling teddy bears</div>
+				</section>
 
         <section>
-            <h3>How are things the same?</h3>
-                <p>What does it mean to be a book?</p>
-                <div style="float:left; width:45%; height:600px;">
-                    <pre><code contenteditable class="javascript">
-{
-title: "",
-author: "",
-length: "",
-ISBN: "",
-cover: "",
-language: "",
-customer_rating: "",
-tags: "",
-amazon_link: "http://www.amazon.com/The-Power-Habit-What-Business/dp/1400069289/ref=sr_1_1?ie=UTF8&qid=1355257104&sr=8-1&keywords=power+of+habit"
+            <h3>What properties to both teddy bears have?</h3>
+
+						<div class="column-container centered">
+							<img class="item pic" src="images/stuffed-animals/teddy-keep-austin-weird.png">
+							<img class="item pic" src="images/stuffed-animals/teddy-union-jack-london.png">
+						</div>
+        </section>
+
+				<section>
+					<ul>
+							<li>name (string)</li>
+							<li>height in inches (integer)</li>
+							<li>width in inches (integer)</li>
+							<li>fabric type(s) (list of strings)</li>
+							<li>price (double)</li>
+							<li>colors (list of strings)</li>
+							<li>brand/manufacturer (string)</li>
+							<li>city (string)</li>
+					</ul>
+				</section>
+
+				<section>
+					<div class="column-container">
+
+						<pre class="item">
+							<code contenteditable class="javascript">
+austin_bear = {
+  "name": "Justin",
+  "height": 8,
+  "width": 5,
+  "fabric_types": [
+    "plush",
+    "polyester"
+  ],
+  "price": 14.95,
+  "colors": [
+    "blue",
+    "red",
+    "pink",
+    "green",
+    "purple",
+    "white",
+    "yellow",
+    "orange"
+  ],
+  "manufacturer": "Groovy Bears",
+  "city": "Austin"
 }
-                    </code></pre></div>
-                    <div style="float:right; width:45%; height:600px;" >
-                        <pre><code contenteditable class="javascript">
-{
-title: "",
-author: "",
-length: "",
-ISBN: "",
-cover: "",
-language: "",
-customer_rating: "",
-tags: "",
-amazon_link: "http://www.amazon.com/Hyperspace-Scientific-Parallel-Universes-Dimension/dp/0195085140/ref=tmm_hrd_title_0?ie=UTF8&qid=1355257238&sr=1-1",
-amazon_link2:"http://www.amazon.com/Hyperspace-Scientific-Odyssey-Parallel-Universes/dp/0385477058/ref=wl_it_dp_o_pC_nS_nC?ie=UTF8&colid=N55WK4E5RGPM&coliid=I39ORQQR1YUM18"
+							</code>
+						</pre>
+
+						<pre class="item">
+							<code contenteditable class="javascript">
+london_bear = {
+  "name": "Lord Ickenham",
+  "height": 6,
+  "width": 4,
+  "fabric_types": [
+    "mohair",
+    "velveteen"
+  ],
+  "price": 9.99,
+  "colors": [
+    "tan",
+    "blue",
+    "red",
+    "white",
+    "silver"
+  ],
+  "manufacturer": "UK Teddies",
+  "city": "London"
 }
-                        </code></pre>
-                    </div>
-        </section>
+							</code>
+						</pre>
+					</div>
+				</section>
 
-        <section>
-            <h3>Baselines</h3>
-                <p>Usually we try to go from generality - what does everything share in common, to specific - what makes everything unique?</p>
-                <p>Asking "what does something have to have <em>at minimum</em> to be this type of thing?" is a good way to find out a lot about your models.</p>
-                <p><a href="http://www.schema.org">Schema.org</a> did a lot of this - check them out for some examples.</p>
-        </section>
+				<section>
+					<h3>Does our model change if we add this teddy bear in?</h3>
+					<div class="column-container centered">
+						<img class="item pic" src="images/stuffed-animals/teddy-nasa.png">
+					</div>
+				</section>
 
-        <section>
-            <h3>Exercise Time!</h3>
-        		<h3>Modeling Places</h3>
-        <p>In this exercise, you'll model two places for storage in a reviews website like Yelp, Google Local, or Foursquare.</p>
-        <p>We're not terribly worried about format for this. <strong>PAIR UP</strong> and don't worry about getting JSON exactly right - the important part is "name" : "value".
-        If you get stuck trying to read something you wrote, here's a <a href="http://json.parser.online.fr/">JSON Parser</a> that will organize things for you.</p>
-			</section>
-			<section>
-				<h3>Exercise Time!</h3>
-				<h3>Modeling Places</h3>
-				<ul>
-						<li>First, create a new file - call it places.json</li>
-						<li>Start with an array with two or more objects - <code>[{}, {}, {}]</code></li>
-						<li>We're going to model places from this list, or choose your own favorite places!
-								<ul>
-										<li><a href="http://www.yelp.com/biz/seattle-coffee-works-seattle">Seattle Coffee Works</a></li>
-										<li><a href="http://www.yelp.com/biz/macrina-bakery-and-cafe-seattle-2">Macrina Bakery</a></li>
-										<li><a href="http://www.yelp.com/biz/bathtub-gin-and-co-seattle">Bathtub Gin &amp; Co</a></li>
-								</ul>
-						</li>
-			</section>
-			<section>
+				<section>
+					<div class="column-container centered">
+						<img class="item pic" src="images/stuffed-animals/teddy-keep-austin-weird.png">
+						<img class="item pic" src="images/stuffed-animals/teddy-union-jack-london.png">
+						<img class="item pic" src="images/stuffed-animals/teddy-nasa.png">
+					</div>
+					<p>City doesn&rsquo;t make sense any more. Theme, maybe?</p>
+				</section>
+
+				<section>
+					<div class="column-container">
+
+						<pre class="item">
+							<code contenteditable class="javascript">
+london_bear = {
+	"name": "Lord Ickenham",
+	"height": 6,
+	"width": 4,
+	"fabric_types": [
+		"mohair",
+		"velveteen"
+	],
+	"price": 9.99,
+	"colors": [
+		"tan",
+		"blue",
+		"red",
+		"white",
+		"silver"
+	],
+	"manufacturer": "UK Teddies",
+	"theme": "London"
+}
+							</code>
+						</pre>
+
+						<pre class="item">
+							<code contenteditable class="javascript">
+nasa_bear = {
+	"name": "Apollo",
+	"height": 7,
+	"width": 4.5,
+	"fabric_types": [
+		"fuzz",
+		"velveteen",
+		"rayon"
+	],
+	"price": 19.95,
+	"colors": [
+		"medium brown",
+		"tan",
+		"blue",
+		"red",
+		"white",
+		"black"
+	],
+	"manufacturer": "Space Bears",
+	"theme": "NASA"
+}
+							</code>
+						</pre>
+					</div>
+				</section>
+
+				<section>
+					<h3>How about if we add this guy?</h3>
+					<div class="column-container centered">
+						<img class="item pic" src="images/stuffed-animals/teddy-plain-brown.png">
+					</div>
+				</section>
+
+				<section>
+					<div class="column-container centered">
+						<img class="item pic" src="images/stuffed-animals/teddy-keep-austin-weird.png">
+						<img class="item pic" src="images/stuffed-animals/teddy-union-jack-london.png">
+						<img class="item pic" src="images/stuffed-animals/teddy-nasa.png">
+						<img class="item pic" src="images/stuffed-animals/teddy-plain-brown.png">
+					</div>
+					<p>No theme is a valid theme, so our model is still okay.</p>
+				</section>
+
+				<section>
+					<div class="column-container">
+
+						<pre class="item">
+							<code contenteditable class="javascript">
+london_bear = {
+	"name": "Lord Ickenham",
+	"height": 6,
+	"width": 4,
+	"fabric_types": [
+		"mohair",
+		"velveteen"
+	],
+	"price": 9.99,
+	"colors": [
+		"tan",
+		"blue",
+		"red",
+		"white",
+		"silver"
+	],
+	"manufacturer": "UK Teddies",
+	"theme": "London"
+}
+							</code>
+						</pre>
+
+						<pre class="item">
+							<code contenteditable class="javascript">
+plain_jane = {
+	"name": "Boo",
+	"height": 6,
+	"width": 6,
+	"fabric_types": [
+		"soft fuzz"
+	],
+	"price": 7.50,
+	"colors": [
+		"tan",
+		"black"
+	],
+	"manufacturer": "Old School Teddies",
+	"theme": "none"
+}
+							</code>
+						</pre>
+					</div>
+				</section>
+
+				<section>
+						<h3><i>null</i> is an option</h3>
+
+						<pre class="item">
+							<code contenteditable class="javascript">
+plain_jane = {
+	"name": "Boo",
+	"height": 6,
+	"width": 6,
+	"fabric_types": [
+		"soft fuzz"
+	],
+	"price": 7.50,
+	"colors": [
+		"tan",
+		"black"
+	],
+	"manufacturer": "Old School Teddies",
+	"theme": null
+}
+							</code>
+						</pre>
+				</section>
+
+				<section>
+					<h3>Teddy bears are so 1902. <br>This is the new hotness.</h3>
+					<div class="column-container centered">
+						<img class="item pic" src="images/stuffed-animals/squishable-narwhal.png">
+					</div>
+				</section>
+
+				<section>
+					<div class="column-container centered">
+						<img class="item pic--no-bg" src="images/emojiscream.png">
+					</div>
+				</section>
+
+				<section>
+					<h3>Does this break our model?</h3>
+					<div class="column-container centered">
+						<img class="item pic--compress" src="images/stuffed-animals/teddy-keep-austin-weird.png">
+						<img class="item pic--compress" src="images/stuffed-animals/teddy-union-jack-london.png">
+						<img class="item pic--compress" src="images/stuffed-animals/teddy-nasa.png">
+						<img class="item pic--compress" src="images/stuffed-animals/teddy-plain-brown.png">
+					</div>
+					<div class="column-container centered">
+						<img class="item pic--compress" src="images/stuffed-animals/squishable-narwhal.png">
+					</div>
+					<!-- <p>Does this break our model?</p> -->
+				</section>
+
+				<section>
+					<h3>updated model</h3>
+					<div class="column-container">
+						<div class="item">
+							<ul>
+									<li class="checked">name</li>
+									<li class="checked">height</li>
+									<li class="checked">width</li>
+									<li class="checked">fabric type(s)</li>
+									<li class="checked">price</li>
+									<li class="checked">colors</li>
+									<li class="checked">brand/manufacturer</li>
+							</ul>
+						</div>
+						<div class="item">
+							<ul>
+									<li class="questionable">theme</li>
+									<li class="starred"><em>type</em></li>
+									<li class="questionable">number of limbs</li>
+									<li class="questionable">has protrusions</li>
+							</ul>
+						</div>
+					</div>
+				</section>
+
+				<section>
+					<div class="column-container">
+
+						<pre class="item">
+							<code contenteditable class="javascript">
+london_bear = {
+	"type": "teddy bear"
+	"name": "Lord Ickenham",
+	"height": 6,
+	"width": 4,
+	"fabric_types": [
+		"mohair",
+		"velveteen"
+	],
+	"price": 9.99,
+	"colors": [
+		"tan",
+		"blue",
+		"red",
+		"white",
+		"silver"
+	],
+	"manufacturer": "UK Teddies",
+	"theme": "London",
+	"num_limbs": 4,
+	"num_protrusions": 0
+}
+							</code>
+						</pre>
+
+						<pre class="item">
+							<code contenteditable class="javascript">
+narwhal = {
+	"type": "narwhal plushie"
+	"name": "Boris",
+	"height": 7,
+	"width": 7,
+	"fabric_types": [
+		"soft fuzz"
+	],
+	"price": 14.95,
+	"colors": [
+		"ice blue",
+		"green"
+		...
+	],
+	"manufacturer": "Squishables",
+	"theme": "ocean",
+	"num_limbs": 0,
+	"num_protrusions": 1
+}
+							</code>
+						</pre>
+					</div>
+				</section>
+
+				<section>
+					<h3>Reprecussions</h3>
+					<p class="compress--mild" style="text-align: left;">
+						We need to add some additional information because we made an
+						implicit assumption that everything in the data store was going to
+						be a teddy bear. After all, that&rsquo;s what we were told in the beginning!
+						<br><br>
+						But, overall, our model held up relatively well.
+						We don&rsquo;t have to remove data or, more importantly,
+						re-organize data in any significant way. Anything that was
+						looking for brand or price before can still find it without any changes.
+					</p>
+				</section>
+
+				<!-- <section>
+						<div class="do-it">Let&rsquo;s model it!</div>
+				</section> -->
+
+			<!-- <section>
 				<h3>Exercise Time!</h3>
 				<h3>Modeling Places</h3>
 					<p>Ask yourself these questions:</p>
@@ -255,44 +762,85 @@ amazon_link2:"http://www.amazon.com/Hyperspace-Scientific-Odyssey-Parallel-Unive
 									<li>What is someone looking for when they look up information about this thing? What am <em>I</em> looking for?</li>
 							</ul></div>
 					</ul>
+			</section> -->
+
+			<section>
+				<div class="do-it">Let&rsquo;s talk about relationships.</div>
 			</section>
 
+			<section>
+					<h3>Types of Relationships</h3>
+							<ul>
+									<li>
+										<span class="keyword defined">One-to-One</span>
+										A car model is made by one company.
+									</li>
+									<li>
+										<span class="keyword defined">One-to-Many</span>
+										One class has many students.
+									 </li>
+									<li>
+										<span class="keyword defined">Many-to-One</span>
+										Many employees work in one department (or many students are in a single class).
+									</li>
+									<li>
+										<span class="keyword defined">Many-to-Many</span>
+										An author can write many books, and a book can be written by many authors.
+									</li>
+							</ul>
+			</section>
+
+			<section>
+					<div class="do-it">That&rsquo;s cool, but now I want to put it in a database.</div>
+			</section>
+
+        <section>
+            <h3>In a relational database</h3>
+            <img class="fit" src="images/coursetrackingexamplerdbms.jpg">
+        </section>
+
+        <section>
+            <h3>In a document store (non-relational database)</h3>
+            <img clas="fit" src="images/coursetrackingexamplenoSQL.jpg">
+        </section>
+
 				<section>
-					<h3>Entity Modeling</h3>
-					<ul>
-						<li>Entity type - any type of object that we want to store data about</li>
-						<li>Attribute - the data that we want to keep about each entity</li>
-						<li>Primary key - the attribute used to identify a specific entity</li>
-						<li>Composite key - a primary key made up of a unique combination of attributes</li>
+					<h3>What are relational dbs and what do they get me?</h3>
+					<ul class="compress">
+						<li>Mature (read: been around for a while) and still widely used</li>
+						<li>Model relationships between data</li>
+						<li>Allow you to put constraints on your data
+							<br>(e.g., any order that is placed in the system must belong to an existing user)
+						</li>
+						<li>ACID (Atomicity, <em>Consistency</em>, Isolation, Durability)</li>
+						<li>Usually, a poor choice for a distributed system</li>
+						<li>They use a dialect of SQL (Structured Query Language)</li>
 					</ul>
 				</section>
 
-        <section>
-            <h3>Relationships</h3>
-            <img src="images/coursetrackingexamplerdbms.jpg">
-        </section>
+				<section>
+					<h3>What about NoSQL dbs?</h3>
+					<ul class="compress">
+						<li>There are many different kinds of non-relational databases</li>
+						<ul>
+							<li>aggregate databases</li>
+							<ul>
+								<li>document stores (e.g., MongoDB)</li>
+								<li>column family (e.g., Cassandra)</li>
+								<li>key-value stores (e.g., Project Voldemort)</li>
+							</ul>
+							<li>graph databases (e.g., Neo4j)</li>
+						</ul>
+						<li>Ideal for clusters, distributed systems, and/or large-scale data.</li>
+						<li>BASE (Basically Available, Soft state, <em>Eventual consistency</em>)</li>
+						<li>Schema-less, so you might not always have the data you expect</li>
+						<li>Faster development?</li>
+						<li>Range of interface languages</li>
+					</ul>
+				</section>
 
-        <section>
-            <h3>Non-relational Systems</h3>
-            <img src="images/coursetrackingexamplenoSQL.jpg">
-        </section>
 
-        <section>
-            <h3>Modeling Relationships</h3>
-                <p>Or... How does a non-relational DB work?</p>
-								<p>Recommended reading:</p> <p><a href="http://www.ignoredbydinosaurs.com/2013/05/explaining-non-relational-databases-my-mom">Explaining Non-Relational Databases to My Mom</a></p>
-        </section>
 
-        <section>
-            <h3>Types of Relationships</h3>
-                <ul>
-                    <li>One-to-One: A car model is made by one company.</li>
-                    <li>One-to-Many: One class has many students.</li>
-                    <li>Many-to-One: Many employees work in one department.</li>
-                    <li>Many-to-Many: Many orders have many products.</li>
-                </ul><br><br>
-								<p><a href="http://www.databasedesign.co.uk/bookdatabasesafirstcourse/chap3/chap3.htm">Deeper reading on Entity Relationship Modeling</a></p>
-        </section>
 
         <section>
             <h3>Together!</h3>
@@ -313,6 +861,16 @@ amazon_link2:"http://www.amazon.com/Hyperspace-Scientific-Odyssey-Parallel-Unive
                     <li>Is it worth the time right now to have an existential crisis about this?! (Usually not.)</li>
                 </ul>
         </section>
+
+				<section>
+					<h3>Entity Modeling</h3>
+					<ul>
+						<li>Entity type - any type of object that we want to store data about</li>
+						<li>Attribute - the data that we want to keep about each entity</li>
+						<li>Primary key - the attribute used to identify a specific entity</li>
+						<li>Composite key - a primary key made up of a unique combination of attributes</li>
+					</ul>
+				</section>
 
         <section>
             <h3>Exercise Time</h3>
@@ -368,6 +926,31 @@ Studios = [{}, {}, {}, {}]
 										<li><a href="http://web.simmons.edu/~benoit/lis458/CrowsFootNotation.pdf">Explanation of Entity Relationship Diagrams and Crows Feet Notation</a></li>
 							</ul>
         </section>
+				<section>
+					<h3>Recommended Reading</h3>
+					<ul>
+						<li>
+							<a href="http://www.schema.org">Schema.org</a>
+						</li>
+						<li>Intro to NoSQL
+							<br>
+							<a href="https://www.youtube.com/watch?v=qI_g07C_Q5I">Martin Fowler's GOTO Keynote</a>
+						</li>
+						<li>
+							How does a non-relational DB work?
+							<br>
+							<a href="http://www.ignoredbydinosaurs.com/2013/05/explaining-non-relational-databases-my-mom">
+								Explaining Non-Relational Databases to My Mom
+							</a>
+						</li>
+						<li>
+							<a href="http://www.databasedesign.co.uk/bookdatabasesafirstcourse/chap3/chap3.htm">
+								Deeper reading on Entity Relationship Modeling
+							</a>
+						</li>
+
+					</ul>
+				</seciton>
         <section>
           <h2>Questions?</h2>
           <div style = "font-size:1200%; height:100%; margin-top:40%" class ="blue">?
@@ -396,7 +979,7 @@ Studios = [{}, {}, {}, {}]
 				history: true,
 
 				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
-				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/none
+				transition: 'linear', // default/cube/page/concave/zoom/linear/none
 
 				// Optional libraries used to extend on reveal.js
 				dependencies: [

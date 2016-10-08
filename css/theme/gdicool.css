@@ -22,6 +22,22 @@
   font-weight: bold;
   font-style: bold;
 }
+@font-face {
+  font-family: "Aller";
+  src: local("Aller"), url("fonts/Aller/Aller_Rg.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Aller-Light";
+  src: local("Aller-Light"), url("fonts/Aller/Aller_Lt.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Aller-Italic";
+  src: local("Aller-Italic"), url("fonts/Aller/Aller_It.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Aller-Bold";
+  src: local("Aller-Bold"), url("fonts/Aller/Aller_Bd.ttf") format("truetype");
+}
 /*********************************************
  * GLOBAL STYLES
  *********************************************/
@@ -37,7 +53,7 @@ body {
 }
 
 .reveal {
-  font-family: "Gentium-Book", "Helvetica", Arial, sans-serif;
+  font-family: "Aller", "Helvetica", Arial, sans-serif;
   font-size: 36px;
   font-weight: 200;
   letter-spacing: -0.02em;
@@ -61,7 +77,7 @@ body {
 .reveal h6 {
   margin: 0 0 20px 0;
   color: #8B0036;
-  font-family: "Gentium-Bold", Impact, sans-serif;
+  font-family: "Aller-Bold", Impact, sans-serif;
   line-height: 0.9em;
   letter-spacing: 0.02em;
   text-transform: uppercase;

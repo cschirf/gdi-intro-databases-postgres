@@ -25,6 +25,147 @@ $linkColor: #01A9B4;
 	max-height: 45% !important;
 }
 
+.fit {
+	max-height: 60vh !important;
+	max-width: 60vw !important;
+}
+
+.pic {
+	background-color: #eee !important;
+	border: none !important;
+	max-height: 300px !important;
+
+	&--no-bg {
+		background: none !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 300px !important;
+	}
+}
+
+section {
+	margin-top: 10% !important;
+}
+
+.compress {
+		font-size: 16pt !important;
+		line-height: 140% !important;
+		letter-spacing: 0.1px !important;
+
+		&--mild {
+			font-size: 22pt !important;
+			line-height: inherit;
+			letter-spacing: inherit;
+		}
+}
+
+pre {
+	font-size: 11pt !important;
+
+	&.compress {
+		font-size: 8pt !important;
+	}
+}
+
+ul,
+li {
+	font-family: "Aller-Light" !important;
+	font-weight: normal !important;
+}
+
+li {
+
+	&.checked {
+		list-style-type: none;
+
+		&:before {
+			content: "✓ ";
+			color: green;
+		}
+	}
+
+	&.questionable {
+		list-style-type: none;
+
+		&:before {
+			content: "? ";
+			color: #ffcc00;
+		}
+	}
+
+	&.starred {
+		list-style-type: none;
+
+		&:before {
+			content: "* ";
+		}
+	}
+}
+
+.keyword {
+	font-family: "Aller-Bold" !important;
+
+	&.defined {
+		&:after {
+			content: ": ";
+		}
+	}
+}
+
+.centered {
+	text-align: center !important;
+	display: flex !important;
+	justify-content: center !important;
+	align-items: center !important;
+}
+
+.key-concept {
+	@extend .centered;
+	font-size: 36pt !important;
+	height: 50vh !important;
+	line-height: 120% !important;
+	letter-spacing: 0.1px !important;
+}
+
+.do-it {
+	@extend .centered;
+	@extend h1;
+	font-size: 150% !important;
+	height: 70vh !important;
+}
+
+em {
+	font-family: "Aller-Bold" !important;
+	font-style: normal !important;
+}
+
+.column-container {
+	display: flex;
+	flex-shrink: 10;
+
+	.item {
+		flex-direction: row;
+	}
+
+	.pic {
+		&--compress {
+			background-color: #eee !important;
+			border: none !important;
+			max-width: 23%;
+			max-height: 23%;
+			margin-top: 5px !important;
+		}
+	}
+
+	pre {
+		max-width: 49%;
+
+		code {
+			height: 100vh;
+		}
+	}
+}
+
 
 // Theme template ------------------------------
 @import "../template/theme";

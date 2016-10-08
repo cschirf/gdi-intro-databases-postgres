@@ -2,6 +2,11 @@
 // overridden by the super-theme
 
 // Include theme-specific fonts
+
+//------------------------------------------------------------------------------
+// GENTIUM
+//------------------------------------------------------------------------------
+
 @font-face {
 	font-family: "Gentium";
 	src: local("Gentium"),
@@ -33,17 +38,48 @@
 	font-weight: bold;
 	font-style: bold;
 }
+//------------------------------------------------------------------------------
+
+
+//------------------------------------------------------------------------------
+// ALLER
+//------------------------------------------------------------------------------
+
+@font-face {
+	font-family: "Aller";
+	src: local("Aller"),
+	url("fonts/Aller/Aller_Rg.ttf") format("truetype");
+}
+
+@font-face {
+	font-family: "Aller-Light";
+	src: local("Aller-Light"),
+	url("fonts/Aller/Aller_Lt.ttf") format("truetype");
+}
+
+@font-face {
+	font-family: "Aller-Italic";
+	src: local("Aller-Italic"),
+	url("fonts/Aller/Aller_It.ttf") format("truetype");
+}
+
+@font-face {
+	font-family: "Aller-Bold";
+	src: local("Aller-Bold"),
+	url("fonts/Aller/Aller_Bd.ttf") format("truetype");
+}
+//------------------------------------------------------------------------------
 
 // Background of the presentation
 $backgroundColor: #2b2b2b;
 
 // Primary/body text
-$mainFont: 'Gentium-Book', 'Helvetica', Arial, sans-serif;
+$mainFont: 'Aller', 'Helvetica', Arial, sans-serif;
 $mainFontSize: 36px;
 $mainColor: #eee;
 
 // Headings
-$headingFont: 'Gentium-Bold', Impact, sans-serif;
+$headingFont: 'Aller-Bold', Impact, sans-serif;
 $headingColor: #F05B62;
 $headingLineHeight: 0.9em;
 $headingLetterSpacing: 0.02em;
