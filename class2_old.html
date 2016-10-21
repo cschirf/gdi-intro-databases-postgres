@@ -1,0 +1,629 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Intro to Databases - Girl Develop It</title>
+
+		<meta name="description" content="Introduction to Databases.
+
+    The course is meant to be taught in four two-hour workshops.">
+		<meta name="author" content="Girl Develop It">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/gdidefault.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<!-- light editor-->
+		<!-- <link rel="stylesheet" href="lib/css/light.css"> -->
+		<!-- dark editor -->
+		<link rel="stylesheet" href="lib/css/dark.css">
+
+		<!-- If use the PDF print sheet so students can print slides-->
+
+		<link rel="stylesheet" href="css/print/pdf.css" type="text/css" media="print">
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+          <img src="images/gdi_logo_badge.png"
+								alt="GDI Logo"
+								class="intro-slide-image"/>
+					<h3>Introduction to Databases</h3>
+					<h4>Class 2 - Intro to SQL</h4>
+				</section>
+
+				<!-- Welcome-->
+				<section>
+					<h3>Welcome!</h3>
+					<div class = "left-align">
+					<p>Girl Develop It is here to provide affordable and accessible programs to learn software through mentorship and hands-on instruction.</p>
+					<p class ="green">Some &ldquo;rules&rdquo;</p>
+					<ul>
+						<li>We are here for you!</li>
+						<li>Every question is important</li>
+						<li>Help each other</li>
+						<li>Have fun</li>
+					</ul>
+					</div>
+				</section>
+
+		    <section>
+					<h3>Intro to SQL</h3>
+					<ul class="compress--mild">
+						<li>Stands for <em>Structured Query Language</em></li>
+						<li>Special purpose language for managing data in a RDBMS</li>
+						<li>The basics are the same, but each RDBMS will have its own <em>dialect</em></li>
+						<li>Based on relational algebra</li>
+						<li>First introduced by Oracle in 1979</li>
+						<li>SQL is an ANSI and ISO standard</li>
+						<li>SQL is great to know, because it is <i>everywhere</i></li>
+						<li>Fun fact! Cassandra uses a syntax eerily similar to SQL</li>
+					</ul>
+        </section>
+
+				<section>
+					<h3>Why PostgreSQL?</h3>
+					<ul>
+						<li>Open source &amp; free</li>
+						<li>Widely used in industry</li>
+						<li>Well behaved RDBMS (does what you would expect)</li>
+						<li>Has full set of functionality</li>
+						<li>Handles concurrency and high loads well</li>
+						<li>Well documented</li>
+						<li>Supported by major languages and ORMs (object relational mappers)</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Other popular RDBs</h3>
+					<ul>
+						<li>
+							<span class="keyword defined">MySQL</span>
+							acquired by Oracle, but open source &amp; free
+						</li>
+						<li>
+							<span class="keyword defined">Sqlite</span>
+							open source &amp; free; good for mobile applications
+						</li>
+						<li>
+							<span class="keyword defined">SQL Server</span>
+							proprietary db owned by Microsoft
+						</li>
+						<li>
+							<span class="keyword defined">Oracle</span>
+							proprietary db owned by Oracle
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<div class="do-it">Installing PostgreSQL!</div>
+				</section>
+
+				<section>
+					<h3>Windows</h3>
+					<ul class="compress">
+						<li>Download and install Postgres from the
+							<a href="https://www.postgresql.org/download/windows/">official Windows Downloads page</a>
+						</li>
+						<li>
+							<a href="http://git-scm.com/downloads">Install Git</a> (Windows only)
+						</li>
+						<ul>
+							<li>
+								We will be using Git Bash instead of the Windows command line
+							</li>
+							<li>If you already have a Linux emulator
+								(like <a href="https://www.cygwin.com/">Cygwin</a>),
+								then you don&rsquo;t need to do this step.
+							</li>
+						</ul>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Mac</h3>
+					<ul class="compress">
+						<li>Download &amp; install <a href="http://postgresapp.com/">Postgres.app</a></li>
+						<li>Or install from the
+							<a href="https://www.postgresql.org/download/macosx/">Postgres OS X downloads page</a>
+						</li>
+						<li>Or go hardcore and install with homebrew</li>
+						<ul>
+							<li>
+								Open Terminal and see if you have Homebrew installed:
+								<br>
+								<span class="code">$ brew -v Homebrew 0.9.5</span>
+							</li>
+							<li>
+								If you do not see "Homebrew" and a version number, copy and paste this line into Terminal:
+								<br>
+								<span class="code">
+									ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
+								<span>
+							</li>
+							<li>
+								Install Postgres like a boss:
+								<br>
+								<span class="code">
+									brew install sqlite3
+								</span>
+							</li>
+						</ul>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Linux</h3>
+					<ul class="compress">
+						<li>Install with yum or apt-get</li>
+						<li>Or install from the
+							<a href="https://www.postgresql.org/download/">Postgres downloads page</a>
+							for your flavor of Linux
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Quick note on GUIs</h3>
+					<p class="compress">
+						We&rsquo;ll be using the Terminal (Mac/*nix) or GitBash (Windows) to run queries
+							in this class, but if, after you leave here, you&rsquo;re hankering for a GUI,
+							head over to <a href="https://eggerapps.at/postico/">Postico</a> (Mac) or,
+							if you downloaded the full package from the Postgres website,
+							you can use the pgAdmin tool that comes with it (all platforms).
+					</p>
+					<p class="compress">
+						There are many other GUIs for Postgres out there, too!
+					</p>
+				</section>
+
+				<section>
+          <h3>Intro to Terminal</h3>
+          <p>Mac &amp; Linux users: Open <strong>Terminal</strong></p>
+          <p>Windows users: Open <strong>Git-Bash</strong></p>
+          <br>
+          <p>We will not be using Windows "cmd" program, as it uses a different syntax than *NIX systems.</p>
+        </section>
+
+				 <section>
+          <h3>Terminal Cheatsheet</h3>
+          <table style="font-size: 16px; line-height: 1.4em;">
+						<thead>
+							<tr>
+								<th width="40%"></th>
+								<th width="60%"></th>
+						</thead>
+						<tbody>
+	            <tr>
+	              <td><span class="code">.</span></td>
+	              <td>the current directory- e.g.: <span class="code">touch ./muchwow.txt</span></td>
+	            </tr>
+	            <tr>
+	              <td><span class="code">..</span></td>
+	              <td>the parent of current directory - e.g.: <span class="code">cd ../BashPartay</span></td>
+	            </tr>
+	            <tr>
+	              <td><span class="code">~</span></td>
+	              <td>the current user&rsquo;s home directory- e.g.: <span class="code">cd ~/Pictures</span></td>
+	            </tr>
+	            <tr>
+	              <td><span class="code">cd [location]</span></td>
+	              <td>"change directory" to [location]</td>
+	            </tr>
+	            <tr>
+	              <td><span class="code">pwd</span></td>
+	              <td>"present working directory" - where am I?</td>
+	            </tr>
+	            <tr>
+	              <td><span class="code">ls -lah</span></td>
+	              <td>"list all" of the contents of current directory, including invisible ones, with metadata</td>
+	            </tr>
+	            <tr>
+	              <td><span class="code">touch [filename.extension]</span></td>
+	              <td>create a file called filename.extension in the current directory</td>
+	            </tr>
+	            <tr>
+	              <td><span class="code">mkdir [directoryname]</span></td>
+	              <td>create a directory called directoryname in the current directory</td>
+	            </tr>
+	            <tr>
+	              <td><span class="code">clear OR cmd+k</span></td>
+	              <td>clear the terminal screen</td>
+	            </tr>
+	            <tr>
+	              <td><span class="code">help</span></td>
+	              <td>lists all possible commands</td>
+	            </tr>
+	            <tr>
+	              <td><span class="code">man [command]</span></td>
+	              <td>displays the manual for command</td>
+	            </tr>
+							<tr>
+								<td><span class="code">which [command]</span></td>
+								<td>
+									tells you where the program is installed.
+									if you get nothing back, then the program you&rsquo;re looking
+									for is not installed or not available on your path.
+								</td>
+							</tr>
+							<tr>
+								<td><span class="code">psql</span></td>
+								<td>opens a connection to your running Postgres server!</td>
+							</tr>
+						</tbody>
+          </table>
+        </section>
+
+				<section>
+					<h3>Let's Develop It!</h3>
+        	<p>
+						Working in the terminal, create a directory called gdi_db in the
+						location of your choosing.
+						<br><br>
+						(Desktop? Documents? super-awesome-folder-of-awesomeness?
+						Somewhere you'll be able to find it again!)
+					</p>
+        </section>
+
+				<section>
+					<h3>Let's Develop It!</h3>
+					<h4>Testing our SQLite3 Installation (Mac &amp; *nix)</h4>
+					<p class="compress">See if you can get to psql</p>
+					<pre><code>$ which psql</code></pre>
+					<p class="compress">If you see a path, then login like so:</p>
+					<pre><code>$ psql
+psql (9.5.3)
+Type "help" for help.
+
+yourusername=#</code></pre>
+					<p class="compress">If successful, you will see the version info and the psql prompt</p>
+				</section>
+				<section>
+					<h3>Let's Develop It!</h3>
+					<h4>Testing our SQLite3 Installation (Windows)</h4>
+					<p>Open sqlite-shell.</p>
+				</section>
+
+				<section>
+					<h3>SQLite3 Help</h3>
+					<p>Enter help + ENTER for instructions</p>
+					<p>
+						We will go through many of these. For now, note that you can
+						use \q + ENTER to exit the prompt
+					</p>
+				</section>
+
+				<section>
+					<h3>The Chinook Database</h3>
+					<ul>
+						<li><a href="http://chinookdatabase.codeplex.com/">Download the Chinook Database files</a></li>
+						<li>Open source sample database</li>
+						<li>Available for many popular RDBMS, including SQL Server, Oracle, MySQL, PostgreSQL, and SQLite</li>
+						<li>Data model for a digital media store</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>The Chinook Database</h3>
+					<img src="images/chinookschema.png">
+				</section>
+
+				<section>
+					<h3>Installing the Chinook Database</h3>
+					<ul class="compress">
+						<li>Move the zipped file you downloaded to the folder you just created</li>
+						<li>Unzip ChinookDatabase1.4_CompleteVersion.zip</li>
+						<li>Execute the following commands to create the database and import the data to our new database:</li>
+					</ul>
+					<h4>Mac:</h4>
+					<pre><code contenteditable class="JavaScript">createdb chinook
+psql chinook < /full-path-to-/ChinookDatabase1.4_CompleteVersion/Chinook_PostgreSql.sql
+</code></pre>
+					<h4>Windows:</h4>
+					<pre><code contenteditable class="JavaScript">.open C:/Downloads/ChinookDatabase1.4_CompleteVersion/Chinook_Sqlite.sqlite</code></pre>
+				</section>
+
+				<section>
+					<h3>Database Schemas</h3>
+					<ul class="compress">
+						<li>A structure described in a formal language</li>
+						<li>Acts as a blueprint for how the database is constructed</li>
+						<li>In a relational database, the schema defines:
+							<ul>
+								<li>tables</li>
+								<li>fields</li>
+								<li>relationships</li>
+								<li>views</li>
+								<li>indexes</li>
+								<li>functions</li>
+								<li>triggers</li>
+								<li>stored procedures</li>
+								<li>and other elements</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Let&rsquo;s connect to our database!</h3>
+
+					<p class="compress">Open the psql program</p>
+					<pre><code>psql</code></pre>
+
+					<br>
+
+					<p class="compress">Then, after the prompt, connect to the chinook database</p>
+					<pre><code>yourusername# \c chinook</code></pre>
+
+					<br>
+
+					<p class="compress">Your prompt should now be the name of the database you&rsquo;re connected to</p>
+					<pre><code>chinook#</code></pre>
+				</section>
+
+				<section>
+					<h3>Tables</h3>
+					<p class="compress">In a relational database, a table is an organized set of data using columns and rows.</p>
+					<img class="pic small" src="images/table.gif"/>
+					<p class="compress">You may sometimes hear a table referred to as a <em>relation</em>.</p>
+				</section>
+
+				<section>
+					<h3>View Tables</h3>
+					<p>Let's check out the tables included in the Chinook database:</p>
+					<pre><code contenteditable class="JavaScript">psql> \dt
+	List of relations
+ Schema |     Name      | Type  |  Owner
+--------+---------------+-------+---------
+ public | Album         | table | yourusername
+ public | Artist        | table | yourusername
+ public | Customer      | table | yourusername
+ public | Employee      | table | yourusername
+ public | Genre         | table | yourusername
+ public | Invoice       | table | yourusername
+ public | InvoiceLine   | table | yourusername
+ public | MediaType     | table | yourusername
+ public | Playlist      | table | yourusername
+ public | PlaylistTrack | table | yourusername
+ public | Track         | table | yourusername
+(11 rows)
+chinook=#
+</code></pre>
+				</section>
+
+				<section>
+					<h3>Table Schemas</h3>
+					<p>We can also check out the schema for the tables.</p>
+					<pre><code contenteditable class="JavaScript">sqlite> .schema Artist
+CREATE TABLE [Artist]
+(
+    [ArtistId] INTEGER  NOT NULL,
+    [Name] NVARCHAR(120),
+    CONSTRAINT [PK_Artist] PRIMARY KEY  ([ArtistId])
+);
+CREATE UNIQUE INDEX [IPK_Artist] ON [Artist]([ArtistId]);
+</code></pre>
+					<p>What are the columns in the Artist table?</p>
+				</section>
+
+				<section>
+					<h3>GUI Tools</h3>
+						<p>Many GUI tools exist for SQLite.<p>
+						<p>Let's download <a href="https://addons.mozilla.org/en-US/firefox/addon/sqlite-manager/">SQLite Manager</a>, an add-on for Firefox</p>
+						<p>(First install Firefox, if you do not have it already.)</p>
+						<img src="images/SQLiteManager.png"/>
+				</section>
+
+				<section>
+					<h3>Chinook Database in SQLite Manager</h3>
+					<ul>
+						<li>Open SQLite Manager in Firefox Tools</li>
+						<li>Database -> Connect Database</li>
+						<li>Navigate to Chinook_Sqlite.sqlite in your directory</li>
+						<li>Click "Open"</li>
+						<img src="images/SQLiteManagerPlugin.png"/>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Let's Develop It!</h3>
+					<p>Spend a few minutes exploring the SQLite Manager<p>
+					<ul>
+						<li>Pair up with your neighbor and discuss what you find.</li>
+						<li>View a few tables.</li>
+						<li>What do you find in the Structure tab? What are some different data types you can find?</li>
+						<li>How about the Browse and Search tab?</li>
+						<li>We can ignore Execute SQL and DB Settings for now. Just focus on what we see in the data.</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>The SELECT Statement</h3>
+					<ul>
+						<li>We use the SELECT command to show data from a database</li>
+						<li>The output from a SELECT statement is always a grid of rows and columns.</li>
+						<li>The most simple SELECT statement retrieves all values from a single table</li>
+					</ul>
+					<pre><code contenteditable class="JavaScript">sqlite> SELECT * FROM Album;
+1|For Those About To Rock We Salute You|1
+2|Balls to the Wall|2
+3|Restless and Wild|2
+4|Let There Be Rock|1
+5|Big Ones|3
+</code></pre>
+					<p>This will return all of the results from the table, which could be expensive.</p>
+				</section>
+
+				<section>
+					<h3>SELECT .. WHERE</h3>
+					<p>You can have only a subset of rows returned by using the WHERE clause</p>
+					<pre><code contenteditable class="JavaScript">sqlite> SELECT *
+   ...> FROM Customer
+   ...> WHERE FirstName = "Mark";
+14|Mark|Philips|Telus|8210 111 ST NW|Edmonton|AB|Canada|T6G 2C7|+1 (780) 434-4554|+1 (780) 434-5565|mphilips12@shaw.ca|5
+55|Mark|Taylor||421 Bourke Street|Sidney|NSW|Australia|2010|+61 (02) 9332 3633||mark.taylor@yahoo.au|4
+sqlite>
+</code></pre>
+					<p>Alternatively, the SELECT .. WHERE statement can be made on one line:</p>
+					<pre><code contenteditable class="JavaScript">SELECT * FROM Customer WHERE FirstName = "Mark";</code></pre>
+				</section>
+
+				<section>
+					<h3>WHERE Clause Operators</h3>
+					<table style="font-size: 20px; line-height: 1.4em;">
+						<tr>
+							<td>Operator</td>
+							<td>Description</td>
+						</tr>
+						<tr>
+							<td>=</td>
+							<td>Equal</td>
+						</tr>
+						<tr>
+							<td>&lt;&gt;</td>
+							<td>Not equal. <em>Note:</em> In some versions of SQL, this may be written as !=</td>
+						</tr>
+						<tr>
+							<td>&gt;</td>
+							<td>Greater than</td>
+						</tr>
+						<tr>
+							<td>&lt;</td>
+							<td>Less than</td>
+						</tr>
+						<tr>
+							<td>&gt;=</td>
+							<td>Greater than or equal</td>
+						</tr>
+						<tr>
+							<td>&lt;=</td>
+							<td>Less than or equal</td>
+						</tr>
+						<tr>
+							<td>BETWEEN</td>
+							<td>Between an inclusive range</td>
+						</tr>
+						<tr>
+							<td>LIKE</td>
+							<td>Search for a pattern</td>
+						</tr>
+						<tr>
+							<td>IN</td>
+							<td>To specify multipl possible values for a column</td>
+						</tr>
+					</table>
+				</section>
+
+				<section>
+					<h3>Not Equal</h3>
+					<pre><code contenteditable class="JavaScript">SELECT * FROM Customer WHERE FirstName <> "Mark";
+</code></pre>
+				</section>
+
+				<section>
+					<h3>Greater Than</h3>
+					<pre><code contenteditable class="JavaScript">SELECT * FROM Employee WHERE BirthDate > "1970-01-01";
+</code></pre>
+				</section>
+
+				<section>
+					<h3>Less Than</h3>
+					<pre><code contenteditable class="JavaScript">SELECT * FROM Employee WHERE BirthDate < "1970-01-01";
+</code></pre>
+				</section>
+
+				<section>
+					<h3>BETWEEN</h3>
+					<pre><code contenteditable class="JavaScript">SELECT * FROM Employee WHERE BirthDate BETWEEN "1965-01-01" AND "1971-01-01";
+</code></pre>
+				</section>
+
+				<section>
+					<h3>LIKE</h3>
+					<pre><code contenteditable class="JavaScript">SELECT * FROM Track WHERE Name LIKE "%Love%";
+</code></pre>
+				</section>
+
+				<section>
+					<h3>IN</h3>
+					<pre><code contenteditable class="JavaScript">SELECT * FROM Track WHERE MediaTypeId IN (1,2);
+</code></pre>
+				</section>
+
+				<section>
+					<h3>Let's Develop It!</h3>
+					<ul>
+						<li>Spend the rest of class writing SELECT statements with WHERE clauses</li>
+						<li>Use SQLite Manager to get ideas of how the data is structured, and what you might query</li>
+						<li>Feel free to work with a neighbor!</li>
+					</ul>
+				</section>
+
+				<section>
+						<h3>Resources</h3>
+								<ul>
+										<li><a href="http://www.sqlite.org/whentouse.html">When to Use SQLite</a> - A list of good uses for SQLite, as well as situations where another RDMBS would be better.</li>
+										<li>More about <a href="http://www.tutorialspoint.com/sqlite/sqlite_where_clause.htm">SQLite WHERE clauses</a></li>
+							</ul>
+				</section>
+
+        <section>
+          <h2>Questions?</h2>
+          <div style = "font-size:1200%; height:100%; margin-top:40%" class ="blue">?
+            <div class ="clear"></div></div>
+        </section>
+			</div>
+  		<footer>
+        <div class="copyright">
+          Intro to Databases -- Girl Develop It --
+          <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc/3.0/80x15.png" /></a>
+        </div>
+      </footer>
+		</div>
+
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: false,
+				history: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/none
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>

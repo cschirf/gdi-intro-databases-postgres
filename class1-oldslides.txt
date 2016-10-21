@@ -1,0 +1,366 @@
+<!--
+				<section>
+						<div class="do-it">Modelling teddy bears</div>
+				</section>
+
+        <section>
+            <h3>What properties to both teddy bears have?</h3>
+
+						<div class="column-container centered">
+							<img class="item pic" src="images/stuffed-animals/teddy-keep-austin-weird.png">
+							<img class="item pic" src="images/stuffed-animals/teddy-union-jack-london.png">
+						</div>
+        </section>
+
+				<section>
+					<ul>
+							<li>name (string)</li>
+							<li>height in inches (integer)</li>
+							<li>width in inches (integer)</li>
+							<li>fabric type(s) (list of strings)</li>
+							<li>price (double)</li>
+							<li>colors (list of strings)</li>
+							<li>brand/manufacturer (string)</li>
+							<li>city (string)</li>
+					</ul>
+				</section>
+
+				<section>
+					<div class="column-container">
+
+						<pre class="item">
+							<code contenteditable class="javascript">
+austin_bear = {
+  "name": "Justin",
+  "height": 8,
+  "width": 5,
+  "fabric_types": [
+    "plush",
+    "polyester"
+  ],
+  "price": 14.95,
+  "colors": [
+    "blue",
+    "red",
+    "pink",
+    "green",
+    "purple",
+    "white",
+    "yellow",
+    "orange"
+  ],
+  "manufacturer": "Groovy Bears",
+  "city": "Austin"
+}
+							</code>
+						</pre>
+
+						<pre class="item">
+							<code contenteditable class="javascript">
+london_bear = {
+  "name": "Lord Ickenham",
+  "height": 6,
+  "width": 4,
+  "fabric_types": [
+    "mohair",
+    "velveteen"
+  ],
+  "price": 9.99,
+  "colors": [
+    "tan",
+    "blue",
+    "red",
+    "white",
+    "silver"
+  ],
+  "manufacturer": "UK Teddies",
+  "city": "London"
+}
+							</code>
+						</pre>
+					</div>
+				</section>
+
+				<section>
+					<h3>Does our model change if we add this teddy bear in?</h3>
+					<div class="column-container centered">
+						<img class="item pic" src="images/stuffed-animals/teddy-nasa.png">
+					</div>
+				</section>
+
+				<section>
+					<div class="column-container centered">
+						<img class="item pic" src="images/stuffed-animals/teddy-keep-austin-weird.png">
+						<img class="item pic" src="images/stuffed-animals/teddy-union-jack-london.png">
+						<img class="item pic" src="images/stuffed-animals/teddy-nasa.png">
+					</div>
+					<p>City doesn&rsquo;t make sense any more. Theme, maybe?</p>
+				</section>
+
+				<section>
+					<div class="column-container">
+
+						<pre class="item">
+							<code contenteditable class="javascript">
+london_bear = {
+	"name": "Lord Ickenham",
+	"height": 6,
+	"width": 4,
+	"fabric_types": [
+		"mohair",
+		"velveteen"
+	],
+	"price": 9.99,
+	"colors": [
+		"tan",
+		"blue",
+		"red",
+		"white",
+		"silver"
+	],
+	"manufacturer": "UK Teddies",
+	"theme": "London"
+}
+							</code>
+						</pre>
+
+						<pre class="item">
+							<code contenteditable class="javascript">
+nasa_bear = {
+	"name": "Apollo",
+	"height": 7,
+	"width": 4.5,
+	"fabric_types": [
+		"fuzz",
+		"velveteen",
+		"rayon"
+	],
+	"price": 19.95,
+	"colors": [
+		"medium brown",
+		"tan",
+		"blue",
+		"red",
+		"white",
+		"black"
+	],
+	"manufacturer": "Space Bears",
+	"theme": "NASA"
+}
+							</code>
+						</pre>
+					</div>
+				</section>
+
+				<section>
+					<h3>How about if we add this guy?</h3>
+					<div class="column-container centered">
+						<img class="item pic" src="images/stuffed-animals/teddy-plain-brown.png">
+					</div>
+				</section>
+
+				<section>
+					<div class="column-container centered">
+						<img class="item pic" src="images/stuffed-animals/teddy-keep-austin-weird.png">
+						<img class="item pic" src="images/stuffed-animals/teddy-union-jack-london.png">
+						<img class="item pic" src="images/stuffed-animals/teddy-nasa.png">
+						<img class="item pic" src="images/stuffed-animals/teddy-plain-brown.png">
+					</div>
+					<p>No theme is a valid theme, so our model is still okay.</p>
+				</section>
+
+				<section>
+					<div class="column-container">
+
+						<pre class="item">
+							<code contenteditable class="javascript">
+london_bear = {
+	"name": "Lord Ickenham",
+	"height": 6,
+	"width": 4,
+	"fabric_types": [
+		"mohair",
+		"velveteen"
+	],
+	"price": 9.99,
+	"colors": [
+		"tan",
+		"blue",
+		"red",
+		"white",
+		"silver"
+	],
+	"manufacturer": "UK Teddies",
+	"theme": "London"
+}
+							</code>
+						</pre>
+
+						<pre class="item">
+							<code contenteditable class="javascript">
+plain_jane = {
+	"name": "Boo",
+	"height": 6,
+	"width": 6,
+	"fabric_types": [
+		"soft fuzz"
+	],
+	"price": 7.50,
+	"colors": [
+		"tan",
+		"black"
+	],
+	"manufacturer": "Old School Teddies",
+	"theme": "none"
+}
+							</code>
+						</pre>
+					</div>
+				</section>
+
+				<section>
+						<h3><i>null</i> is an option</h3>
+
+						<pre class="item">
+							<code contenteditable class="javascript">
+plain_jane = {
+	"name": "Boo",
+	"height": 6,
+	"width": 6,
+	"fabric_types": [
+		"soft fuzz"
+	],
+	"price": 7.50,
+	"colors": [
+		"tan",
+		"black"
+	],
+	"manufacturer": "Old School Teddies",
+	"theme": null
+}
+							</code>
+						</pre>
+				</section>
+
+				<section>
+					<h3>Teddy bears are so 1902. <br>This is the new hotness.</h3>
+					<div class="column-container centered">
+						<img class="item pic" src="images/stuffed-animals/squishable-narwhal.png">
+					</div>
+				</section>
+
+				<section>
+					<div class="column-container centered">
+						<img class="item pic--no-bg" src="images/emojiscream.png">
+					</div>
+				</section>
+
+				<section>
+					<h3>Does this break our model?</h3>
+					<div class="column-container centered">
+						<img class="item pic--compress" src="images/stuffed-animals/teddy-keep-austin-weird.png">
+						<img class="item pic--compress" src="images/stuffed-animals/teddy-union-jack-london.png">
+						<img class="item pic--compress" src="images/stuffed-animals/teddy-nasa.png">
+						<img class="item pic--compress" src="images/stuffed-animals/teddy-plain-brown.png">
+					</div>
+					<div class="column-container centered">
+						<img class="item pic--compress" src="images/stuffed-animals/squishable-narwhal.png">
+					</div>
+				</section>
+
+				<section>
+					<h3>updated model</h3>
+					<div class="column-container">
+						<div class="item">
+							<ul>
+									<li class="checked">name</li>
+									<li class="checked">height</li>
+									<li class="checked">width</li>
+									<li class="checked">fabric type(s)</li>
+									<li class="checked">price</li>
+									<li class="checked">colors</li>
+									<li class="checked">brand/manufacturer</li>
+							</ul>
+						</div>
+						<div class="item">
+							<ul>
+									<li class="questionable">theme</li>
+									<li class="starred"><em>type</em></li>
+									<li class="questionable">number of limbs</li>
+									<li class="questionable">has protrusions</li>
+							</ul>
+						</div>
+					</div>
+				</section>
+
+				<section>
+					<div class="column-container">
+
+						<pre class="item">
+							<code contenteditable class="javascript">
+london_bear = {
+	"type": "teddy bear"
+	"name": "Lord Ickenham",
+	"height": 6,
+	"width": 4,
+	"fabric_types": [
+		"mohair",
+		"velveteen"
+	],
+	"price": 9.99,
+	"colors": [
+		"tan",
+		"blue",
+		"red",
+		"white",
+		"silver"
+	],
+	"manufacturer": "UK Teddies",
+	"theme": "London",
+	"num_limbs": 4,
+	"num_protrusions": 0
+}
+							</code>
+						</pre>
+
+						<pre class="item">
+							<code contenteditable class="javascript">
+narwhal = {
+	"type": "narwhal plushie"
+	"name": "Boris",
+	"height": 7,
+	"width": 7,
+	"fabric_types": [
+		"soft fuzz"
+	],
+	"price": 14.95,
+	"colors": [
+		"ice blue",
+		"green"
+		...
+	],
+	"manufacturer": "Squishables",
+	"theme": "ocean",
+	"num_limbs": 0,
+	"num_protrusions": 1
+}
+							</code>
+						</pre>
+					</div>
+				</section>
+
+				<section>
+					<h3>Reprecussions</h3>
+					<p class="compress--mild" style="text-align: left;">
+						We need to add some additional information because we made an
+						implicit assumption that everything in the data store was going to
+						be a teddy bear. After all, that&rsquo;s what we were told in the beginning!
+						<br><br>
+						But, overall, our model held up relatively well.
+						We don&rsquo;t have to remove data or, more importantly,
+						re-organize data in any significant way. Anything that was
+						looking for brand or price before can still find it without any changes.
+					</p>
+				</section>
+			-->
+

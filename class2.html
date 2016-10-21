@@ -15,11 +15,13 @@
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
 		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/gdicool.css" id="theme">
+		<link rel="stylesheet" href="css/theme/gdidefault.css" id="theme">
 
 		<!-- For syntax highlighting -->
-		<!-- light editor--><link rel="stylesheet" href="lib/css/light.css">
-		<!-- dark editor<link rel="stylesheet" href="lib/css/dark.css">-->
+		<!-- light editor-->
+		<!-- <link rel="stylesheet" href="lib/css/light.css"> -->
+		<!-- dark editor -->
+		<link rel="stylesheet" href="lib/css/dark.css">
 
 		<!-- If use the PDF print sheet so students can print slides-->
 
@@ -37,9 +39,11 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
 				<section>
+          <img src="images/gdi_logo_badge.png"
+								alt="GDI Logo"
+								class="intro-slide-image"/>
 					<h3>Introduction to Databases</h3>
 					<h4>Class 2 - Intro to SQL</h4>
-                    <img src="images/gdi_logo_badge.png" alt="" />
 				</section>
 
 				<!-- Welcome-->
@@ -47,7 +51,7 @@
 					<h3>Welcome!</h3>
 					<div class = "left-align">
 					<p>Girl Develop It is here to provide affordable and accessible programs to learn software through mentorship and hands-on instruction.</p>
-					<p class ="green">Some "rules"</p>
+					<p class ="green">Some &ldquo;rules&rdquo;</p>
 					<ul>
 						<li>We are here for you!</li>
 						<li>Every question is important</li>
@@ -59,335 +63,521 @@
 
 		    <section>
 					<h3>Intro to SQL</h3>
-					<ul>
-						<li>SQL - Structured Query Language</li>
+					<ul class="compress--mild">
+						<li>Stands for <em>Structured Query Language</em></li>
 						<li>Special purpose language for managing data in a RDBMS</li>
+						<li>The basics are the same, but each RDBMS will have its own <em>dialect</em></li>
+						<li>Based on relational algebra</li>
 						<li>First introduced by Oracle in 1979</li>
-						<li>SQL is an ANSI and ISO standard. While not perfectly portable,
-						syntax across systems is mostly the same.</li>
-						<li>SQL is great to know, because it is <em>everywhere</em>.
+						<li>SQL is an ANSI and ISO standard</li>
+						<li>SQL is great to know, because it is <i>everywhere</i></li>
+						<li>Fun fact! Cassandra uses a syntax eerily similar to SQL</li>
 					</ul>
         </section>
 
 				<section>
-					<h3>Why SQLite?</h3>
+					<h3>Why PostgreSQL?</h3>
 					<ul>
-						<li>Flexible relational database that works with a huge range of software and hardware</li>
-						<li>Embeddable database with small footprint, often used for development</li>
-						<li>Supported by languages such as</li>
-						<li><ul>
-							<li>C</li>
-							<li>Java</li>
-							<li>Perl</li>
-							<li>Ruby</li>
-							<li>Python</li>
-							<li>Objective C</li>
-							<li>...and more!</li>
-						</ul></li>
+						<li>Open source &amp; free</li>
+						<li>Widely used in industry</li>
+						<li>Well behaved RDBMS (does what you would expect)</li>
+						<li>Has full set of functionality</li>
+						<li>Handles concurrency and high loads well</li>
+						<li>Well documented</li>
+						<li>Supported by major languages and ORMs (object relational mappers)</li>
 					</ul>
 				</section>
 
 				<section>
-					<h3>SQLite - Distinctive Features</h3>
+					<h3>Other popular RDBs</h3>
 					<ul>
-						<li>Zero-Configuration</li>
-						<li>Serverless - no separate server process is required. SQLite reads and writes direclty to disk.</li>
-						<li>Single, compact database file</li>
-						<li>Stable cross-platform database file</li>
+						<li>
+							<span class="keyword defined">MySQL</span>
+							acquired by Oracle, but open source &amp; free
+						</li>
+						<li>
+							<span class="keyword defined">Sqlite</span>
+							open source &amp; free; good for mobile applications
+						</li>
+						<li>
+							<span class="keyword defined">SQL Server</span>
+							proprietary db owned by Microsoft
+						</li>
+						<li>
+							<span class="keyword defined">Oracle</span>
+							proprietary db owned by Oracle
+						</li>
 					</ul>
 				</section>
 
 				<section>
-					<h3>SQLite - What's it good for?</h3>
-					<ul>
-						<li>Desktop applications</li>
-						<li>Mobile apps</li>
-						<li>Low traffic websites</li>
-						<li>Ad hoc command line data analysis</li>
-						<li>Stand-in for enterprise RDBMS during testing or demos</li>
-					</ul>
-					<br><br>
-					<h4>What's it not good for?</h4>
-					<ul>
-						<li>Client/Server applications</li>
-						<li>High volume websites</li>
-						<li>Very large datasets</li>
-						<li>High concurrency (simultaneous readers)</li>
+					<div class="do-it">Installing PostgreSQL!</div>
+				</section>
+
+				<section>
+					<h3>Windows</h3>
+					<ul class="compress">
+						<li>Download and install Postgres from the
+							<a href="https://www.postgresql.org/download/windows/">official Windows Downloads page</a>
+						</li>
+						<li>
+							<a href="http://git-scm.com/downloads">Install Git</a> (Windows only)
+						</li>
+						<ul>
+							<li>
+								We will be using Git Bash instead of the Windows command line
+							</li>
+							<li>If you already have a Linux emulator
+								(like <a href="https://www.cygwin.com/">Cygwin</a>),
+								then you don&rsquo;t need to do this step.
+							</li>
+						</ul>
 					</ul>
 				</section>
 
 				<section>
-					<h3>Installing SQLite3</h3>
-					<h4>Windows</h4>
-					<ul>
-						<li><a href="http://git-scm.com/downloads">Install Git</a> (Windows only)</li>
-						<ul><li>We will be using Git Bash instead of the Command Line</li></ul>
-						<li><a href="http://www.sqlite.org/download.html">Install SQLite3</a></li>
-						<li>Download “sqlite-shell” and “sqlite-dll” archive files</li>
-						<li>Unpack sqlite-dll files and move them to C:\WINDOWS\system32 folder</li>
-						<li>Launch sqlite-shell</li>
+					<h3>Mac</h3>
+					<ul class="compress">
+						<li>Download &amp; install <a href="http://postgresapp.com/">Postgres.app</a></li>
+						<li>Or install from the
+							<a href="https://www.postgresql.org/download/macosx/">Postgres OS X downloads page</a>
+						</li>
+						<li>Or go hardcore and install with homebrew</li>
+						<ul>
+							<li>
+								Open Terminal and see if you have Homebrew installed:
+								<br>
+								<span class="code">$ brew -v Homebrew 0.9.5</span>
+							</li>
+							<li>
+								If you do not see "Homebrew" and a version number, copy and paste this line into Terminal:
+								<br>
+								<span class="code">
+									ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
+								<span>
+							</li>
+							<li>
+								Install Postgres like a boss:
+								<br>
+								<span class="code">
+									brew install sqlite3
+								</span>
+							</li>
+						</ul>
 					</ul>
 				</section>
 
 				<section>
-					<h3>Installing SQLite3</h3>
-					<h4>Mac</h4>
-					<p>Open Terminal and see if you have Homebrew installed</p>
-					<pre><code contenteditable class="JavaScript">$ brew -v
-Homebrew 0.9.5</code></pre>
-					<p>If you do not see "Homebrew" and a version number, copy and paste this line into Terminal:</p>
-					<pre><code contenteditable class="JavaScript">ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"</code></pre>
-					<p>Install SQLite3 using Homebrew</p>
-					<pre><code contenteditable class="JavaScript">brew install sqlite3</code></pre>
+					<h3>Linux</h3>
+					<ul class="compress">
+						<li>Install with yum or apt-get</li>
+						<li>Or install from the
+							<a href="https://www.postgresql.org/download/">Postgres downloads page</a>
+							for your flavor of Linux
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Quick note on GUIs</h3>
+					<p class="compress">
+						We&rsquo;ll be using the Terminal (Mac/*nix) or GitBash (Windows) to run queries
+							in this class, but if, after you leave here, you&rsquo;re hankering for a GUI,
+							head over to <a href="https://eggerapps.at/postico/">Postico</a> (Mac) or,
+							if you downloaded the full package from the Postgres website,
+							you can use the pgAdmin tool that comes with it (all platforms).
+					</p>
+					<p class="compress">
+						There are many other GUIs for Postgres out there, too!
+					</p>
 				</section>
 
 				<section>
           <h3>Intro to Terminal</h3>
-          <p>Mac & Linux users: Open <strong>Terminal</strong></p>
+          <p>Mac &amp; Linux users: Open <strong>Terminal</strong></p>
           <p>Windows users: Open <strong>Git-Bash</strong></p>
-          <br >
+          <br>
           <p>We will not be using Windows "cmd" program, as it uses a different syntax than *NIX systems.</p>
         </section>
 
 				 <section>
           <h3>Terminal Cheatsheet</h3>
-          <table style="font-size: 20px; line-height: 1.4em;">
-            <tr>
-              <td>.</td>
-              <td>the current directory- ex: "touch ./wow.txt"</td>
-            </tr>
-            <tr>
-              <td>..</td>
-              <td>the parent of current directory - ex: "cd ../RubyParty"</td>
-            </tr>
-            <tr>
-              <td>~</td>
-              <td>the root directory- ex: "cd ~/Pictures"</td>
-            </tr>
-            <tr>
-              <td>cd [location]</td>
-              <td>"change directory" to [location]</td>
-            </tr>
-            <tr>
-              <td>pwd</td>
-              <td>"present working directory" - where am I?</td>
-            </tr>
-            <tr>
-              <td>ls -al</td>
-              <td>"list all" of the contents of current directory, including invisible ones</td>
-            </tr>
-            <tr>
-              <td>touch [filename.extension]</td>
-              <td>create a file called filename.extension in the current directory</td>
-            </tr>
-            <tr>
-              <td>mkdir [directoryname]</td>
-              <td>create a directory called directoryname in the current directory</td>
-            </tr>
-            <tr>
-              <td>rm [filename]</td>
-              <td>"remove" (delete) the file called filename</td>
-            </tr>
-            <tr>
-              <td>rm -rf [directoryname]</td>
-              <td>"remove recursively with force" the directory called directoryname</td>
-            </tr>
-            <tr>
-              <td>clear OR cmd+k</td>
-              <td>clear the terminal screen</td>
-            </tr>
-            <tr>
-              <td>help</td>
-              <td>lists all possible commands</td>
-            </tr>
-            <tr>
-              <td>man [command]</td>
-              <td>displays the manual for command</td>
-            </tr>
+          <table style="font-size: 16px; line-height: 1.4em;">
+						<thead>
+							<tr>
+								<th width="40%"></th>
+								<th width="60%"></th>
+						</thead>
+						<tbody>
+	            <tr>
+	              <td><span class="code">.</span></td>
+	              <td>the current directory- e.g.: <span class="code">touch ./muchwow.txt</span></td>
+	            </tr>
+	            <tr>
+	              <td><span class="code">..</span></td>
+	              <td>the parent of current directory - e.g.: <span class="code">cd ../BashPartay</span></td>
+	            </tr>
+	            <tr>
+	              <td><span class="code">~</span></td>
+	              <td>the current user&rsquo;s home directory- e.g.: <span class="code">cd ~/Pictures</span></td>
+	            </tr>
+	            <tr>
+	              <td><span class="code">cd [location]</span></td>
+	              <td>"change directory" to [location]</td>
+	            </tr>
+	            <tr>
+	              <td><span class="code">pwd</span></td>
+	              <td>"present working directory" - where am I?</td>
+	            </tr>
+	            <tr>
+	              <td><span class="code">ls -lah</span></td>
+	              <td>"list all" of the contents of current directory, including invisible ones, with metadata</td>
+	            </tr>
+	            <tr>
+	              <td><span class="code">touch [filename.extension]</span></td>
+	              <td>create a file called filename.extension in the current directory</td>
+	            </tr>
+	            <tr>
+	              <td><span class="code">mkdir [directoryname]</span></td>
+	              <td>create a directory called directoryname in the current directory</td>
+	            </tr>
+	            <tr>
+	              <td><span class="code">clear OR cmd+k</span></td>
+	              <td>clear the terminal screen</td>
+	            </tr>
+	            <tr>
+	              <td><span class="code">help</span></td>
+	              <td>lists all possible commands</td>
+	            </tr>
+	            <tr>
+	              <td><span class="code">man [command]</span></td>
+	              <td>displays the manual for command</td>
+	            </tr>
+							<tr>
+								<td><span class="code">which [command]</span></td>
+								<td>
+									tells you where the program is installed.
+									if you get nothing back, then the program you&rsquo;re looking
+									for is not installed or not available on your path.
+								</td>
+							</tr>
+							<tr>
+								<td><span class="code">psql</span></td>
+								<td>opens a connection to your running Postgres server!</td>
+							</tr>
+						</tbody>
           </table>
         </section>
 
 				<section>
-					<h3>Let's Develop It!</h3>
-        	<p>Working in the terminal, create a directory called gdi_db in the location of your choosing (Desktop? Documents? Somewhere you'll be able to find it again!).</p>
+					<h3>Let&rsquo;s Develop It!</h3>
+        	<p>
+						Working in the terminal, create a directory called gdi_db in the
+						location of your choosing.
+						<br><br>
+						(Desktop? Documents? super-awesome-folder-of-awesomeness?
+						Somewhere you'll be able to find it again!)
+					</p>
         </section>
 
-
 				<section>
-					<h3>Let's Develop It! (continued)</h3>
-					<h4>Testing our SQLite3 Installation (Mac)</h4>
-					<p>Run "sqlite3" in Terminal</p>
-					<pre><code>$ sqlite3
-SQLite version 3.7.8 2011-09-19 14:49:19
-Enter ".help" for instructions
-Enter SQL statements terminated with a ";"
-sqlite></pre></code>
-					<p>If successful, you will see the version info and the sqlite prompt</p>
+					<h3>Let&rsquo;s Develop It!</h3>
+					<h4>Testing our SQLite3 Installation (Mac &amp; *nix)</h4>
+					<p class="compress">See if you can get to psql</p>
+					<pre><code>$ which psql</code></pre>
+					<p class="compress">If you see a path, then login like so:</p>
+					<pre><code>$ psql
+psql (9.5.3)
+Type "help" for help.
+
+yourusername=#</code></pre>
+					<p class="compress">If successful, you will see the version info and the psql prompt</p>
+				</section>
+				<section>
+					<h3>Let&rsquo;s Develop It!</h3>
 					<h4>Testing our SQLite3 Installation (Windows)</h4>
 					<p>Open sqlite-shell.</p>
 				</section>
 
 				<section>
 					<h3>SQLite3 Help</h3>
-					<p>Enter .help for instructions</p>
-					<p>We will go through many of these. For now, note that you can use .exit or .quit to exit the Sqlite prompt</p>
+					<p>Enter help + ENTER for instructions</p>
+					<p>
+						We will go through many of these. For now, note that you can
+						use \q + ENTER to exit the prompt
+					</p>
 				</section>
 
 				<section>
-					<h3>The Chinook Database</h3>
-					<ul>
-						<li><a href="http://chinookdatabase.codeplex.com/">Download the Chinook Database files</a></li>
-						<li>Open source sample database</li>
-						<li>Available for many popular RDBMS, including SQL Server, Oracle, MySQL, PostgreSQL, and SQLite</li>
-						<li>Data model for a digital media store</li>
-					</ul>
-				</section>
-
-				<section>
-					<h3>The Chinook Database</h3>
-					<img src="images/chinookschema.png">
-				</section>
-
-				<section>
-					<h3>Installing the Chinook Database</h3>
-					<ul>
-						<li>Move the zipped file you downloaded to the folder you just created</li>
-						<li>Unzip ChinookDatabase1.4_CompleteVersion.zip</li>
-						<li>Execute the following command to open the Chinook_Sqlite.sqlite database</li>
+					<h3>Installing the furbabies database</h3>
+					<ul class="compress">
+						<li><a href="sql-scripts/furbabies-postgres.sql">Download the furbabies database sql dump</a></li>
+						<li>Execute the following commands to create the database and import the data to our new database:</li>
 					</ul>
 					<h4>Mac:</h4>
-					<pre><code contenteditable class="JavaScript">sqlite3 Chinook_Sqlite.sqlite</code></pre>
+					<pre><code contenteditable class="JavaScript">createdb furbabies
+psql chinook < /full-path-to-/furbabies-postgres.sql
+</code></pre>
 					<h4>Windows:</h4>
 					<pre><code contenteditable class="JavaScript">.open C:/Downloads/ChinookDatabase1.4_CompleteVersion/Chinook_Sqlite.sqlite</code></pre>
 				</section>
 
 				<section>
 					<h3>Database Schemas</h3>
-					<ul>
-					<li>A structure described in a formal language</li>
-					<li>Acts as a blueprint for how the database is constructed</li>
-					<li>In a relational database, the schema defines:
-						<ul>
-							<li>tables</li>
-							<li>fields</li>
-							<li>relationships</li>
-							<li>views</li>
-							<li>indexes</li>
-							<li>functions</li>
-							<li>and other elements</li>
-						</ul>
-					</li>
+					<ul class="compress">
+						<li>A structure described in a formal language</li>
+						<li>Acts as a blueprint for how the database is constructed</li>
+						<li>In a relational database, the schema defines:
+							<ul>
+								<li>tables</li>
+								<li>fields</li>
+								<li>relationships</li>
+								<li>views</li>
+								<li>indexes</li>
+								<li>functions</li>
+								<li>triggers</li>
+								<li>stored procedures</li>
+								<li>and other elements</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Let&rsquo;s connect to our database!</h3>
+
+					<p class="compress">Open the psql program</p>
+					<pre><code>psql</code></pre>
+
+					<br>
+
+					<p class="compress">Then, after the prompt, connect to the chinook database</p>
+					<pre><code>yourusername# \c furbabies</code></pre>
+
+					<br>
+
+					<p class="compress">Your prompt should now be the name of the database you&rsquo;re connected to</p>
+					<pre><code>furbabies#</code></pre>
 				</section>
 
 				<section>
 					<h3>Tables</h3>
-					<p>In a relational database, a table is an organized set of data using columns and rows.</p>
-					<img src="images/table.gif"/>
-					<p>You may sometimes hear a table referred to as a "relation".</p>
+					<p class="compress">In a relational database, a table is an organized set of data using columns and rows.</p>
+					<img class="pic small" src="images/table.gif"/>
+					<p class="compress">Table are sometimes referred to as a <em>relations</em>.</p>
 				</section>
 
 				<section>
 					<h3>View Tables</h3>
-					<p>Let's check out the tables included in the Chinook database:</p>
-					<pre><code contenteditable class="JavaScript">sqlite> .tables
-Album          Employee       InvoiceLine    PlaylistTrack
-Artist         Genre          MediaType      Track
-Customer       Invoice        Playlist
-sqlite>
+					<p>Let&rsquo;s check out the tables in the database:</p>
+					<pre><code contenteditable class="JavaScript">furbabies# \dt
+	List of relations
+ Schema |     Name      | Type  |  Owner
+--------+---------------+-------+---------
+public | adoption | table | cschirf
+public | animal   | table | cschirf
+public | person   | table | cschirf
+(3 rows)
+
+furbabies=#
 </code></pre>
 				</section>
 
 				<section>
 					<h3>Table Schemas</h3>
-					<p>We can also check out the schema for the tables.</p>
-					<pre><code contenteditable class="JavaScript">sqlite> .schema Artist
-CREATE TABLE [Artist]
-(
-    [ArtistId] INTEGER  NOT NULL,
-    [Name] NVARCHAR(120),
-    CONSTRAINT [PK_Artist] PRIMARY KEY  ([ArtistId])
-);
-CREATE UNIQUE INDEX [IPK_Artist] ON [Artist]([ArtistId]);
+					<p class="compress">We can also check out the schema for the tables.</p>
+					<pre><code contenteditable class="JavaScript">furbabies# \d+ animal
+						Table "public.animal"
+Column       |          Type          |                      Modifiers                      | Storage  | Stats target | Description
+-------------------+------------------------+-----------------------------------------------------+----------+--------------+-------------
+id                | integer                | not null default nextval('animal_id_seq'::regclass) | plain    |              |
+shelter_id        | character varying(36)  | not null                                            | extended |              |
+name              | character varying(255) |                                                     | extended |              |
+date_of_birth     | date                   |                                                     | plain    |              |
+type              | character varying(5)   | not null                                            | extended |              |
+gender            | character varying(1)   |                                                     | extended |              |
+altered           | boolean                | not null default false                              | plain    |              |
+ok_with_dogs      | boolean                | not null default false                              | plain    |              |
+ok_with_cats      | boolean                | not null default false                              | plain    |              |
+date_of_surrender | date                   | not null                                            | plain    |              |
+Indexes:
+"animal_pkey" PRIMARY KEY, btree (id)
+"shelter_id_unique" UNIQUE CONSTRAINT, btree (shelter_id)
+Referenced by:
+TABLE "adoption" CONSTRAINT "adoption_animal_id_fkey" FOREIGN KEY (animal_id) REFERENCES animal(id)
+
+furbabies#
 </code></pre>
-					<p>What are the columns in the Artist table?</p>
 				</section>
 
 				<section>
-					<h3>GUI Tools</h3>
-						<p>Many GUI tools exist for SQLite.<p>
-						<p>Let's download <a href="https://addons.mozilla.org/en-US/firefox/addon/sqlite-manager/">SQLite Manager</a>, an add-on for Firefox</p>
-						<p>(First install Firefox, if you do not have it already.)</p>
-						<img src="images/SQLiteManager.png"/>
+					<h3>Viewing the data in a table</h3>
+					<p class="compress">Our first query!</p>
+					<pre><code contenteditable class="JavaScript">furbabies# select * from animal;
+id |              shelter_id              |  name   | date_of_birth | type | gender | altered | ok_with_dogs | ok_with_cats | date_of_surrender
+----+--------------------------------------+---------+---------------+------+--------+---------+--------------+--------------+-------------------
+ 1 | 822c13f0-115d-4035-b0c5-579bca4a1468 | Kestrel | 2016-03-07    | dog  | M      | f       | f            | f            | 2016-03-30
+ 2 | f291af86-4f21-4ecb-a864-834f7fd3e978 | Quintus | 2016-04-28    | dog  | M      | f       | t            | t            | 2016-06-14
+ 3 | e9039484-d2c9-4d9d-80cd-acc58f2cc960 | Paco    | 2016-04-12    | dog  | M      | f       | t            | t            | 2016-07-06
+...
+(20 rows)
+</code></pre>
 				</section>
 
 				<section>
-					<h3>Chinook Database in SQLite Manager</h3>
+					<h3>Our SQL toolbox so far</h3>
 					<ul>
-						<li>Open SQLite Manager in Firefox Tools</li>
-						<li>Database -> Connect Database</li>
-						<li>Navigate to Chinook_Sqlite.sqlite in your directory</li>
-						<li>Click "Open"</li>
-						<img src="images/SQLiteManagerPlugin.png"/>
+						<li>Get the list of tables in a database:
+							<br>
+							<pre><code contenteditable class="sql">furbabies# \dt</code></pre>
+						</li>
+						<li>Describe the schema of a table:
+							<br>
+							<pre><code contenteditable class="sql">furbabies# \d+ TABLE_NAME</code></pre>
+						</li>
+						<li>
+							View what&rsquo;s in a table:
+							<br>
+							<pre><code contenteditable class="sql">furbabies# select * from TABLE_NAME;</code></pre>
+						</li>
 					</ul>
 				</section>
 
 				<section>
-					<h3>Let's Develop It!</h3>
-					<p>Spend a few minutes exploring the SQLite Manager<p>
-					<ul>
+					<h3>Let&rsquo;s Develop It!</h3>
+					<p class="compress--mild centered">Spend a few minutes exploring the furbabies database<p>
+					<ul class="compress--mild">
 						<li>Pair up with your neighbor and discuss what you find.</li>
-						<li>View a few tables.</li>
-						<li>What do you find in the Structure tab? What are some different data types you can find?</li>
-						<li>How about the Browse and Search tab?</li>
-						<li>We can ignore Execute SQL and DB Settings for now. Just focus on what we see in the data.</li>
+						<li>View a few tables. What&rsquo;s their structure? What data did you find in them?</li>
+						<li>What are some different data types you can find?</li>
+						<li>Did you come across anything that you&rsquo;re curious about?</li>
 					</ul>
 				</section>
 
 				<section>
-					<h3>The SELECT Statement</h3>
-					<ul>
-						<li>We use the SELECT command to show data from a database</li>
-						<li>The output from a SELECT statement is always a grid of rows and columns.</li>
+					<h3>The Furbabies Database</h3>
+					<img class="pic--high-contrast" src="images/furbabies/furbabies.png">
+				</section>
+
+
+
+				<section>
+					<h3>SELECT</h3>
+					<ul class="compress--mild">
+						<li>We use the SELECT command to <em>retrieve</em> data from a database</li>
+						<li>The output from a SELECT statement is always a grid of rows and columns</li>
+						<li>You do not have to capitalize SQL keywords like SELECT. This is a style preference.</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>SELECT</h3>
+					<ul class="compress">
 						<li>The most simple SELECT statement retrieves all values from a single table</li>
+						<li>For this statement, we use a * (asterisk, read &ldquo;star&rdquo;) to tell SQL to return every <em>column</em> in the table</li>
+						<li>We also won&rsquo;t specify any filter criteria, so SQL will also return every <em>row</em> or <em>record</em> in the table</li>
+					<pre><code contenteditable class="JavaScript">furbabies# select * from person;
+
+id |         name         |                   address                    | phone_number | gender | has_cats | has_dogs
+----+----------------------+----------------------------------------------+--------------+--------+----------+----------
+ 1 | Tadeu Mendelssohn    | 95 Woodrow Way, Austin, TX 78701             | 512-555-555  | M      | f        | f
+ 2 | Bratislav Muyskens   | 3343 Sundown Ln, Austin, TX 78723            | 715-972-1139 | M      | f        | t
+ 3 | Natalia Baumhauer    | 615 Red River St, Austin, TX 78701           | 248-451-3463 | F      | f        | t
+ 4 | Anna Herbert         | 1019 Manor Rd, Austin, TX 73301              | 512-565-0860 | F      | f        | f
+</code></pre>
+					<li>Usually, returning all the rows in a table is expensive, esp. if the table has a lot of rows.</li>
 					</ul>
-					<pre><code contenteditable class="JavaScript">sqlite> SELECT * FROM Album;
-1|For Those About To Rock We Salute You|1
-2|Balls to the Wall|2
-3|Restless and Wild|2
-4|Let There Be Rock|1
-5|Big Ones|3
-</code></pre>
-					<p>This will return all of the results from the table, which could be expensive.</p>
 				</section>
 
 				<section>
-					<h3>SELECT .. WHERE</h3>
-					<p>You can have only a subset of rows returned by using the WHERE clause</p>
-					<pre><code contenteditable class="JavaScript">sqlite> SELECT *
-   ...> FROM Customer
-   ...> WHERE FirstName = "Mark";
-14|Mark|Philips|Telus|8210 111 ST NW|Edmonton|AB|Canada|T6G 2C7|+1 (780) 434-4554|+1 (780) 434-5565|mphilips12@shaw.ca|5
-55|Mark|Taylor||421 Bourke Street|Sidney|NSW|Australia|2010|+61 (02) 9332 3633||mark.taylor@yahoo.au|4
-sqlite>
+					<h3>Specify columns</h3>
+					<ul>
+						<li>Instead of using *, we tell SQL which columns we want to see by specifying the names after SELECT</li>
+						<li>Columns must be separated by commas (,)</li>
+						<li><i>Things to know:</i> names of database <em>entities</em> (like columns, tables, databases) cannot contain spaces</li>
+					</ul>
+					<pre><code contenteditable class="JavaScript">furbabies# select name, has_cats, has_dogs from person;
+
+        name         | has_cats | has_dogs
+----------------------+----------+----------
+Tadeu Mendelssohn    | f        | f
+Bratislav Muyskens   | f        | t
+Natalia Baumhauer    | f        | t
+Anna Herbert         | f        | f
 </code></pre>
-					<p>Alternatively, the SELECT .. WHERE statement can be made on one line:</p>
-					<pre><code contenteditable class="JavaScript">SELECT * FROM Customer WHERE FirstName = "Mark";</code></pre>
 				</section>
 
 				<section>
-					<h3>WHERE Clause Operators</h3>
-					<table style="font-size: 20px; line-height: 1.4em;">
-						<tr>
-							<td>Operator</td>
-							<td>Description</td>
-						</tr>
+					<h3>WHERE</h3>
+					<ul>
+						<li>We can tell SQL to only bring back rows that match certain criteria</li>
+						<li>One way to do that is with a WHERE clause</li>
+					</ul>
+					<pre><code contenteditable class="JavaScript">furbabies# select * from animal where type = 'cat';
+
+id |              shelter_id              |  name   | date_of_birth | type | gender | altered | ok_with_dogs | ok_with_cats | date_of_surrender
+----+--------------------------------------+---------+---------------+------+--------+---------+--------------+--------------+-------------------
+ 6 | 0d18a661-773e-4983-8272-4e25d02ab5ae | Oreo    | 2016-03-15    | cat  | F      | f       | f            | f            | 2016-10-15
+ 7 | 5d596464-bc1f-4e83-a963-36fc59f3272e | Massimo | 2012-06-13    | cat  | M      | t       | t            | t            | 2012-12-10
+ 9 | 58f50c43-6bfc-4f23-974f-aba79a5b34cf | Roxy    | 2013-08-06    | cat  | F      | t       | f            | t            | 2013-12-20
+10 | b8672c90-1196-4aa9-963d-6f1cbed7a390 | Phineas | 2014-05-09    | cat  | M      | t       | t            | f            | 2014-05-15
+12 | 4fe32f77-9c6d-4a09-ba11-8603e988a63a | Anka    | 2015-01-06    | cat  | F      | t       | t            | t            | 2016-02-02
+13 | 55467718-a302-4f3d-9928-740ced142949 | Iris    | 2015-04-28    | cat  | F      | t       | f            | t            | 2015-06-29
+14 | 33bb9e66-be19-41e5-a45a-6614668329bd | Leo     | 2015-06-20    | cat  | M      | t       | f            | f            | 2016-05-17
+18 | e781ffc5-d1c1-469b-9eb6-d4093da55c42 | Oliver  | 2011-06-28    | cat  | M      | t       | f            | t            | 2016-03-16
+19 | 8e99ae7b-6eab-4b5a-868a-e2d229a02404 | Zoe     | 2013-01-17    | cat  | F      | t       | f            | t            | 2014-01-04
+20 | ae752b0f-cdfb-489b-84b0-0e96477d19f5 | Tigger  | 2013-08-20    | cat  | M      | t       | t            | t            | 2013-10-26
+</code></pre>
+				</section>
+
+				<section>
+					<h3>Let&rsquo;s develop it!</h3>
+					<p>How would we find the names of all the dogs in the shelter?</p>
+				</section>
+
+				<section>
+					<h3>Solution</h3>
+					<pre><code contenteditable class="JavaScript">furbabies# select name from animal where type = 'dog';
+
+name
+---------
+Kestrel
+Quintus
+Paco
+Colin
+Izzy
+Gracie
+Gabby
+Bailey
+Lucy
+Fenton
+</code></pre>
+				</section>
+
+				<section>
+					<h3>common WHERE Clause Operators</h3>
+					<table style="font-size: 16px; line-height: 1.4em;">
+						<thead>
+							<tr>
+								<th width="20%">Operator</th>
+								<th>Description</th>
+							</tr>
+						</thead>
 						<tr>
 							<td>=</td>
 							<td>Equal</td>
 						</tr>
 						<tr>
+							<td>IS</td>
+							<td>Another way to specify equals, but usually only works for booleans and nulls</td>
+						</tr>
+						<tr>
 							<td>&lt;&gt;</td>
-							<td>Not equal. <em>Note:</em> In some versions of SQL, this may be written as !=</td>
+							<td>Not equal</td>
+						</tr>
+						<tr>
+							<td>!=</td>
+							<td>Not equal</td>
 						</tr>
 						<tr>
 							<td>&gt;</td>
@@ -411,66 +601,210 @@ sqlite>
 						</tr>
 						<tr>
 							<td>LIKE</td>
-							<td>Search for a pattern</td>
+							<td>Search for a pattern. The wildcard character is %.
+
+								<i>Things to know:</i>
+								By default, postgres is case-sensitive.
+								If you want to check for a pattern, but don&rsquo;t care about
+								case, use the ILIKE operator.</td>
 						</tr>
 						<tr>
-							<td>IN</td>
-							<td>To specify multipl possible values for a column</td>
+							<td>IN (value, value, ...)</td>
+							<td>To specify multiple possible values for a column</td>
 						</tr>
+						<tr>
+							<td>NOT</td>
+							<td>Negate the condition that comes after</td>
+						</tr>
+						<tr>
+							<td>AND</td>
+							<td>Combine criteria</td>
+						</tr>
+						<tr>
+							<td>OR</td>
+							<td>Another way to combine criteria</td>
+						</tr>
+
 					</table>
 				</section>
 
 				<section>
-					<h3>Not Equal</h3>
-					<pre><code contenteditable class="JavaScript">SELECT * FROM Customer WHERE FirstName <> "Mark";
+					<h4>Which animals have been altered?</h4>
+					<h5>operator: IS</h5>
+					<pre><code contenteditable class="JavaScript">select * from animal where altered is true;
+
+id |              shelter_id              |  name   | date_of_birth | type | gender | altered | ok_with_dogs | ok_with_cats | date_of_surrender
+----+--------------------------------------+---------+---------------+------+--------+---------+--------------+--------------+-------------------
+ 7 | 5d596464-bc1f-4e83-a963-36fc59f3272e | Massimo | 2012-06-13    | cat  | M      | t       | t            | t            | 2012-12-10
+ 8 | c112f064-2930-42e0-8443-4501f5cc35e1 | Gracie  | 2012-08-17    | dog  | F      | t       | f            | f            | 2013-01-04
+ 9 | 58f50c43-6bfc-4f23-974f-aba79a5b34cf | Roxy    | 2013-08-06    | cat  | F      | t       | f            | t            | 2013-12-20
+10 | b8672c90-1196-4aa9-963d-6f1cbed7a390 | Phineas | 2014-05-09    | cat  | M      | t       | t            | f            | 2014-05-15
+11 | a7081f82-2a4e-4f3b-9248-736f594809dc | Gabby   | 2014-08-07    | dog  | F      | t       | f            | t            | 2014-09-30
+12 | 4fe32f77-9c6d-4a09-ba11-8603e988a63a | Anka    | 2015-01-06    | cat  | F      | t       | t            | t            | 2016-02-02
+13 | 55467718-a302-4f3d-9928-740ced142949 | Iris    | 2015-04-28    | cat  | F      | t       | f            | t            | 2015-06-29
+14 | 33bb9e66-be19-41e5-a45a-6614668329bd | Leo     | 2015-06-20    | cat  | M      | t       | f            | f            | 2016-05-17
+15 | a528a5d1-7934-4762-977d-20e3013d3761 | Bailey  | 2010-09-20    | dog  | M      | t       | t            | t            | 2014-06-24
+16 | a4c395a6-ebf6-41f8-8469-6332229926ae | Lucy    | 2011-01-28    | dog  | F      | t       | t            | t            | 2013-05-05
+17 | 10b78650-2e77-48aa-8162-2061d5edd80d | Fenton  | 2011-04-21    | dog  | M      | t       | t            | f            | 2012-07-02
+18 | e781ffc5-d1c1-469b-9eb6-d4093da55c42 | Oliver  | 2011-06-28    | cat  | M      | t       | f            | t            | 2016-03-16
+19 | 8e99ae7b-6eab-4b5a-868a-e2d229a02404 | Zoe     | 2013-01-17    | cat  | F      | t       | f            | t            | 2014-01-04
+20 | ae752b0f-cdfb-489b-84b0-0e96477d19f5 | Tigger  | 2013-08-20    | cat  | M      | t       | t            | t            | 2013-10-26
 </code></pre>
 				</section>
 
 				<section>
-					<h3>Greater Than</h3>
-					<pre><code contenteditable class="JavaScript">SELECT * FROM Employee WHERE BirthDate > "1970-01-01";
+					<h4>Which dogs have been altered?</h4>
+					<h5>operators: =, AND</h5>
+					<pre><code contenteditable class="JavaScript">select * from animal where altered = true and type = 'dog';
+
+id |              shelter_id              |  name  | date_of_birth | type | gender | altered | ok_with_dogs | ok_with_cats | date_of_surrender
+----+--------------------------------------+--------+---------------+------+--------+---------+--------------+--------------+-------------------
+ 8 | c112f064-2930-42e0-8443-4501f5cc35e1 | Gracie | 2012-08-17    | dog  | F      | t       | f            | f            | 2013-01-04
+11 | a7081f82-2a4e-4f3b-9248-736f594809dc | Gabby  | 2014-08-07    | dog  | F      | t       | f            | t            | 2014-09-30
+15 | a528a5d1-7934-4762-977d-20e3013d3761 | Bailey | 2010-09-20    | dog  | M      | t       | t            | t            | 2014-06-24
+16 | a4c395a6-ebf6-41f8-8469-6332229926ae | Lucy   | 2011-01-28    | dog  | F      | t       | t            | t            | 2013-05-05
+17 | 10b78650-2e77-48aa-8162-2061d5edd80d | Fenton | 2011-04-21    | dog  | M      | t       | t            | f            | 2012-07-02
 </code></pre>
 				</section>
 
 				<section>
-					<h3>Less Than</h3>
-					<pre><code contenteditable class="JavaScript">SELECT * FROM Employee WHERE BirthDate < "1970-01-01";
+					<h4>Which animals were born in 2015?</h4>
+					<h5>operators: >=, <</h5>
+					<pre><code contenteditable class="JavaScript">select * from animal where date_of_birth >= '2015-01-01' and date_of_birth < '2016-01-01';
+
+id |              shelter_id              | name | date_of_birth | type | gender | altered | ok_with_dogs | ok_with_cats | date_of_surrender
+----+--------------------------------------+------+---------------+------+--------+---------+--------------+--------------+-------------------
+ 5 | 606b32ee-a5f8-48d3-bda6-c59db8240b39 | Izzy | 2015-06-20    | dog  | F      | f       | t            | t            | 2015-11-02
+12 | 4fe32f77-9c6d-4a09-ba11-8603e988a63a | Anka | 2015-01-06    | cat  | F      | t       | t            | t            | 2016-02-02
+13 | 55467718-a302-4f3d-9928-740ced142949 | Iris | 2015-04-28    | cat  | F      | t       | f            | t            | 2015-06-29
+14 | 33bb9e66-be19-41e5-a45a-6614668329bd | Leo  | 2015-06-20    | cat  | M      | t       | f            | f            | 2016-05-17
 </code></pre>
 				</section>
 
 				<section>
-					<h3>BETWEEN</h3>
-					<pre><code contenteditable class="JavaScript">SELECT * FROM Employee WHERE BirthDate BETWEEN "1965-01-01" AND "1971-01-01";
+					<h4>Which animals were born in 2015?</h4>
+					<h5>operators: between</h5>
+					<pre><code contenteditable class="JavaScript">select * from animal where date_of_birth between '2015-01-01' and '2016-01-01';
+
+id |              shelter_id              | name | date_of_birth | type | gender | altered | ok_with_dogs | ok_with_cats | date_of_surrender
+----+--------------------------------------+------+---------------+------+--------+---------+--------------+--------------+-------------------
+ 5 | 606b32ee-a5f8-48d3-bda6-c59db8240b39 | Izzy | 2015-06-20    | dog  | F      | f       | t            | t            | 2015-11-02
+12 | 4fe32f77-9c6d-4a09-ba11-8603e988a63a | Anka | 2015-01-06    | cat  | F      | t       | t            | t            | 2016-02-02
+13 | 55467718-a302-4f3d-9928-740ced142949 | Iris | 2015-04-28    | cat  | F      | t       | f            | t            | 2015-06-29
+14 | 33bb9e66-be19-41e5-a45a-6614668329bd | Leo  | 2015-06-20    | cat  | M      | t       | f            | f            | 2016-05-17
 </code></pre>
 				</section>
 
 				<section>
-					<h3>LIKE</h3>
-					<pre><code contenteditable class="JavaScript">SELECT * FROM Track WHERE Name LIKE "%Love%";
+					<h4>Which animals have names starting with L?</h4>
+					<h5>operators: like</h5>
+					<pre><code contenteditable class="JavaScript">select * from animal where name like 'L%';
+
+id |              shelter_id              | name | date_of_birth | type | gender | altered | ok_with_dogs | ok_with_cats | date_of_surrender
+----+--------------------------------------+------+---------------+------+--------+---------+--------------+--------------+-------------------
+14 | 33bb9e66-be19-41e5-a45a-6614668329bd | Leo  | 2015-06-20    | cat  | M      | t       | f            | f            | 2016-05-17
+16 | a4c395a6-ebf6-41f8-8469-6332229926ae | Lucy | 2011-01-28    | dog  | F      | t       | t            | t            | 2013-05-05
 </code></pre>
+
+					<p class="centered">What happens if we used a lowercase l?<p>
 				</section>
 
 				<section>
-					<h3>IN</h3>
-					<pre><code contenteditable class="JavaScript">SELECT * FROM Track WHERE MediaTypeId IN (1,2);
-</code></pre>
+					<h4>Find a particular subset of animals by name</h4>
+					<h5>operators: IN</h5>
+					<pre><code contenteditable class="JavaScript">select * from animal where name in ('Oreo', 'Tigger');
+
+id |              shelter_id              |  name  | date_of_birth | type | gender | altered | ok_with_dogs | ok_with_cats | date_of_surrender
+----+--------------------------------------+--------+---------------+------+--------+---------+--------------+--------------+-------------------
+ 6 | 0d18a661-773e-4983-8272-4e25d02ab5ae | Oreo   | 2016-03-15    | cat  | F      | f       | f            | f            | 2016-10-15
+20 | ae752b0f-cdfb-489b-84b0-0e96477d19f5 | Tigger | 2013-08-20    | cat  | M      | t       | t            | t            | 2013-10-26
+				</code></pre>
 				</section>
 
 				<section>
-					<h3>Let's Develop It!</h3>
-					<ul>
-						<li>Spend the rest of class writing SELECT statements with WHERE clauses</li>
-						<li>Use SQLite Manager to get ideas of how the data is structured, and what you might query</li>
+					<h4>The empty set</h4>
+
+					<ul class="compress--mild">
+						<li>Sometimes, the table doesn&rsquo;t have any data that matches what we&rsquo;re looking for</li>
+						<li>This is called the <em>empty set</em>, and it&rsquo;s totally valid. It just means we won&rsquo;t get any rows back</li>
+					</ul>
+
+					<pre><code contenteditable class="JavaScript">select * from animal where name = 'i do not exist';
+
+id | shelter_id | name | date_of_birth | type | gender | altered | ok_with_dogs | ok_with_cats | date_of_surrender
+----+------------+------+---------------+------+--------+---------+--------------+--------------+-------------------
+(0 rows)
+				</code></pre>
+				</section>
+
+
+				<section>
+					<h3>Let&rsquo;s Develop It!</h3>
+					<ul class="compress">
+						<li>Write SQL statements to answer the following questions:</li>
+						<ul>
+							<li>Which animals were surrendered this year?</li>
+							<li>Which animals were either born or surrendered this year?</li>
+							<li>Which dogs born in 2013 have not been altered?</li>
+							<li>What are the names of all the male cats?</li>
+							<li>Which animals have an 'l' (L) in the middle of their name?</li>
+							<li>Which animals have a 'Z' or 'z' anywhere in their name?</li>
+							<li>Which dogs are not okay with other animals at all?</li>
+							<li>Which cats are okay with dogs but not other cats?</li>
+							<li>What are the names and phone numbers of all the people who do not already have animals?</li>
+						</ul>
 						<li>Feel free to work with a neighbor!</li>
 					</ul>
 				</section>
 
+<!--
+				<section>
+					<h3>Solutions</h3>
+					<ul class="compress">
+						<li>Which animals were surrendered this year?
+							<pre><code contenteditable class="JavaScript">
+select * from animal where date_of_surrender >= '2016-01-01';
+							</code></pre>
+
+							(Kestrel, Quintus, Paco, Colin, Oreo, Anka, Leo, Oliver)
+						</li>
+
+						<li>Which animals were either born or surrendered this year?
+							<pre><code contenteditable class="JavaScript">
+select * from animal
+	where date_of_surrender >= '2016-01-01'
+		or date_of_birth >= '2016-01-01';
+							</code></pre>
+
+							(Kestrel, Quintus, Paco, Colin, Oreo, Anka, Leo, Oliver)
+						</li>
+
+
+						<li>
+							Which dogs born in 2013 have not been altered?
+
+							<pre><code contenteditable class="JavaScript">
+select * from animal
+	where date_of_birth between '2013-01-01' and '2014-01-01'
+		and altered is false;
+							</code></pre>
+							(none; the empty set)
+						</li>
+						<li>What are the names of all the male cats?</li>
+						<li>Which animals have an 'l' (L) in the middle of their name?</li>
+						<li>Which animals have a 'Z' or 'z' anywhere in their name?</li>
+						<li>Which dogs are not okay with other animals at all?</li>
+						<li>Which cats are okay with dogs but not other cats?</li>
+						<li>What are the names and phone numbers of all the people who do not already have animals?</li>
+					</ul>
+				</section>
+-->
+
 				<section>
 						<h3>Resources</h3>
-								<ul>
-										<li><a href="http://www.sqlite.org/whentouse.html">When to Use SQLite</a> - A list of good uses for SQLite, as well as situations where another RDMBS would be better.</li>
-										<li>More about <a href="http://www.tutorialspoint.com/sqlite/sqlite_where_clause.htm">SQLite WHERE clauses</a></li>
-							</ul>
+						<ul>
+								<li><a href="https://www.postgresql.org/docs/9.6/static/functions.html">Full list of operators and functions in Postgres</a></li>
+						</ul>
 				</section>
 
         <section>
