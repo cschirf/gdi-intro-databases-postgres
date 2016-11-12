@@ -14,9 +14,9 @@ Are you a developer (web or otherwise) and wish to learn more about the backend 
 This eight hour course runs on Saturday and Sunday:
 
 * Class 1 - Intro to Data Modeling
-* Class 2 - Intro to SQL, Reading Data
-* Class 3 - Creating, Reading and Updating Tables
-* Class 4 - Joins and Advanced Topics
+* Class 2 - Intro to SQL, Retrieving Data
+* Class 3 - Intermediate SQL, Joins, & DML
+* Class 4 - DDL & Advanced Topics
 
 Please bring a laptop you feel comfortable using.
 
