@@ -289,6 +289,20 @@
         </section>
 
 				<section>
+					<h3>Start Postgres</h3>
+					<p class="compress">
+						If you are on a Mac and installed Postgres.app, your server is already running.
+					</p>
+					<p class="compress">
+						If you are on a *nix system, the simplest way to start up postgres is like so:
+					</p>
+					<pre><code contenteditable class="sql">postgres -D /usr/local/pgsql/data >logfile 2>&1 &</code></pre>
+					<p class="compress">
+						If you are on a Windows box, start up the server through the pgAdmin tool.
+					</p>
+				</section>
+
+				<section>
 					<h3>Let&rsquo;s Develop It!</h3>
 					<h4>Testing our PostgreSQL Installation (all)</h4>
 					<p class="compress">From the command line (Terminal/Konsole/GitBash/Cygwin),
@@ -426,7 +440,7 @@ furbabies#
 					<h3>Viewing the data in a table</h3>
 					<p class="compress">Our first query!</p>
 					<pre><code contenteditable class="sql">furbabies# select * from animal;
-						
+
 id |              shelter_id              |  name   | date_of_birth | type | gender | altered | ok_with_dogs | ok_with_cats | date_of_surrender
 ----+--------------------------------------+---------+---------------+------+--------+---------+--------------+--------------+-------------------
  1 | 822c13f0-115d-4035-b0c5-579bca4a1468 | Kestrel | 2016-03-07    | dog  | M      | f       | f            | f            | 2016-03-30
