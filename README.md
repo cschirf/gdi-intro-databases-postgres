@@ -9,7 +9,7 @@ The course is meant to be taught in a two four-hour classes.
 
 A database is an organized collection of data. In this class, we will discuss the science (and art) of storing and retrieving data. As anyone who has tried to analyze data using Excel can attest, it is not as simple as it might seem.
 
-Are you a developer (web or otherwise) and wish to learn more about the backend stack? Are you an analyst who would like to learn why your reports take time to build and run? Are you a business owner or hobbyist who'd like to design your own database system? Or, maybe you're thinking about becoming a database professional? If you answered yes to any of the questions above or are just generally interested in learning more about databases - this class will get you started.
+Are you a developer (web or otherwise) and wish to learn more about the backend stack? Are you a support professional looking to enter a more technical track? Are you an analyst who would like to learn how your reports get run? Are you a business owner or hobbyist who'd like to design your own database system? Or maybe you're thinking about becoming a database professional? If you answered yes to any of the questions above or are just generally interested in learning more about databases - this class will get you started!
 
 This eight hour course runs on Saturday and Sunday:
 
