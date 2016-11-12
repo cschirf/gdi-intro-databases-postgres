@@ -7,8 +7,8 @@
 		<title>Intro to Databases - Girl Develop It</title>
 
 		<meta name="description" content="Introduction to Databases.
+    The course is meant to be taught in two four-hour workshops.">
 
-    The course is meant to be taught in four two-hour workshops.">
 		<meta name="author" content="Girl Develop It">
 
 		<meta name="apple-mobile-web-app-capable" content="yes" />
@@ -121,7 +121,7 @@
 							<a href="https://www.postgresql.org/download/windows/">official Windows Downloads page</a>
 						</li>
 						<li>
-							<a href="http://git-scm.com/downloads">Install Git</a> (Windows only)
+							<a href="http://git-scm.com/downloads">Install Git</a>
 						</li>
 						<ul>
 							<li>
@@ -132,6 +132,14 @@
 								then you don&rsquo;t need to do this step.
 							</li>
 						</ul>
+						<li>
+							You may be prompted to install Microsoft Visual C++. Go ahead and do that.
+						</li>
+						<li>
+							You may also be prompted to enter a password for the superuser.
+							Go ahead and do that, too. Make sure you can remember it,
+							because you will need to use it during this class.
+						</li>
 					</ul>
 				</section>
 
@@ -160,7 +168,7 @@
 								Install Postgres like a boss:
 								<br>
 								<span class="code">
-									brew install sqlite3
+									brew install postgresql
 								</span>
 							</li>
 						</ul>
@@ -282,8 +290,9 @@
 
 				<section>
 					<h3>Let&rsquo;s Develop It!</h3>
-					<h4>Testing our SQLite3 Installation (Mac &amp; *nix)</h4>
-					<p class="compress">See if you can get to psql</p>
+					<h4>Testing our PostgreSQL Installation (all)</h4>
+					<p class="compress">From the command line (Terminal/Konsole/GitBash/Cygwin),
+						see if you can get to psql</p>
 					<pre><code>$ which psql</code></pre>
 					<p class="compress">If you see a path, then login like so:</p>
 					<pre><code>$ psql
@@ -291,41 +300,44 @@ psql (9.5.3)
 Type "help" for help.
 
 yourusername=#</code></pre>
-					<p class="compress">If successful, you will see the version info and the psql prompt</p>
-				</section>
-				<section>
-					<h3>Let&rsquo;s Develop It!</h3>
-					<h4>Testing our SQLite3 Installation (Windows)</h4>
-					<p>Open sqlite-shell.</p>
+
+					<p class="compress">Or, if you&rsquo;re on Windows:</p>
+					<pre><code>psql -u postgres</code></pre>
+					<p class="compress">If successful, you will see the version info and
+						the psql prompt. After you have successfully logged in, hit
+						Control + C to kill the process.</p>
 				</section>
 
 				<section>
-					<h3>SQLite3 Help</h3>
+					<h3>PostgreSQL Help</h3>
 					<p>Enter help + ENTER for instructions</p>
-					<p>
-						We will go through many of these. For now, note that you can
-						use \q + ENTER to exit the prompt
-					</p>
+					<p>Enter \? + ENTER for psql commands</p>
+					<p>Enter \h + ENTER for a list of SQL commands</p>
+					<p>Enter \q + ENTER to exit the prompt</p>
 				</section>
 
 				<section>
 					<h3>Installing the furbabies database</h3>
 					<ul class="compress">
 						<li><a href="sql-scripts/furbabies-postgres.sql">Download the furbabies database sql dump</a></li>
-						<li>Execute the following commands to create the database and import the data to our new database:</li>
+						<li>Execute the following commands to create the database and import the data to our new database:
+							<pre><code contenteditable class="sql">$ createdb furbabies
+$ psql furbabies < /full-path-to-/furbabies-postgres.sql
+		</code></pre>
+						</li>
+						<li> Windows:
+		<pre><code contenteditable class="sql">$ createdb furbabies
+$ psql -u postgres -d furbabies -f /full-path-to-/furbabies-postgres.sql
+	</code></pre>
+						</li>
 					</ul>
-					<h4>Mac:</h4>
-					<pre><code contenteditable class="JavaScript">createdb furbabies
-psql chinook < /full-path-to-/furbabies-postgres.sql
-</code></pre>
-					<h4>Windows:</h4>
-					<pre><code contenteditable class="JavaScript">.open C:/Downloads/ChinookDatabase1.4_CompleteVersion/Chinook_Sqlite.sqlite</code></pre>
+
 				</section>
 
 				<section>
 					<h3>Database Schemas</h3>
 					<ul class="compress">
-						<li>A structure described in a formal language</li>
+						<li>A structure of the database, described in a formal language</li>
 						<li>Acts as a blueprint for how the database is constructed</li>
 						<li>In a relational database, the schema defines:
 							<ul>
@@ -347,14 +359,13 @@ psql chinook < /full-path-to-/furbabies-postgres.sql
 					<h3>Let&rsquo;s connect to our database!</h3>
 
 					<p class="compress">Open the psql program</p>
-					<pre><code>psql</code></pre>
+					<pre><code>$ psql</code></pre>
 
-					<br>
+					<p class="compress">Windows:</p>
+					<pre><code>$ psql -u postgres</code></pre>
 
-					<p class="compress">Then, after the prompt, connect to the chinook database</p>
+					<p class="compress">Then, after the prompt, connect to the furbabies database</p>
 					<pre><code>yourusername# \c furbabies</code></pre>
-
-					<br>
 
 					<p class="compress">Your prompt should now be the name of the database you&rsquo;re connected to</p>
 					<pre><code>furbabies#</code></pre>
@@ -364,13 +375,14 @@ psql chinook < /full-path-to-/furbabies-postgres.sql
 					<h3>Tables</h3>
 					<p class="compress">In a relational database, a table is an organized set of data using columns and rows.</p>
 					<img class="pic small" src="images/table.gif"/>
-					<p class="compress">Table are sometimes referred to as a <em>relations</em>.</p>
+					<p class="compress">Table are sometimes referred to as <em>relations</em>.</p>
 				</section>
 
 				<section>
 					<h3>View Tables</h3>
 					<p>Let&rsquo;s check out the tables in the database:</p>
-					<pre><code contenteditable class="JavaScript">furbabies# \dt
+					<pre><code contenteditable class="sql">furbabies# \dt
+
 	List of relations
  Schema |     Name      | Type  |  Owner
 --------+---------------+-------+---------
@@ -386,7 +398,7 @@ furbabies=#
 				<section>
 					<h3>Table Schemas</h3>
 					<p class="compress">We can also check out the schema for the tables.</p>
-					<pre><code contenteditable class="JavaScript">furbabies# \d+ animal
+					<pre><code contenteditable class="sql">furbabies# \d+ animal
 						Table "public.animal"
 Column       |          Type          |                      Modifiers                      | Storage  | Stats target | Description
 -------------------+------------------------+-----------------------------------------------------+----------+--------------+-------------
@@ -413,7 +425,8 @@ furbabies#
 				<section>
 					<h3>Viewing the data in a table</h3>
 					<p class="compress">Our first query!</p>
-					<pre><code contenteditable class="JavaScript">furbabies# select * from animal;
+					<pre><code contenteditable class="sql">furbabies# select * from animal;
+						
 id |              shelter_id              |  name   | date_of_birth | type | gender | altered | ok_with_dogs | ok_with_cats | date_of_surrender
 ----+--------------------------------------+---------+---------------+------+--------+---------+--------------+--------------+-------------------
  1 | 822c13f0-115d-4035-b0c5-579bca4a1468 | Kestrel | 2016-03-07    | dog  | M      | f       | f            | f            | 2016-03-30
@@ -467,6 +480,11 @@ id |              shelter_id              |  name   | date_of_birth | type | gen
 						<li>We use the SELECT command to <em>retrieve</em> data from a database</li>
 						<li>The output from a SELECT statement is always a grid of rows and columns</li>
 						<li>You do not have to capitalize SQL keywords like SELECT. This is a style preference.</li>
+						<li>
+							Some of the later examples will show parts of the query on different
+							lines. This is purely for readability purposes.
+							SQL is not sensitive to whitespace.
+						</li>
 					</ul>
 				</section>
 
@@ -476,7 +494,7 @@ id |              shelter_id              |  name   | date_of_birth | type | gen
 						<li>The most simple SELECT statement retrieves all values from a single table</li>
 						<li>For this statement, we use a * (asterisk, read &ldquo;star&rdquo;) to tell SQL to return every <em>column</em> in the table</li>
 						<li>We also won&rsquo;t specify any filter criteria, so SQL will also return every <em>row</em> or <em>record</em> in the table</li>
-					<pre><code contenteditable class="JavaScript">furbabies# select * from person;
+					<pre><code contenteditable class="sql">furbabies# select * from person;
 
 id |         name         |                   address                    | phone_number | gender | has_cats | has_dogs
 ----+----------------------+----------------------------------------------+--------------+--------+----------+----------
@@ -485,18 +503,20 @@ id |         name         |                   address                    | phone
  3 | Natalia Baumhauer    | 615 Red River St, Austin, TX 78701           | 248-451-3463 | F      | f        | t
  4 | Anna Herbert         | 1019 Manor Rd, Austin, TX 73301              | 512-565-0860 | F      | f        | f
 </code></pre>
-					<li>Usually, returning all the rows in a table is expensive, esp. if the table has a lot of rows.</li>
+					<li>Usually, returning all the rows in a table is expensive, esp. if the table has a lot of rows and/or columns.</li>
 					</ul>
 				</section>
 
 				<section>
 					<h3>Specify columns</h3>
 					<ul>
-						<li>Instead of using *, we tell SQL which columns we want to see by specifying the names after SELECT</li>
+						<li>Instead of using *, we can tell SQL which columns we want to
+							see by specifying the names after SELECT</li>
 						<li>Columns must be separated by commas (,)</li>
-						<li><i>Things to know:</i> names of database <em>entities</em> (like columns, tables, databases) cannot contain spaces</li>
+						<li><i>Things to know:</i> names of database <em>entities</em>
+							(like columns, tables, databases) cannot contain spaces</li>
 					</ul>
-					<pre><code contenteditable class="JavaScript">furbabies# select name, has_cats, has_dogs from person;
+					<pre><code contenteditable class="sql">furbabies# select name, has_cats, has_dogs from person;
 
         name         | has_cats | has_dogs
 ----------------------+----------+----------
@@ -513,7 +533,7 @@ Anna Herbert         | f        | f
 						<li>We can tell SQL to only bring back rows that match certain criteria</li>
 						<li>One way to do that is with a WHERE clause</li>
 					</ul>
-					<pre><code contenteditable class="JavaScript">furbabies# select * from animal where type = 'cat';
+					<pre><code contenteditable class="sql">furbabies# select * from animal where type = 'cat';
 
 id |              shelter_id              |  name   | date_of_birth | type | gender | altered | ok_with_dogs | ok_with_cats | date_of_surrender
 ----+--------------------------------------+---------+---------------+------+--------+---------+--------------+--------------+-------------------
@@ -537,7 +557,7 @@ id |              shelter_id              |  name   | date_of_birth | type | gen
 
 				<section>
 					<h3>Solution</h3>
-					<pre><code contenteditable class="JavaScript">furbabies# select name from animal where type = 'dog';
+					<pre><code contenteditable class="sql">furbabies# select name from animal where type = 'dog';
 
 name
 ---------
@@ -631,7 +651,7 @@ Fenton
 				<section>
 					<h4>Which animals have been altered?</h4>
 					<h5>operator: IS</h5>
-					<pre><code contenteditable class="JavaScript">select * from animal where altered is true;
+					<pre><code contenteditable class="sql">select * from animal where altered is true;
 
 id |              shelter_id              |  name   | date_of_birth | type | gender | altered | ok_with_dogs | ok_with_cats | date_of_surrender
 ----+--------------------------------------+---------+---------------+------+--------+---------+--------------+--------------+-------------------
@@ -655,7 +675,7 @@ id |              shelter_id              |  name   | date_of_birth | type | gen
 				<section>
 					<h4>Which dogs have been altered?</h4>
 					<h5>operators: =, AND</h5>
-					<pre><code contenteditable class="JavaScript">select * from animal where altered = true and type = 'dog';
+					<pre><code contenteditable class="sql">select * from animal where altered = true and type = 'dog';
 
 id |              shelter_id              |  name  | date_of_birth | type | gender | altered | ok_with_dogs | ok_with_cats | date_of_surrender
 ----+--------------------------------------+--------+---------------+------+--------+---------+--------------+--------------+-------------------
@@ -670,7 +690,7 @@ id |              shelter_id              |  name  | date_of_birth | type | gend
 				<section>
 					<h4>Which animals were born in 2015?</h4>
 					<h5>operators: >=, <</h5>
-					<pre><code contenteditable class="JavaScript">select * from animal where date_of_birth >= '2015-01-01' and date_of_birth < '2016-01-01';
+					<pre><code contenteditable class="sql">select * from animal where date_of_birth >= '2015-01-01' and date_of_birth < '2016-01-01';
 
 id |              shelter_id              | name | date_of_birth | type | gender | altered | ok_with_dogs | ok_with_cats | date_of_surrender
 ----+--------------------------------------+------+---------------+------+--------+---------+--------------+--------------+-------------------
@@ -684,7 +704,7 @@ id |              shelter_id              | name | date_of_birth | type | gender
 				<section>
 					<h4>Which animals were born in 2015?</h4>
 					<h5>operators: between</h5>
-					<pre><code contenteditable class="JavaScript">select * from animal where date_of_birth between '2015-01-01' and '2016-01-01';
+					<pre><code contenteditable class="sql">select * from animal where date_of_birth between '2015-01-01' and '2016-01-01';
 
 id |              shelter_id              | name | date_of_birth | type | gender | altered | ok_with_dogs | ok_with_cats | date_of_surrender
 ----+--------------------------------------+------+---------------+------+--------+---------+--------------+--------------+-------------------
@@ -698,7 +718,7 @@ id |              shelter_id              | name | date_of_birth | type | gender
 				<section>
 					<h4>Which animals have names starting with L?</h4>
 					<h5>operators: like</h5>
-					<pre><code contenteditable class="JavaScript">select * from animal where name like 'L%';
+					<pre><code contenteditable class="sql">select * from animal where name like 'L%';
 
 id |              shelter_id              | name | date_of_birth | type | gender | altered | ok_with_dogs | ok_with_cats | date_of_surrender
 ----+--------------------------------------+------+---------------+------+--------+---------+--------------+--------------+-------------------
@@ -712,7 +732,7 @@ id |              shelter_id              | name | date_of_birth | type | gender
 				<section>
 					<h4>Find a particular subset of animals by name</h4>
 					<h5>operators: IN</h5>
-					<pre><code contenteditable class="JavaScript">select * from animal where name in ('Oreo', 'Tigger');
+					<pre><code contenteditable class="sql">select * from animal where name in ('Oreo', 'Tigger');
 
 id |              shelter_id              |  name  | date_of_birth | type | gender | altered | ok_with_dogs | ok_with_cats | date_of_surrender
 ----+--------------------------------------+--------+---------------+------+--------+---------+--------------+--------------+-------------------
@@ -729,11 +749,34 @@ id |              shelter_id              |  name  | date_of_birth | type | gend
 						<li>This is called the <em>empty set</em>, and it&rsquo;s totally valid. It just means we won&rsquo;t get any rows back</li>
 					</ul>
 
-					<pre><code contenteditable class="JavaScript">select * from animal where name = 'i do not exist';
+					<pre><code contenteditable class="sql">select * from animal where name = 'i do not exist';
 
 id | shelter_id | name | date_of_birth | type | gender | altered | ok_with_dogs | ok_with_cats | date_of_surrender
 ----+------------+------+---------------+------+--------+---------+--------------+--------------+-------------------
 (0 rows)
+				</code></pre>
+				</section>
+
+				<section>
+					<h4>An extra goodie: ORDER BY</h4>
+					<ul class="compress--mild">
+						<li>You can sort the results by a column or set of columns in either ascending (asc) or descending (desc) order/li>
+						<li>If you do&rsquo;t specify either ascending or descending, the database will assume you mean ascending.</li>
+					</ul>
+
+					<pre><code contenteditable class="sql">select * from animal order by name desc;
+
+id |              shelter_id              |  name   | date_of_birth | type | gender | altered | ok_with_dogs | ok_with_cats | date_of_surrender
+----+--------------------------------------+---------+---------------+------+--------+---------+--------------+--------------+-------------------
+19 | 8e99ae7b-6eab-4b5a-868a-e2d229a02404 | Zoe     | 2013-01-17    | cat  | F      | t       | f            | t            | 2014-01-04
+20 | ae752b0f-cdfb-489b-84b0-0e96477d19f5 | Tigger  | 2013-08-20    | cat  | M      | t       | t            | t            | 2013-10-26
+...
+ 6 | 0d18a661-773e-4983-8272-4e25d02ab5ae | Oreo    | 2016-03-15    | cat  | F      | f       | f            | f            | 2016-10-15
+...
+16 | a4c395a6-ebf6-41f8-8469-6332229926ae | Lucy    | 2011-01-28    | dog  | F      | t       | t            | t            | 2013-05-05
+...
+15 | a528a5d1-7934-4762-977d-20e3013d3761 | Bailey  | 2010-09-20    | dog  | M      | t       | t            | t            | 2014-06-24
+12 | 4fe32f77-9c6d-4a09-ba11-8603e988a63a | Anka    | 2015-01-06    | cat  | F      | t       | t            | t            | 2016-02-02
 				</code></pre>
 				</section>
 
@@ -757,48 +800,20 @@ id | shelter_id | name | date_of_birth | type | gender | altered | ok_with_dogs 
 					</ul>
 				</section>
 
-<!--
 				<section>
-					<h3>Solutions</h3>
-					<ul class="compress">
-						<li>Which animals were surrendered this year?
-							<pre><code contenteditable class="JavaScript">
-select * from animal where date_of_surrender >= '2016-01-01';
-							</code></pre>
-
-							(Kestrel, Quintus, Paco, Colin, Oreo, Anka, Leo, Oliver)
-						</li>
-
-						<li>Which animals were either born or surrendered this year?
-							<pre><code contenteditable class="JavaScript">
-select * from animal
-	where date_of_surrender >= '2016-01-01'
-		or date_of_birth >= '2016-01-01';
-							</code></pre>
-
-							(Kestrel, Quintus, Paco, Colin, Oreo, Anka, Leo, Oliver)
-						</li>
-
-
+					<h3>Topics to check out</h3>
+					<ul>
 						<li>
-							Which dogs born in 2013 have not been altered?
-
-							<pre><code contenteditable class="JavaScript">
-select * from animal
-	where date_of_birth between '2013-01-01' and '2014-01-01'
-		and altered is false;
-							</code></pre>
-							(none; the empty set)
+							union, intersect, except keywords (commands from set theory that can be useful)
 						</li>
-						<li>What are the names of all the male cats?</li>
-						<li>Which animals have an 'l' (L) in the middle of their name?</li>
-						<li>Which animals have a 'Z' or 'z' anywhere in their name?</li>
-						<li>Which dogs are not okay with other animals at all?</li>
-						<li>Which cats are okay with dogs but not other cats?</li>
-						<li>What are the names and phone numbers of all the people who do not already have animals?</li>
+						<li>
+							limit / top keyword (to specify a maximum number of rows to return)
+						</li>
+						<li>
+							distinct keyword (to de-dupe results; de-dupes across the returned record)
+						</li>
 					</ul>
 				</section>
--->
 
 				<section>
 						<h3>Resources</h3>
@@ -809,9 +824,11 @@ select * from animal
 
         <section>
           <h2>Questions?</h2>
-          <div style = "font-size:1200%; height:100%; margin-top:40%" class ="blue">?
-            <div class ="clear"></div></div>
+          <div class="question-mark">
+						?
+          </div>
         </section>
+
 			</div>
   		<footer>
         <div class="copyright">

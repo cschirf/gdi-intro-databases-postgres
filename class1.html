@@ -69,30 +69,41 @@
 					<ul>
 						<li>Who are you?</li>
 						<li>What do you hope to get out of the class?</li>
-						<li>What is a good book you&rsquo;ve read recently?</li>
+						<li>What is your favorite hobby?</li>
 					</ul>
 					</div>
 				</section>
 
-		    <section>
+				<section>
+					<h3>What to expect</h3>
+
+					<ul class="compress--mild">
+						<li><span class="keyword">Class 1:</span> Data modelling, relationships, brief into to relational databases and NoSQL databases </li>
+						<li><span class="keyword">Class 2:</span> Introduction to SQL (retrieving data)</li>
+						<li><span class="keyword">Class 3:</span> More advanced SQL (join; inserting, updating, and deleting data)</li>
+						<li><span class="keyword">Class 4:</span> Creating and altering database structures + Advanced Topics</li>
+					</ul>
+				</section>
+
+				<section>
             <h3>What is data modeling?</h3>
-						<ul>
-							<li>How are we going to organize our data?</li>
-							<li>Are pieces of data related? If so, how?</li>
-						</ul>
-					</section>
-					<section>
-						<h3>Formal defintions</h3>
-						<ul>
-							<li>Conceptual Models - high level domain models</li>
-							<li>Logical Data Models - describe logical entities and relationships</li>
-							<li>Physical Data Models - used to design internal database schemas</li>
+						<ul class="compress--mild">
+							<li>First step in database design and object oriented programming</li>
+							<li>Goal is to create a conceptual model of how data relate to each other</li>
+							<li>Exploratory process that progresses from:</li>
+								<ul>
+									<li>Conceptual Models - high level domain models</li>
+									<li>Logical Data Models - describe logical entities and relationships</li>
+									<li>Physical Data Models - used to design internal database schemas</li>
+								</ul>
 						</ul>
         </section>
 
         <section>
             <h3>Modeling Real Things</h3>
-            <img src="images/stuffed-animals/teddy-plain-brown.png" class="pic pic--xlarge">
+						<div class="column-container centered">
+	            <img src="images/herbie_modelled_larger_font.png" class="item pic pic--xlarge">
+						</div>
         </section>
 
         <section>
@@ -195,7 +206,7 @@
 					<section>
             <h3>An example <i>Person</i> object</h3>
             <pre>
-							<code contenteditable class="javascript">
+							<code contenteditable class="sql">
 {
   "date_of_birth": "1989-09-04"
   "weight_in_lbs" : "180",
@@ -245,7 +256,7 @@
         <section>
             <h3>What we get with nested data</h3>
 						<pre>
-							<code contenteditable class="javascript">
+							<code contenteditable class="sql">
 band = {
   "name": "The Who",
   "formed": "1964",
@@ -260,7 +271,7 @@ band = {
 					</section>
 					<section>
 						<pre class="compress">
-							<code contenteditable class="javascript">
+							<code contenteditable class="sql">
 band = {
   "name": "The Who",
   "year_formed": "1964",
@@ -313,7 +324,7 @@ band = {
 						<div class="column-container">
 
 							<pre class="item compress">
-								<code contenteditable class="javascript">
+								<code contenteditable class="sql">
 band = {
   "name": "The Who",
   "formed": "1964",
@@ -326,7 +337,7 @@ band = {
 							</pre>
 
 							<pre class="item compress">
-								<code contenteditable class="javascript">
+								<code contenteditable class="sql">
 	band = {
 	  "name": "The Who",
 	  "year_formed": "1964",
@@ -359,25 +370,6 @@ band = {
 					</pre>
 						</div>
 					</section>
-
-					<section>
-						<h3>The Great Balancing Act</h3>
-						<ul class="compress--mild">
-							<li><em>What data do you need? What data is irrelevant?</em>
-									<br>Slogging through unnecessary data makes processing slow.
-							</li>
-							<li><em>What&rsquo;s related? Can those pieces be grouped together?</em>
-									<br>Putting related information together makes it easier to
-									reason about and can potentionally increase processing efficiency.
-							</li>
-							<li><em>How hard will it be to update an existing schema?</em>
-									<br>Data models are rarely static.
-									What are things you&rsquo;ll most likely need to update in the
-									future and how hard will it be to do that with the model
-									you&rsquo;re currently considering?
-							</li>
-						</ul>
-        </section>
 
 			<section>
 					<h3>Modelling teddy bears</h3>
@@ -477,6 +469,9 @@ band = {
 			<section>
 				<h3>Thoughts</h3>
 				<ul class="compress">
+					<li>
+						Looking only at the teddy bears, did your data model have to change to accomodate the third and fourth bears?
+					</li>
 					<li>What were the reprecussions of assuming everything in the data store
 					was going to be a teddy bear?</li>
 					<li>
@@ -496,7 +491,7 @@ band = {
 				<div class="column-container">
 
 					<pre class="item">
-						<code contenteditable class="javascript">
+						<code contenteditable class="sql">
 london_bear = {
 "type": "teddy bear"
 "name": "Lord Ickenham",
@@ -523,7 +518,7 @@ london_bear = {
 					</pre>
 
 					<pre class="item">
-						<code contenteditable class="javascript">
+						<code contenteditable class="sql">
 narwhal = {
 "type": "narwhal plushie"
 "name": "Boris",
@@ -557,9 +552,42 @@ narwhal = {
 				</p>
 			</section>
 
-				<!-- <section>
-						<div class="do-it">Let&rsquo;s model it!</div>
-				</section> -->
+			<section>
+				<h3>The Great Balancing Act</h3>
+				<ul class="compress--mild">
+					<li><em>What data do you need? What data is irrelevant?</em>
+							<br>Slogging through unnecessary data makes processing slow.
+					</li>
+					<li><em>What&rsquo;s related? Can those pieces be grouped together?</em>
+							<br>Putting related information together makes it easier to
+							reason about and can potentionally increase processing efficiency.
+					</li>
+					<li><em>How hard will it be to update an existing schema?</em>
+							<br>Data models are rarely static.
+							What are things you&rsquo;ll most likely need to update in the
+							future and how hard will it be to do that with the model
+							you&rsquo;re currently considering?
+					</li>
+				</ul>
+    </section>
+
+		<section>
+			<h3>the great balancing act</h3>
+			<a href="http://xkcd.com/974/">
+				<img class="center pic small" src="images/save_time_xkcd.png">
+			</a>
+			<p class="compress">
+				It&rsquo;s a balancing act. Databases are notoriously
+				difficult and risky to migrate. So it is good to make deliberate, informed,
+				and rational decisions about what your data needs are now and what they will
+				likely be in the immediate future. Remember, too, that over-architecting can be dangerous.
+
+				<br><br>
+
+				But there are no crystal balls. At some point, you need to make a decision
+				and roll with it.
+			</p>
+		</section>
 
 			<section>
 				<div class="do-it">Let&rsquo;s talk about relationships.</div>
@@ -615,16 +643,16 @@ narwhal = {
 			</section>
 
 			<section>
-				<h3>Specific Relationships</h3>
+				<h3>Abstracted</h3>
 				<div class="column-container centered">
-					<img class="pic large item" src="images/recipe-arrows-diagram.png">
+					<img class="pic large item" src="images/recipe-diagram-abstracted.png">
 				</div>
 			</section>
 
 			<section>
-				<h3>Abstracted</h3>
+				<h3>Specific Relationships</h3>
 				<div class="column-container centered">
-					<img class="pic large item" src="images/recipe-diagram-abstracted.png">
+					<img class="pic large item" src="images/recipe-arrows-diagram.png">
 				</div>
 			</section>
 
@@ -656,12 +684,12 @@ narwhal = {
 					</ul>
 				</section>
 
-				<section>
+				<!-- <section>
 					<h3>The Recipe Example</h3>
 					<div class="column-container centered">
 						<img class="pic large item" src="images/recipe-venn-diagram.png">
 					</div>
-				</section>
+				</section> -->
 
 				<section>
 					<h3>What about NoSQL dbs?</h3>
@@ -685,6 +713,261 @@ narwhal = {
 				</section>
 
 				<section>
+					<h3>In an RDB</h3>
+					<ul class="compress--mild">
+						<li>
+							In a RDBMS, <em>entity types</em> generally correspond to <em>tables</em>.
+							For example, a user authentication database might contain tables for
+							users, accounts, and authentication tokens.
+						</li>
+						<li>
+							A collection of related entity types and associated helper objects
+							(e.g., functions, stored procedures, triggers) constitute a <em>database</em>.
+						</li>
+						<li>
+							Just like the data we&rsquo;ve been modelling, the data in tables can be of
+							different <em>types</em>&mdash; <em>integers</em>, <em>strings</em>,
+							<em>doubles</em> or <em>decimals</em>, etc.&mdash; although most RDBs
+							use different names.
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>common data types for RDBs</h3>
+					<div class="compress--extreme definition-table">
+						<div class="row">
+							<div class="col1">
+								varchar(n)
+							</div>
+							<div>
+								similar to strings (&ldquo;character varying&rdquo;).
+								You can specify the maximum number of characters the field can have,
+								e.g., <span class="code">varchar(128)</span> will give you a string field
+								that allows a maximum of 128 characters.
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col1">
+								text, longtext, clob
+							</div>
+							<div>
+								Used for very long strings. The details will depend on the RDB used,
+								but generally the allowed size of these strings is from 2-4 GB.
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col1">
+								bit, boolean
+							</div>
+							<div>
+								T/F values. In most RDBs, this is represented by 0s and 1s.
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col1">
+								int
+							</div>
+							<div>
+								integer values (whole numbers)
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col1">
+								bigint
+							</div>
+							<div>
+								bigger integer values than what is allowed by <span class="code">int</span>.
+								<br>
+								<em>Used for primary keys.</em>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col1">
+								double precision, real, double, float, float(n)
+							</div>
+							<div>
+								Decimal numbers. Some RDBs will let you specify the degree of
+								precision&mdash; <span class="code">float(24)</span>. Details will vary.
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col1">
+								date, time, datetime, timestamp
+							</div>
+							<div>
+								Details will vary on which RDB you&rsquo;re using.
+							</div>
+						</div>
+
+					</div>
+				</section>
+
+				<section>
+					<h3>Other possible data types</h3>
+					<p class="compress">
+						Depending on what RDB you&rsquo;re using,
+						you may have access to some or all of the following:
+					</p>
+					<ul class="compress">
+						<li>smallint</li>
+						<li>serial</li>
+						<li>geometric data types (polygon, circle, path)</li>
+						<li>geographic data types (latitudes, longitudes)</li>
+						<li>text vectors (used in NLP)</li>
+						<li>currency, money</li>
+						<li>uuid, guid</li>
+						<li>xml</li>
+						<li>json</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>An example recipe database</h3>
+					<div class="column-container centered">
+						<img class="pic large item pic--high-contrast"
+									src="images/recipe-db.svg"
+									style="padding: 0 40px;">
+					</div>
+				</section>
+
+				<section>
+					<h3>A note on IDs</h3>
+					<ul class="compress">
+						<li>
+							In the recipe example, we assigned an id to each ingredient.
+						</li>
+						<li>
+							<em>
+								This id is unique across the entity type or table
+								(e.g., ingredient).
+							</em>
+						</li>
+						<li>
+							The column containing the id
+							is often referred to as the <em>primary key</em> of the table.
+							Oftentimes, the column is set as <em>serial</em> or <em>auto increment</em>,
+							which means that the database will take care of making sure that
+							each new record gets a unique id.
+						</li>
+						<li>
+							Then we can refer to the ingredient by that unique id, instead of
+							entering the name of the ingredient over and over again.
+						</li>
+						<li>
+							This is the most common way to refer to items in relational databases.
+							(Occassionally, you will see people use a <em>composite key</em>.)
+						</li>
+						<li>
+							<em>Why do you think we use ids?</em>
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Let&rsquo;s develop it!</h3>
+					<h4>Modeling Movies</h4>
+					<p class="compress--mild">
+						Making movies takes lots of relationships! We&rsquo;ll focus on
+						actors, producers, and studios.
+						<br><br>
+						We don&rsquo;t want to duplicate data, so let&rsquo;s form some relationships!
+						<br><br>
+						First, create a new file, called <span class="code">movies.json</span>.
+						<br><br>
+						Start with three arrays with four or more objects:
+								<pre>
+	Movies = [{}, {}, {}, {}]
+	Actors = [{}, {}, {}, {}]
+	Studios = [{}, {}, {}, {}]
+								</pre>
+					</p>
+					</section>
+
+					<section>
+						<h3>Let&rsquo;s develop it!</h3>
+						<h4>Modeling Movies</h4>
+						<p>
+							Let&rsquo;s focus on modelling these four movies:
+								<ul>
+									<li><a href="http://www.imdb.com/title/tt1707386/">Les Misérables</a></li>
+									<li><a href="http://www.imdb.com/title/tt0821642">The Soloist</a></li>
+									<li><a href="http://www.imdb.com/title/tt0988045/">Sherlock Holmes</a></li>
+									<li><a href="http://www.imdb.com/title/tt1446192/">Rise of the Guardians</a></li>
+								</ul>
+						</p>
+					</section>
+
+					<section>
+						<h3>Let&rsquo;s develop it!</h3>
+						<h4>Modeling Movies</h4>
+						<ul class="compress--mild">
+							<!-- <li>These share actors, so we're going to assign an ID to each actor, studio, and movie.</li> -->
+							<li>Since there are a lot of actors, only list the top-billed ones.</li>
+							<!-- <li>Reference the ID of the actor you want to name by looking in your list of actors, and using the ID field.</li> -->
+							<!-- <li>Do the same for the studios- reference them by ID (but you don't have to use an array)</li> -->
+							<li>
+								Simplify the studios. For example, don&rsquo;t distinguish
+								between Universal Studios and Universal Studios France. We&rsquo;re not IMDB &#9786;
+							</li>
+							<li>Remember to use ids! Give each entity a unique id and use that id to refer to the object when necessary.</li>
+							<li>Feel free to grab a partner!</li>
+						</ul>
+					</section>
+
+				<section>
+					<h3>A quick note on constraints</h3>
+					<ul class="compress">
+						<li>
+							We&rsquo;ll talk more about constraints tomorrow, but earlier we said
+							that RDBs let you put <em>constraints</em> on your data.
+						</li>
+						<li>
+							The details will depend on the specific db you&rsquo;re using, but
+							some example constraints would be:
+
+							<ul>
+								<li>
+									<em>Foreign key (FK) constraint</em>: the column refers to the id
+									of a different entity type.
+								</li>
+								<li>
+									<em>Not null constraint</em>: The values in the column cannot be NULL.
+								</li>
+								<li>
+									<em>Unique constraint</em>: Each value in the column must be unique across the table.
+								</li>
+							</ul>
+						</li>
+						<li>
+							Before new data can be added to a column with a constraint,
+							the database will check that the data conforms to the constraint.
+							<em>If it does not, the database will return an error, and
+							the row will not be inserted, updated, or deleted.</em>
+						</li>
+					</ul>
+				</section>
+
+				<!-- <section>
+					<h3>Let&rsquo;s develop it!</h3>
+					<p>
+						Convert your model for a teddy bear store into at least one table definition.
+						Include data types.
+
+						<br><br>
+
+						(You can also choose to break out your database into more than one table,
+						if you think that would make your model easier to maintain.)
+					</p>
+				</section> -->
+
+				<!-- <section>
 					<h3>Entity Modeling</h3>
 					<ul>
 						<li>Entity type - any type of object that we want to store data about</li>
@@ -692,65 +975,39 @@ narwhal = {
 						<li>Primary key - the attribute used to identify a specific entity</li>
 						<li>Composite key - a primary key made up of a unique combination of attributes</li>
 					</ul>
-				</section>
+				</section> -->
+
+
 
         <section>
-            <h3>Exercise Time</h3>
-						<h3 id="exercise2">Modeling Movies!</h3>
-        <p>Making movies takes lots of relationships - Actors, Producers, Studios - we don't want to duplicate data, so let's form some relationships!</p>
-
-        <ul>
-            <li>First, create a new file - call it movies.json</li>
-            <li>Start with three arrays with four or more objects -
-                <pre>
-Movies = [{}, {}, {}, {}]
-Actors = [{}, {}, {}, {}]
-Studios = [{}, {}, {}, {}]
-                </pre>
-            </li>
-					</section>
-					<section>
-						<h3>Exercise Time</h3>
-						<h3 id="exercise2">Modeling Movies!</h3>
-            <li>We're going to model four different movies!
-                <ul>
-                    <li><a href="http://www.imdb.com/title/tt1707386/">Les Misérables</a></li>
-                    <li><a href="http://www.imdb.com/title/tt0821642">The Soloist</a></li>
-                    <li><a href="http://www.imdb.com/title/tt0988045/">Sherlock Holmes</a></li>
-                    <li><a href="http://www.imdb.com/title/tt1446192/">Rise of the Guardians</a></li>
-                </ul>
-            </li>
-					</section>
-					<section>
-						<h3>Exercise Time</h3>
-						<h3 id="exercise2">Modeling Movies!</h3>
-            <li>These share actors, so we're going to assign an ID to each actor, studio, and movie.</li>
-            <li>In each movie there are lots of actors - list only the top-billed actors for simplicity's sake. Create an array to hold just the IDs of the actors.</li>
-            <li>Reference the ID of the actor you want to name by looking in your list of actors, and using the ID field.</li>
-            <li>Do the same for the studios- reference them by ID (but you don't have to use an array)</li>
-            <li>Try to simplify the studios - don't distinguish between Universal Studios and Universal Studios France. We're not IMDB :)</li>
-        </ul>
+	        <h3>Resources</h3>
+          <ul class="compress--mild">
+						<li>
+							Full list of
+							<a href="https://www.postgresql.org/docs/9.6/static/datatype.html">
+								data types in PostgeSQL
+							</a>
+						</li>
+            <li>
+							<a href="http://www.schema.org/">Schema.org</a>:
+							A bunch of geeks decided to write down once and for all what you need at minimum to be anything.
+						</li>
+            <li>
+							A <a href="http://www.agiledata.org/essays/dataModeling101.html">super technical essay</a>
+							at agiledata.org
+						</li>
+						<li>Ignored by Dinosaur's blog post: <a href="http://www.ignoredbydinosaurs.com/2013/05/explaining-non-relational-databases-my-mom">Explaining Non-Relational Databases to My Mom</a></li>
+						<li>
+							<a href="http://web.simmons.edu/~benoit/lis458/CrowsFootNotation.pdf">
+								Explanation of Entity Relationship Diagrams and Crows Feet Notation
+							</a>
+						</li>
+					</ul>
         </section>
 
-        <section>
-            <h3>Don't be an "Architecture Astronaut"</h3>
-                <a href="http://xkcd.com/974/"><img class="center" src="images/save_time_xkcd.png"></a>
-                <br><br>
-                <p><em>"It is better to have a codebase you're moderately ashamed of that's full of hacks than nothing at all."</em><br>- Ancient Native American Proverb </p>
-        </section>
-
-        <section>
-            <h3>Resources</h3>
-                <ul>
-                    <li><a href="http://www.schema.org/">Schema.org</a> - A bunch of geeks decided to write down once and for all what you need at minimum to be anything.</li>
-                    <li>A <a href="http://www.agiledata.org/essays/dataModeling101.html">super technical essay</a> at agiledata.org</li>
-										<li>Ignored by Dinosaur's blog post: <a href="http://www.ignoredbydinosaurs.com/2013/05/explaining-non-relational-databases-my-mom">Explaining Non-Relational Databases to My Mom</a></li>
-										<li><a href="http://web.simmons.edu/~benoit/lis458/CrowsFootNotation.pdf">Explanation of Entity Relationship Diagrams and Crows Feet Notation</a></li>
-							</ul>
-        </section>
 				<section>
 					<h3>Recommended Reading</h3>
-					<ul>
+					<ul class="compress--mild">
 						<li>
 							<a href="http://www.schema.org">Schema.org</a>
 						</li>
@@ -772,11 +1029,13 @@ Studios = [{}, {}, {}, {}]
 						</li>
 
 					</ul>
-				</seciton>
+				</section>
+
         <section>
           <h2>Questions?</h2>
-          <div style = "font-size:1200%; height:100%; margin-top:40%" class ="blue">?
-            <div class ="clear"></div></div>
+          <div class="question-mark">
+						?
+					</div>
         </section>
 			</div>
   		<footer>

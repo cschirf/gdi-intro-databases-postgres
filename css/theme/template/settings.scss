@@ -95,6 +95,9 @@ $linkColorHover: lighten( $linkColor, 20% );
 $selectionBackgroundColor: lighten( $linkColor, 20% );
 $selectionColor: #fff;
 
+//Table styles
+$default-table-border-color: #dfdfdf;
+
 // Generates the presentation background, can be overridden
 // to return a background image or gradient
 @mixin bodyBackground() {

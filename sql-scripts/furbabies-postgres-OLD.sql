@@ -34,7 +34,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: adoption; Type: TABLE; Schema: public; Owner: postgres
+-- Name: adoption; Type: TABLE; Schema: public; Owner: cschirf
 --
 
 CREATE TABLE adoption (
@@ -45,10 +45,10 @@ CREATE TABLE adoption (
 );
 
 
-ALTER TABLE adoption OWNER TO postgres;
+ALTER TABLE adoption OWNER TO cschirf;
 
 --
--- Name: adoption_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: adoption_id_seq; Type: SEQUENCE; Schema: public; Owner: cschirf
 --
 
 CREATE SEQUENCE adoption_id_seq
@@ -59,17 +59,17 @@ CREATE SEQUENCE adoption_id_seq
     CACHE 1;
 
 
-ALTER TABLE adoption_id_seq OWNER TO postgres;
+ALTER TABLE adoption_id_seq OWNER TO cschirf;
 
 --
--- Name: adoption_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: adoption_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: cschirf
 --
 
 ALTER SEQUENCE adoption_id_seq OWNED BY adoption.id;
 
 
 --
--- Name: animal; Type: TABLE; Schema: public; Owner: postgres
+-- Name: animal; Type: TABLE; Schema: public; Owner: cschirf
 --
 
 CREATE TABLE animal (
@@ -86,10 +86,10 @@ CREATE TABLE animal (
 );
 
 
-ALTER TABLE animal OWNER TO postgres;
+ALTER TABLE animal OWNER TO cschirf;
 
 --
--- Name: animal_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: animal_id_seq; Type: SEQUENCE; Schema: public; Owner: cschirf
 --
 
 CREATE SEQUENCE animal_id_seq
@@ -100,17 +100,17 @@ CREATE SEQUENCE animal_id_seq
     CACHE 1;
 
 
-ALTER TABLE animal_id_seq OWNER TO postgres;
+ALTER TABLE animal_id_seq OWNER TO cschirf;
 
 --
--- Name: animal_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: animal_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: cschirf
 --
 
 ALTER SEQUENCE animal_id_seq OWNED BY animal.id;
 
 
 --
--- Name: person; Type: TABLE; Schema: public; Owner: postgres
+-- Name: person; Type: TABLE; Schema: public; Owner: cschirf
 --
 
 CREATE TABLE person (
@@ -124,10 +124,10 @@ CREATE TABLE person (
 );
 
 
-ALTER TABLE person OWNER TO postgres;
+ALTER TABLE person OWNER TO cschirf;
 
 --
--- Name: person_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: person_id_seq; Type: SEQUENCE; Schema: public; Owner: cschirf
 --
 
 CREATE SEQUENCE person_id_seq
@@ -138,38 +138,38 @@ CREATE SEQUENCE person_id_seq
     CACHE 1;
 
 
-ALTER TABLE person_id_seq OWNER TO postgres;
+ALTER TABLE person_id_seq OWNER TO cschirf;
 
 --
--- Name: person_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: person_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: cschirf
 --
 
 ALTER SEQUENCE person_id_seq OWNED BY person.id;
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: id; Type: DEFAULT; Schema: public; Owner: cschirf
 --
 
 ALTER TABLE ONLY adoption ALTER COLUMN id SET DEFAULT nextval('adoption_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: id; Type: DEFAULT; Schema: public; Owner: cschirf
 --
 
 ALTER TABLE ONLY animal ALTER COLUMN id SET DEFAULT nextval('animal_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: id; Type: DEFAULT; Schema: public; Owner: cschirf
 --
 
 ALTER TABLE ONLY person ALTER COLUMN id SET DEFAULT nextval('person_id_seq'::regclass);
 
 
 --
--- Data for Name: adoption; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: adoption; Type: TABLE DATA; Schema: public; Owner: cschirf
 --
 
 COPY adoption (id, adoption_date, person_id, animal_id) FROM stdin;
@@ -181,14 +181,14 @@ COPY adoption (id, adoption_date, person_id, animal_id) FROM stdin;
 
 
 --
--- Name: adoption_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: adoption_id_seq; Type: SEQUENCE SET; Schema: public; Owner: cschirf
 --
 
 SELECT pg_catalog.setval('adoption_id_seq', 4, true);
 
 
 --
--- Data for Name: animal; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: animal; Type: TABLE DATA; Schema: public; Owner: cschirf
 --
 
 COPY animal (id, shelter_id, name, date_of_birth, type, gender, altered, ok_with_dogs, ok_with_cats, date_of_surrender) FROM stdin;
@@ -216,14 +216,14 @@ COPY animal (id, shelter_id, name, date_of_birth, type, gender, altered, ok_with
 
 
 --
--- Name: animal_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: animal_id_seq; Type: SEQUENCE SET; Schema: public; Owner: cschirf
 --
 
 SELECT pg_catalog.setval('animal_id_seq', 20, true);
 
 
 --
--- Data for Name: person; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: person; Type: TABLE DATA; Schema: public; Owner: cschirf
 --
 
 COPY person (id, name, address, phone_number, gender, has_cats, has_dogs) FROM stdin;
@@ -246,14 +246,14 @@ COPY person (id, name, address, phone_number, gender, has_cats, has_dogs) FROM s
 
 
 --
--- Name: person_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: person_id_seq; Type: SEQUENCE SET; Schema: public; Owner: cschirf
 --
 
 SELECT pg_catalog.setval('person_id_seq', 15, true);
 
 
 --
--- Name: adoption_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: adoption_pkey; Type: CONSTRAINT; Schema: public; Owner: cschirf
 --
 
 ALTER TABLE ONLY adoption
@@ -261,7 +261,7 @@ ALTER TABLE ONLY adoption
 
 
 --
--- Name: animal_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: animal_pkey; Type: CONSTRAINT; Schema: public; Owner: cschirf
 --
 
 ALTER TABLE ONLY animal
@@ -269,7 +269,7 @@ ALTER TABLE ONLY animal
 
 
 --
--- Name: person_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: person_pkey; Type: CONSTRAINT; Schema: public; Owner: cschirf
 --
 
 ALTER TABLE ONLY person
@@ -277,7 +277,7 @@ ALTER TABLE ONLY person
 
 
 --
--- Name: shelter_id_unique; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: shelter_id_unique; Type: CONSTRAINT; Schema: public; Owner: cschirf
 --
 
 ALTER TABLE ONLY animal
@@ -285,7 +285,7 @@ ALTER TABLE ONLY animal
 
 
 --
--- Name: adoption_animal_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: adoption_animal_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: cschirf
 --
 
 ALTER TABLE ONLY adoption
@@ -293,7 +293,7 @@ ALTER TABLE ONLY adoption
 
 
 --
--- Name: adoption_person_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: adoption_person_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: cschirf
 --
 
 ALTER TABLE ONLY adoption

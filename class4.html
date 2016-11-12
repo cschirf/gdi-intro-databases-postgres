@@ -15,11 +15,13 @@
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
 		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/gdicool.css" id="theme">
+		<link rel="stylesheet" href="css/theme/gdidefault.css" id="theme">
 
 		<!-- For syntax highlighting -->
-		<!-- light editor--><link rel="stylesheet" href="lib/css/light.css">
-		<!-- dark editor<link rel="stylesheet" href="lib/css/dark.css">-->
+		<!-- light editor-->
+		<!-- <link rel="stylesheet" href="lib/css/light.css"> -->
+		<!-- dark editor -->
+		<link rel="stylesheet" href="lib/css/dark.css">
 
 		<!-- If use the PDF print sheet so students can print slides-->
 
@@ -37,9 +39,9 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
 				<section>
+					<img class="intro-slide-image" src="images/gdi_logo_badge.png" alt="GDI Logo" />
 					<h3>Introduction to Databases</h3>
-					<h4>Class 4 - Joins &amp; More</h4>
-                    <img src="images/gdi_logo_badge.png" alt="" />
+					<h4>Class 4 - DDL &amp; Advanced Topics</h4>
 				</section>
 
 				<!-- Welcome-->
@@ -47,7 +49,7 @@
 					<h3>Welcome!</h3>
 					<div class = "left-align">
 					<p>Girl Develop It is here to provide affordable and accessible programs to learn software through mentorship and hands-on instruction.</p>
-					<p class ="green">Some "rules"</p>
+					<p class ="green">Some &ldquo;rules&rdquo;</p>
 					<ul>
 						<li>We are here for you!</li>
 						<li>Every question is important</li>
@@ -59,512 +61,839 @@
 
 		    <section>
 					<h3>Overview</h3>
+					<p>In this section, we will learn:</p>
 					<ul>
-						<!--<li>Brief Relational Algebra Overview</li>-->
-						<li>SQL Joins</li>
-						<li>Bonus Material (time permitting):
-							<ul>
-								<li>Functions</li>
-								<li>Indexes</li>
-								<li>Views</li>
-								<li>Triggers</li>
-								<li>Transactions</li>
-							</ul></li>
+						<li>How to create a database</li>
+						<li>How to create, alter and drop columns and tables</li>
+						<li>Locking</li>
+						<li>Transactions</li>
+						<li>Indexes</li>
 					</ul>
         </section>
 
 				<section>
-					<h3>Joining Tables</h3>
-					<p>Finally, the real power of SQL!</p>
-					<p>The SQL JOIN clause combines records from two or more tables in a database.
-					You will primarly use two types of joins, with some variations on these.</p>
-					<ul>
-						<li>Inner Join</li>
-						<li>Outer Join</li>
+					<h3>Creating Database</h3>
+					<p class="compress--mild">
+						There are a couple of ways of doing this, including the createdb
+						command line tool, but the easiest is use the create database command
+						while logged into the running PostgreSQL instance:
+					</p>
+<pre><code contenteditable class="sql">yourusername# create database db_name_goes_here;</code></pre>
+					<p class="compress--mild">
+						If a database with that name already exists, you&rsquo;ll get an error like this:
+					</p>
+<pre><code contenteditable class="sql">yourusername# ERROR:  database "test_db" already exists</code></pre>
+				</section>
+
+				<section>
+					<h3>Let&rsquo;s Develop It!</h3>
+					<p class="compress--mild">
+						While logged into your running PostgreSQL instance, create a database called test_db.
+						<br><br>
+						It&rsquo;s okay if you&rsquo;re currently connected to the furbabies database.
+						You can still create a new database from there.
+					</p>
+<pre><code contenteditable class="sql">furbabies# create database test_db;</code></pre>
+				</section>
+
+				<section>
+					<h3>Creating Tables</h3>
+					<ul class="compress--mild">
+						<li>
+							We can also use the CREATE keyword to create tables.
+						</li>
+						<li>
+							Before creating a table, you need to be connected to a database.
+						</li>
+						<li>
+							When we create a table, we usually to declare its columns and their types at the same time.
+							You don&rsquo;t necessarily have to; you can create a blank table.
+							We can always change what the table looks like afterwards.
+						</li>
+						<li>
+							This is also an opportunity to add constraints or defaults.
+						</li>
 					</ul>
 				</section>
 
 				<section>
-					<h3>Our Tables</h3>
-					<p>To illustrate these joins, let's say we have TableA and TableB.
-						We want to join these tables in a variety of ways.</p>
-					<pre><code contenteditable class="JavaScript">TableA                    TableB
-=================          =================
-id    name                 id     name
-=================          =================
-1     Pirate               1      Rutabaga
-2     Monkey               2      Pirate
-3     Ninja                3      Darth Vader
-4     Spaghetti            4      Ninja
+					<h3>create script for the animal table</h3>
+					<pre><code contenteditable class="sql">CREATE TABLE animal (
+	id serial PRIMARY KEY,
+	shelter_id uuid NOT NULL CONSTRAINT shelter_id_unique UNIQUE,
+	name varchar(255),
+	date_of_birth date,
+	type varchar(5) NOT NULL,
+	gender varchar(1),
+	altered boolean NOT NULL DEFAULT FALSE,
+	ok_with_dogs boolean NOT NULL DEFAULT FALSE,
+	ok_with_cats boolean NOT NULL DEFAULT FALSE,
+	date_of_surrender date NOT NULL
+);
 </code></pre>
 				</section>
 
 				<section>
-					<h3>INNER JOIN</h3>
-					<ul>
-						<li>The Inner Join is the most common type of join.</li>
-						<li>It's so common that it's the default join type for SQLite.</li>
-						<li>Selects only records that match both of the tables you are joining.</li>
-					</ul>
-					<pre><code contenteditable class="JavaScript">TableA                    TableB
-=================          =================
-id    name                 id     name
-=================          =================
-1     Pirate               1      Rutabaga
-2     Monkey               2      Pirate
-3     Ninja                3      Darth Vader
-4     Spaghetti            4      Ninja
+					<h3>Let&rsquo;s Develop It!</h3>
+					<p class="compress">
+						Connect to test_db and create a new table called fav_book
+						<br><br>
+						Right now, we&rsquo;ll only add the id column, but never fear!
+						We&rsquo;ll add more columns soon ;)
+					</p>
+<pre><code contenteditable class="sql">furbabies# \c test_db;
+test_db# CREATE TABLE fav_book(id serial PRIMARY KEY);
+</code></pre>
+
+					<p class="compress">
+						Now if we look at all the tables in our new database, we should see the fav_book table!
+					</p>
+					<pre><code contenteditable class="sql">test_db# \dt;
+           List of relations
+ Schema |   Name    | Type  |  Owner
+--------+-----------+-------+---------
+ public | fav_book | table | yourusername
+(1 row)
 </code></pre>
 				</section>
 
 				<section>
-					<h3>Inner Join</h3>
-					<p>Selects only the records that match both TableA and TableB</p>
-					<img style="height:250px" src="images/innerjoin.png"/>
-					<pre><code contenteditable class="JavaScript">SELECT * from TableA
-INNER JOIN TableB
-ON TableA.name = TableB.name;
-
-=================          =================
-id    name                 id     name
-=================          =================
-1     Pirate               2      Pirate
-3     Ninja                4      Ninja
+					<h3>Drop Tables</h3>
+					<p>The DROP statement is used to delete a table from a database.</p>
+					<pre><code contenteditable class="sql">test_db# DROP TABLE fav_book;
+test_db# \dt
+No relations found.
 </code></pre>
+					<a href="http://xkcd.com/327/">
+						<img src="images/exploits_of_a_mom.png" alt="Little Bobby Tables"/>
+					</a>
 				</section>
 
 				<section>
-					<h3>Let's Develop It!</h3>
-					<p>Write a SQL Query that returns the following from the Chinook Database.</p>
-					<ul>
-						<li>Album Id</li>
-						<li>Album Title</li>
-						<li>Artist Name</li>
-					</ul>
-				</section>
-
-				<section>
-					<h3>Solution</h3>
-					<pre><code contenteditable class="JavaScript">SELECT Album.AlbumId, Album.Title as AlbumTitle,
-    Artist.Name as ArtistName
-FROM Album
-JOIN Artist
-    ON Album.ArtistId = Artist.ArtistId;
-</code></pre>
-				</section>
-
-				<section>
-					<h3>Let's Develop It!</h3>
-					<p>Write a SQL Query that returns the following from the Chinook Database.</p>
-					<ul>
-						<li>Artist Name</li>
-						<li>Album Title</li>
-						<li>Track Name</li>
-						<li>Genre Name</li>
-						<li>Composer</li>
-						<li>Unit Price</li>
+					<h3>Drop Tables</h3>
+					<ul class="compress">
+						<li>
+							If you try to drop a table that does not exist, you will get an
+							error. You can test this out by trying to re-drop the fav_book table.
+							<pre><code contenteditable class="sql">test_db=# drop table fav_book;
+DROP TABLE
+test_db=# \dt
+No relations found.
+test_db=# drop table fav_book;
+ERROR:  table "fav_book" does not exist
+		</code></pre>
+						</li>
+						<li>
+							We can avoid this by telling the database to only drop the table if it exists:
+							<pre><code contenteditable class="sql">test_db# DROP TABLE IF EXISTS fav_book;
+NOTICE:  table "fav_book" does not exist, skipping
+DROP TABLE
+		</code></pre>
+						</li>
 					</ul>
 				</section>
 
 				<section>
-					<h3>Solution</h3>
-					<pre><code contenteditable class="JavaScript">SELECT Artist.Name, Album.Title as AlbumTitle,
-    Track.Name as TrackName, Genre.Name,
-    Track.Composer, Track.UnitPrice
-FROM Album
-JOIN Artist
-    ON Album.ArtistId = Artist.ArtistId
-JOIN Track
-    ON Track.AlbumId = Album.AlbumId
-JOIN Genre
-    ON Genre.GenreId = Track.GenreId;
+					<h3>Altering Tables</h3>
+					<p class="compress">
+						You can use ALTER TABLE to:
+					</p>
+
+					<ul class="compress">
+						 <li>
+							 add or drop columns
+						 </li>
+						 <li>
+							 change the type of column (e.g., making a text column longer)
+						 </li>
+						 <li>
+							 add, change, or drop defaults
+						 </li>
+						 <li>
+							 add, change, or drop constraints
+						 </li>
+						 <li>
+							 rename a table
+						 </li>
+						 <li>
+							 plus other things you can find in the resources section of this slideshow
+						 </li>
+					 </ul>
+
+					 <br><br>
+
+					 	<p class="compress">
+						 You can also use the IF EXISTS or IF NOT EXISTS keywords to avoid errors,
+						 for example, when trying to drop a column that does not exist or
+						 trying to add a column that already exists.
+						 <pre><code contenteditable class="sql">ALTER TABLE fav_book ADD COLUMN IF NOT EXISTS whoopee_im_a_real_boy_now boolean;
+ </code></pre>
+					 </p>
+				</section>
+
+				<section>
+					<h3>Let&rsquo;s Develop It!</h3>
+					<p class="compress--mild">
+						Recreate the fav_book table (protip: use the up arrow until you see the create table statement we used earlier).
+						<pre><code contenteditable class="sql">furbabies# \c test_db;
+test_db# CREATE TABLE fav_book(id serial PRIMARY KEY);
+</code></pre>
+					</p>
+					<p class="compress--mild">
+						Let&rsquo;s add a column for the book title. The general format will look like:
+						<pre><code contenteditable class="sql">furbabies# ALTER TABLE table_name ADD COLUMN column_name data_type default_value contraints;
+</code></pre>
+					</p>
+
+					<p class="compress--mild">
+						Design questions: What should we name the new column? What data type do you think it should be?
+					</p>
+				</section>
+
+				<section>
+					<h4>Reference: Common Data Types for RDBs</h4>
+					<div class="compress--extreme definition-table">
+						<div class="row">
+							<div class="col1">
+								varchar(n)
+							</div>
+							<div>
+								similar to strings (&ldquo;character varying&rdquo;).
+								You can specify the maximum number of characters the field can have,
+								e.g., <span class="code">varchar(128)</span> will give you a string field
+								that allows a maximum of 128 characters.
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col1">
+								text, longtext, clob
+							</div>
+							<div>
+								Used for very long strings. The details will depend on the RDB used,
+								but generally the allowed size of these strings is from 2-4 GB.
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col1">
+								bit, boolean
+							</div>
+							<div>
+								T/F values. In most RDBs, this is represented by 0s and 1s.
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col1">
+								int
+							</div>
+							<div>
+								integer values (whole numbers)
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col1">
+								bigint
+							</div>
+							<div>
+								bigger integer values than what is allowed by <span class="code">int</span>.
+								<br>
+								<em>Used for primary keys.</em>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col1">
+								double precision, real, double, float, float(n)
+							</div>
+							<div>
+								Decimal numbers. Some RDBs will let you specify the degree of
+								precision&mdash; <span class="code">float(24)</span>. Details will vary.
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col1">
+								date, time, datetime, timestamp
+							</div>
+							<div>
+								Details will vary on which RDB you&rsquo;re using.
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<section>
+					<h3>Let&rsquo;s Develop It!</h3>
+					<h4>Some Options</h4>
+
+<pre><code contenteditable class="sql">
+alter table fav_book add column title varchar(128);
+</code></pre>
+
+<pre><code contenteditable class="sql">
+alter table fav_book add column title varchar(255) not null;
+</code></pre>
+
+<pre><code contenteditable class="sql">
+alter table fav_book add column book_title varchar(500) default 'no title';
+</code></pre>
+
+<pre><code contenteditable class="sql">
+alter table fav_book add column book_title varchar(500) not null default 'no title';
 </code></pre>
 				</section>
 
 				<section>
-					<h3>FULL OUTER JOIN</h3>
-					<ul>
-						<li>The Full Outer Join produces all sets of records in TableA and TableB.</li>
-						<li>Records from both sides are included, where available.</li>
-						<li>If there is no matching record, the missing side will have a null value.</li>
-						<li><em>Note: Full Outer Joins are not supported by SQLite</em></li>
+	<h3>Let&rsquo;s Develop It!</h3>
+					<p class="compress">
+						Now if we describe the fav_book table, we should see our new
+						column and any constraints or defaults we&rsquo;ve added.
+						<br><br>
+						Depending on how you have declared your new constraint, you may
+						see something different:
+					</p>
+					<pre><code contenteditable class="sql">test_db# \d+ fav_book;
+                                       Table "public.fav_book"
+
+  Column   |          Type          |                       Modifiers                        | Storage  | Stats target | Description
+------------+------------------------+--------------------------------------------------------+----------+--------------+-------------
+id         | integer                | not null default nextval('fav_book_id_seq'::regclass) | plain    |              |
+book_title | character varying(500) | not null default 'no title'::character varying         | extended |              |
+
+Indexes:
+  "fav_book_pkey" PRIMARY KEY, btree (id)
+</code></pre>
+				</section>
+
+				<section>
+					<h3>What if ALTER isn&rsquo;t good enough?</h3>
+					<p class="compress">
+						ALTER TABLE won&rsquo;t do things like rename columns for us.
+						It also won&rsquo;t magically solve tricky conversions like changing
+						a varchar column to a number column.
+						<br><br>
+						So, what do we do in these cases?
+						<br><br>
+						The exact solution depends on the problem, but in general, you would
+						first add a new column. Then, you would migrate the data over from
+						the old column to the new column, running any necessary conversion
+						logic in the process. Finally, you would drop the old column.
+					</p>
+				</section>
+
+				<section>
+					<h3>Primary and Foreign Keys</h3>
+					<p class="compress">
+						We&rsquo;ve talked about these a little bit so far, and we&rsquo;ve
+						made use of foreign keys when we were writing all those awesome joins.
+						<br><br>
+						When we declared our new fav_book table, we created the id column as a
+						primary key:
+					</p>
+
+					<pre><code contenteditable class="sql">CREATE TABLE fav_book(id serial PRIMARY KEY);</code></pre>
+
+					<p class="compress">
+						When you declare a primary key, you get the unique constraint for free.
+						<br><br>
+						<em>A table can only have one primary key</em>, but the primary key does not always
+						have to be a single column. You can specify a <em>composite key</em>, instead.
+						(But we&rsquo;re only using single-column primary keys in this series.)
+						<br><br>
+						Another thing you should know is that primary keys can&rsquo;t be null (except in Sqlite ¯\_(ツ)_/¯).
+					</p>
+				</section>
+
+				<section>
+					<h3>Primary and Foreign Keys</h3>
+					<p class="compress">
+						To create a foreign key, you would specify the reference with the aptly named REFERENCES keyword.
+						<br><br>
+						For example, here&rsquo;s how the adoption table was created:
+					</p>
+
+					<pre><code contenteditable class="sql">CREATE TABLE adoption (
+	id serial PRIMARY KEY,
+	adoption_date date,
+	person_id bigint REFERENCES person (id),
+	animal_id bigint REFERENCES animal (id)
+);
+</code></pre>
+
+				<p class="compress">
+					The template for adding a FK when declaring a column looks like this:
+				</p>
+
+				<pre><code contenteditable class="sql">
+name_of_new_column data_type_of_original_column REFERENCES original_table (original_column_name)
+</code></pre>
+				</section>
+
+				<section>
+					<h3>Primary and Foreign Keys</h3>
+					<p class="compress">
+						Things to remember:
+						<br><br>
+						The data type of the referencing column should be <em>exactly the same</em>
+						as the original column. After all, it will hold exactly the same kind of data.
+						(Remember that in Postgres, <i>serial</i> is really <i>bigint</i> under the covers.)
+						<br><br>
+						You can add a foreign key (or indeed, any constraint) after the column
+						has already been created.
+						<br><br>
+						If you do, though, you&rsquo;ll need to make sure
+						that the data in the column already conforms to the constraint.
+						If it does not, you will need to run a <em>data migration</em> to update the
+						data appropriately before adding the constraint.
+					</p>
+				</section>
+
+				<section>
+					<h3>Let&rsquo;s Develop It!</h3>
+					<p class="compress--mild">
+						Let&rsquo;s create a new table called author, which the fav_book table will reference.
+						<br><br>
+						It should have at least 2 columns: an id (which is the primary key) and
+						a column or set of columns for the author&rsquo;s name.
+						<br><br>
+						Then we can add a column to the fav_book table that is foreign keyed
+						to the newly created author table.
+						<br><br>
+						Work with a partner or rock it on your own!
+					</p>
+				</section>
+
+				<section>
+					<h3>Possible solutions</h3>
+					<h4>Creating the author table</h4>
+					<pre><code contenteditable class="sql">test_db# CREATE TABLE author (
+  id serial PRIMARY KEY,
+  name varchar(255)
+);
+</code></pre>
+
+<pre><code contenteditable class="sql">test_db# CREATE TABLE author (
+  id serial PRIMARY KEY,
+  first_name varchar(128),
+  last_name varchar(128)
+);
+</code></pre>
+
+<h4>Creating the FK column</h4>
+<pre><code contenteditable class="sql">test_db# ALTER TABLE fav_book ADD COLUMN author_id bigint REFERENCES author(id);
+</code></pre>
+
+<pre><code contenteditable class="sql">test_db# ALTER TABLE fav_book ADD COLUMN author_id bigint NOT NULL REFERENCES author(id);
+</code></pre>
+				</section>
+
+				<section>
+					<h3>foreign key implications</h3>
+					<p class="compress">
+						Once we&rsquo;ve added a foreign key, we&rsquo;ve also added a dependency.
+						<br><br>
+						We cannot create reference a table that does not exist, so any referenced
+						 tables need to be created before any columns that reference them.
+					  <br><br>
+					  Likewise, we cannot drop tables/columns that are referenced by other tables.
+						<br><br>
+						For example, if we decided we didn&rsquo;t want the author table anymore,
+						we would have to drop the author_id column in fav_book before we
+						could drop author.
+					</p>
+				</section>
+
+				<section>
+					<h3>Constraints Review</h3>
+					<p class="compress">
+						We&rsquo;ve already talked a little bit about constraints, so some
+						of these should be review. We&rsquo;ll talk about the new ones:
+					</p>
+
+					<ul class="compress">
+						<li>PRIMARY KEY</li>
+						<li>FOREIGN KEY</li>
+						<li>NOT NULL</li>
+						<li>UNIQUE</li>
+						<li>CHECK</li>
+						<li>DEFAULT</li>
 					</ul>
-					<pre><code contenteditable class="JavaScript">TableA                    TableB
-=================          =================
-id    name                 id     name
-=================          =================
-1     Pirate               1      Rutabaga
-2     Monkey               2      Pirate
-3     Ninja                3      Darth Vader
-4     Spaghetti            4      Ninja
-</code></pre>
+
+					<br><br>
+
+					<p class="compress">
+						It&rsquo;s also good to know that <b>you can (and should) name constraints</b>.
+					</p>
 				</section>
 
-				<section>
-					<h3>FULL OUTER JOIN</h3>
-					<p>Selects all sets of records from TableA and TableB.</p>
-					<img style="height:250px" src="images/fullouterjoin.png"/>
-					<pre><code contenteditable class="JavaScript">SELECT * from TableA
-FULL OUTER JOIN TableB
-ON TableA.name = TableB.name;
 
-=================          =================
-id    name                 id     name
-=================          =================
-1     Pirate               2      Pirate
-2     Monkey	             null   null
-3     Ninja                4      Ninja
-4     Spaghetti            null   null
-null  null                 1      Rutabaga
-null  null                 3      Darth Vader
-</code></pre>
-				</section>
-
-				<section>
-					<h3>LEFT OUTER JOIN</h3>
+				<!-- <section>
+					<h3>Primary Key Constraint</h3>
 					<ul>
-						<li>The Left Outer Join produces all records from TableA, with matching records
-							from TableB if they are available.</li>
-						<li>If there is no matching record in TableB, the right side will have a null value.</li>
+						<li>Uniquely identifies each row in a database table.</li>
+						<li>There can be additional UNIQUE columns, but only one PRIMARY KEY.</li>
+						<li>We use prmary keys as unique IDs to refer to table rows.</li>
+						<li>Primary keys <em>become</em> foreign keys when creating relations among tables.</li>
 					</ul>
-					<pre><code contenteditable class="JavaScript">TableA                    TableB
-=================          =================
-id    name                 id     name
-=================          =================
-1     Pirate               1      Rutabaga
-2     Monkey               2      Pirate
-3     Ninja                3      Darth Vader
-4     Spaghetti            4      Ninja
+					<p><em>Note: Due to an oversight in SQLite, primary keys can be NULL in SQLite. This is not true for other relational databases.</em></p>
+				</section> -->
+
+				<!-- <section>
+					<h3>Foreign Key Constraint</h3>
+					<p>A FOREIGN KEY in one table points to a PRIMARY KEY in another table. This acts as a referential constraint between the two tables.</p>
+					<pre><code contenteditable class="sql">sqlite> CREATE TABLE Authors(AuthorId INTEGER PRIMARY KEY, Name TEXT);
+sqlite> CREATE TABLE Books(BookId INTEGER PRIMARY KEY, Title TEXT, AuthorId INTEGER,
+	 ...> FOREIGN KEY(AuthorId) REFERENCES Authors(AuthorId));
 </code></pre>
+					<p>In SQLite, foreign keys are not enforced by default. Configuration is outside the scope of this class, but other databases will enforce by default.</p>
+				</section> -->
+
+				<section>
+					<h3>not null &amp; unique constraints</h3>
+					<p class="compress">
+						We&rsquo;ve already seen NOT NULL and UNQUE constraints in the wild,
+						so, briefly, here is how you would implement them yourself:
+					</p>
+
+					<pre><code contenteditable class="sql">test_db# ALTER TABLE fav_book ADD COLUMN publication_date datetime NOT NULL;</code></pre>
+					<pre><code contenteditable class="sql">test_db# ALTER TABLE fav_book ADD COLUMN isbn varchar(13) UNIQUE;</code></pre>
 				</section>
 
 				<section>
-					<h3>LEFT OUTER JOIN</h3>
-					<p>Selects all sets of records from TableA and TableB.</p>
-					<img style="height:250px" src="images/leftouterjoin.png"/>
-					<pre><code contenteditable class="JavaScript">SELECT * from TableA
-LEFT OUTER JOIN TableB
-ON TableA.name = TableB.name;
+					<h3>CHECK Constraints</h3>
+					<p class="compress">
+						A CHECK clause requires new data to meet a certain set of criteria
+						before it is inserted into a column.
+						<br><br>
+						For example, we could add a new column to our book column called price,
+						and require that price be a non-negative number:
+					</p>
+					<pre><code contenteditable class="sql">test_db# ALTER TABLE fav_book ADD COLUMN price numeric
+	CONSTRAINT fav_book_positive_price CHECK (price > 0);</code></pre>
 
-=================          =================
-id    name                 id     name
-=================          =================
-1     Pirate               2      Pirate
-2     Monkey	             null   null
-3     Ninja                4      Ninja
-4     Spaghetti            null   null
+					<p class="compress">
+					Now, if we try to insert a row in the table with a negative price, we&rsquo;ll get an error:
+				</p>
+<pre><code contenteditable class="sql">test_db# INSERT INTO fav_book (book_title, author_id, price)
+		VALUES ('The Hitch Hiker''s Guide To The Galaxy', 1, -10.50);
+ERROR:  new row for relation "fav_book" violates check constraint "fav_book_positive_price"
+DETAIL:  Failing row contains (1, The Hitch Hiker's Guide To The Galaxy, 1, -10.50).
 </code></pre>
+			</section>
+
+			<section>
+				<h3>CHECK Constraints</h3>
+				<p class="compress">
+					If you didn&rsquo;t want to name the check constraint, the line would
+					look like this:
+				</p>
+
+				<pre><code contenteditable class="sql">test_db# ALTER TABLE fav_book ADD COLUMN price numeric CHECK (price > 0);</code></pre>
+
+<p class="compress">
+	If you don&rsquo;t name the column, the database system will name it for you.
+	In some systems, like SQL Server, you get random strings (like mini UUIDs), but
+	in PostgreSQL, you get more readable constraints.
+	In this case, you&rsquo;ll get the name: fav_book_price_check.
+</p>
 				</section>
 
 				<section>
-					<h3>Records in TableA, but not TableB</h3>
-					<ul>
-						<li>Let's say we want to know all of the records in TableA that don't also appear in TableB.</li>
-						<li>We can do this by adding a WHERE clause to our left outer join.</li>
-					</ul>
-					<pre><code contenteditable class="JavaScript">TableA                    TableB
-=================          =================
-id    name                 id     name
-=================          =================
-1     Pirate               1      Rutabaga
-2     Monkey               2      Pirate
-3     Ninja                3      Darth Vader
-4     Spaghetti            4      Ninja
-</code></pre>
+					<h3>DEFAULT Constraint</h3>
+					<p class="compress">
+						We&rsquo;ve talked a little bit about default constraints, but as a review,
+						the DEFAULT constraint inserts a default value in a column if no value is provided.
+						<br><br>
+						Let&rsquo; say we want to expand our books table to include a column for
+						whether or not we have a hard copy or not. Let&rsquo;s say we&rsquo;re
+						a pretty environmentally minded, so we&rsquo;d like the default to be false.
+					</p>
+
+					<pre><code contenteditable class="sql">test_db# ALTER TABLE fav_book ADD COLUMN hard_copy boolen DEFAULT false;</code></pre>
+
+					<p class="compress">
+						When you add a default to a new column in a table that is already populated,
+						all existing rows will get that default. Your mileage may vary in other
+						database systems. Always good to check the docs.
+					</p>
 				</section>
 
 				<section>
-					<h3>Records in TableA, but not TableB</h3>
-					<p>Remembere that the left outer join gave us null values for the right
-						side if there was no corresponding record in TableB. We can now use
-					this information to isolate the records we want.</p>
-					<img style="height:250px" src="images/in_a_but_not_b.png"/>
-					<pre><code contenteditable class="JavaScript">SELECT * from TableA
-LEFT OUTER JOIN TableB
-ON TableA.name = TableB.name
-WHERE TableB.id IS null;
+					<h3>dropping columns and constraints</h3>
+					<p class="compress">
+						We&rsquo;ve seen how to drop tables. We can do the same thing for
+						columns or constraints, like so:
+					</p>
 
-=================          =================
-id    name                 id     name
-=================          =================
-2     Monkey	          null   null
-4     Spaghetti            null   null
-</code></pre>
+					<pre><code contenteditable class="sql">test_db# ALTER TABLE fav_book DROP COLUMN publication_date;</code></pre>
+					<pre><code contenteditable class="sql">test_db# ALTER TABLE fav_book DROP CONSTRAINT fav_book_positive_price;</code></pre>
+
+					<p class="compress">
+						If you didn&rsquo;t name your constraints, you&rsquo;ll need to check
+						what the name is. There are a few different ways to do this, but the
+						easiest way for now is: \d+ table_name
+						<br><br>
+						Like dropping tables, these actions are destructive, so use with care.
+					</p>
 				</section>
 
 				<section>
-					<h3>Records in TableA OR TableB, but not in both</h3>
-					<ul>
-						<li>Let's say we want to know all of the records in TableA or TableB,
-							but want to exclude records that appear in both.</li>
-						<li>We can do this by adding a WHERE clause to a full outer join.</li>
-					</ul>
-					<pre><code contenteditable class="JavaScript">TableA                    TableB
-=================          =================
-id    name                 id     name
-=================          =================
-1     Pirate               1      Rutabaga
-2     Monkey               2      Pirate
-3     Ninja                3      Darth Vader
-4     Spaghetti            4      Ninja
-</code></pre>
+					<h3>Let&rsquo;s Develop It!</h3>
+					<p class="compress--mild">
+						Flesh out your test_db! You can stick with the book
+						theme or pick a new one like music, tv shows, movies, or anything
+						that interests you.
+						<br><br>
+						Try to use at least one of each of the constraints, and remember that you
+						can always drop columns or constraints if you need to!
+					</p>
 				</section>
 
 				<section>
-					<h3>Records in TableA OR TableB, but not in both</h3>
-					<p>This will give us records unique to TableA OR TableB.</p>
-					<img style="height:250px" src="images/unique_to_a_and_b.png"/>
-					<pre><code contenteditable class="JavaScript">SELECT * from TableA
-FULL OUTER JOIN TableB
-ON TableA.name = TableB.name
-WHERE TableA.id IS null
-OR TableB.id IS null;
-
-=================          =================
-id    name                 id     name
-=================          =================
-2     Monkey	          null   null
-4     Spaghetti            null   null
-null  null                 1      Rutabaga
-null  null                 3      Darth Vader
-</code></pre>
+					<p class="do-it">
+						advanced topics
+					</p>
 				</section>
 
 				<section>
-					<h3>Let's Develop It!</h3>
-					<p>Write a SQL query that returns album and track information for
-						tracks where the composer information is missing.</p>
+					<h3>Locking</h3>
+					<p class="compress">
+						Locking is a mechanism to deal with concurrent access to a row or set of rows in a database.
+						This is an important topic to be familiar with, especially if you are a developer.
+						<br><br>
+						One way of categorizing locks is into read locks and write locks.
+						<br><br>
+						<em>Write locks</em> prevent another thread from modifying the
+						locked row(s) until the thread that has the lock is finished with its changes.
+						The idea behind this is to prevent data from being corrupted or made invalid.
+						<br><br>
+						<em>Read locks</em> prevent another thread from reading the locked
+						row(s) until the the thread that has the lock is finished with its changes.
+						This idea behind this to prevent someone from getting uncommitted data.
+						You may find that it used less frequently than write locks, especially if peformance
+						is considered more important than consistency, but this is all depends
+						on the business requirements.
+					</p>
 				</section>
 
 				<section>
-					<h3>Solution</h3>
-					<pre><code contenteditable class="JavaScript">SELECT * from Album
-JOIN Track
-    ON Track.AlbumId = Album.AlbumId
-WHERE Track.Composer IS null;
-</code></pre>
-				</section>
-
-				<section>
-					<h3>Ordering Data</h3>
-					<p>Data from a SELECT statement can be ordered with the ORDER BY clause.</p>
-					<pre><code contenteditable class="JavaScript">SELECT * from Invoice
-ORDER BY InvoiceDate DESC;
-</code></pre>
-					<p>The results will be ordered from newest to oldest. Following the
-						keyword with ASC gives us the reverse order.</p>
-				</section>
-
-				<section>
-					<h3>Group By</h3>
-					<p>Data can also be grouped by identical values using the GROUP BY clause.</p>
-					<pre><code contenteditable class="JavaScript">SELECT * from Invoice
-GROUP BY CustomerId;
-</code></pre>
-					<p>This query will return all invoices grouped by customer.</p>
-				</section>
-
-				<section>
-					<h3>Functions</h3>
-					<p>SQLite has three types of functions:</p>
-					<ul>
-						<li>Core functions</li>
-						<li>Aggregate functions</li>
-						<li>Date &amp; Time functions</li>
-					</ul><br><br>
-					<p>Functions give you built-in functionality that allow you to do more with your data.</p>
-				</section>
-
-				<section>
-					<h3>Core Functions</h3>
-					<table>
-						<tr>
-							<td style="width:30%">sqlite_version()</td>
-							<td>Returns the version of the SQLite library</td>
-						</tr>
-						<tr>
-							<td>random()</td>
-							<td>Returns a pseudo-random integer</td>
-						</tr>
-						<tr>
-							<td>abs()</td>
-							<td>Returns the absolute value of a numerical argument</td>
-						</tr>
-						<tr>
-							<td>max()</td>
-							<td>Returns the maximum value</td>
-						</tr>
-						<tr>
-							<td>min()</td>
-							<td>Returns the minimum value</td>
-						</tr>
-						<tr>
-							<td>upper()</td>
-							<td>Converts characters into upper case</td>
-						</tr>
-						<tr>
-							<td>lower()</td>
-							<td>Converts characters into lower case</td>
-						</tr>
-						<tr>
-							<td>length()</td>
-							<td>Returns the length of a string of text</td>
-						</tr>
-						<tr>
-							<td>total_changes()</td>
-							<td>Returns the number of row changes since the current database connection was opened.</td>
-						</tr>
-					</table>
-				</section>
-
-				<section>
-					<h3>Aggregate Functions</h3>
-					<table>
-						<tr>
-							<td style="width:40%">count(*)</td>
-							<td>Returns the number of rows matching the query</td>
-						</tr>
-						<tr>
-							<td>count(id)</td>
-							<td>Returns the number of rows matching the query where the given column is not null</td>
-						</tr>
-						<tr>
-							<td>count(DISTINCT col)</td>
-							<td>Using DISTINCT with count returns the unique count</td>
-						</tr>
-						<tr>
-							<td>avg()</td>
-							<td>Returns the average value of all non-null values</td>
-						</tr>
-						<tr>
-							<td>sum()</td>
-							<td>Returns the sum of all non-null values</td>
-						</tr>
-					</table>
-				</section>
-
-				<section>
-					<h3>Date &amp; Time Functions</h3>
-					<table>
-						<tr>
-							<td>date('now')</td>
-							<td>Returns the current date (Example: 2014-01-01)</td>
-						</tr>
-						<tr>
-							<td>datetime('now')</td>
-							<td>Returns the current date and time (Example: 2014-01-01 13:12:01)</td>
-						</tr>
-						<tr>
-							<td>time('now')</td>
-							<td>Return the current time (Example: 13:12:01)</td>
-						</tr>
-					</table>
-				</section>
-
-				<section>
-					<h3>Date &amp; Time Modifiers</h3>
-					<p>You can pass one or more modifiers to the date(), time() and datetime() functions.</p>
-					<pre><code contenteditable class="JavaScript">sqlite> SELECT date('now', '2 months');
-2014-07-29
-</code></pre>
-					<p>Months and days can be passed as a modifier to add to the current date.</p>
-					<pre><code contenteditable class="JavaScript">sqlite> SELECT date('now', '-55 days');
-2014-04-04
-</code></pre>
-					<p>Likewise, you can subtract months and days.</p>
-				</section>
-
-				<section>
-					<h3>Date &amp; Time Modifiers</h3>
-					<p>Other modifiers include:</p>
-					<table>
-						<tr>
-							<td style="width:30%">'start of year'</td>
-							<td>Returns the start of the year</td>
-						</tr>
-						<tr>
-							<td>'start of day'</td>
-							<td>Returns the start of the day (00:00:00)</td>
-						</tr>
-						<tr>
-							<td>'weekday 0'</td>
-							<td>Advances to to the next date where the day of the week matches the number passed,
-								where 0 is Sunday, 1 is Monday, ..., Saturday is 6.</td>
-						</tr>
-					</table>
-				</section>
-
-				<section>
-					<h3>Date &amp; Time Modifiers</h3>
-					<p>What is the first Monday of next year?</p>
-					<pre><code contenteditable class="JavaScript">sqlite> SELECT datetime('now', '12 months', 'start of year',
-   ...> 'weekday 1');
-2015-01-05 00:00:00
-</code></pre>
-				</section>
-
-				<section>
-					<h3>Let's Develop It!</h3>
-					<p>Write SQL queries to answer the following questions about the Chinook data.</p>
-					<ul>
-						<li>If you bought one copy of every track, how much would you spend?</li>
-						<li>What is the average track price in our store?</li>
-						<li>How many genres of music are represented by tracks sold in our store?</li>
-						<li>How many artists have albums in our store?</li>
+					<h3>Locking</h3>
+					<p class="compress">
+						There are a lot of details about locking that we aren&rsquo;t going
+						to go into, but here are a few things to know:
+					</p>
+					<ul class="compress">
+						<li>
+							Read and write locks can either be <em>optimistic</em>
+							(dirty flag; usually done at ORM level) or
+							 <em>pessimistic</em> (the lock is granted when it is requested)
+						</li>
+						<li>
+							Locking specifics are often configurable at a database and statement level
+						</li>
+						<li>
+							Sometimes, two processes can end up waiting for each other. This is called a <em>deadlock</em>.
+							Most databases can detect this, and after a while, the database will pick a loser and kill that process.
+						</li>
+						<li>
+							SQL Server only allows locking hints, which means it won&rsquo;t always lock when you want it to
+						</li>
 					</ul>
 				</section>
 
 				<section>
-					<h3>Solutions</h3>
-					<ul>
-						<li>If you bought one copy of every track, how much would you spend?<br>
-						<pre><code contenteditable class="JavaScript">sqlite> SELECT sum(UnitPrice) from Track;
-3680.969999999704
-	</code></pre>
-					</li>
-						<li>What is the average track price in our store?<br>
-						<pre><code contenteditable class="JavaScript">sqlite> SELECT avg(UnitPrice) as 'Average Price' FROM Track;
-1.0508050242648312
-	</code></pre></li>
-					</ul>
+					<h3>Transactions</h3>
+					<p class="compress">
+						A transaction is an atomic unit of database operations.
+						If you are a developer or will be writing programmatic SQL statements,
+						transactions are a good thing to have a working knowledge of.
+						<br><br>
+						<em>Everything inside the transaction will either be committed or rolled back
+						(undone) together.</em>
+						<br><br>
+						Commonly, you will see this used when you want to commit the changes only
+						if all the actions were successful, and roll them back if there was a problem.
+						<br><br>
+						This can be useful in situations where a set of changes must take effect
+						for any of them to be valid. For example, perhaps a business requirement is that
+						new accounts and users must be created together. Empty accounts are not allowed.
+						In this case, the insert statements would need to be explicitly wrapped in a
+						single transaction.
+					</p>
 				</section>
 
 				<section>
-					<h3>Solutions</h3>
-					<ul>
-						<li>How many genres of music are represented by tracks sold in our store?<br>
-						<pre><code contenteditable class="JavaScript">sqlite> SELECT count(DISTINCT GenreId) from Track;
-25
-	</code></pre></li>
-						<li>How many artists have albums in our store?<br>
-						<pre><code contenteditable class="JavaScript">sqlite> SELECT count(DISTINCT ArtistId) from Album;
-204
-	</code></pre></li>
-					</ul>
-					</section>
+					<h3>Transactions</h3>
+					<p class="compress">
+						The specific syntax will depend on the database, but, in general, a transaction
+						begins with either the BEGIN or BEGIN TRANSACTION statement and ends
+						with the aptly named END TRANSACTION. You an also use the keywords
+						COMMIT or ROLLBACK to end the transaction. COMMIT works like END TRANSACTION.
+						ROLLBACK will roll back the changes in the transaction block.
+					</p>
 
-					<section>
-						<h3>Advanced Topics</h3>
-						<h4>Indexes</h4>
-						<p>Indexes are a special lookup table that an RDBMS uses to speed up data retrieval.</p>
-						<p>We can think of an index in a database as being similar to an index in the back of a book.</p>
-						<pre><code contenteditable class="JavaScript">sqlite> CREATE INDEX salary_index ON COMPANY (salary);
-	</code></pre>
-						<p>You can list all of the indexes on a TableBy using the <em>.indices TABLE</em> command.
-						<pre><code contenteditable class="JavaScript">sqlite> .indices Employee
+					<pre><code contenteditable class="sql">test_db# BEGIN TRANSACTION;
+  insert into author (name) values ('Donald A. Norman');
+  insert into fav_book (book_title) values ('The Design of Everyday Things');
+END TRANSACTION;
+
+  TRANSACTION;
+  BEGIN
+  INSERT 0 1
+  ERROR:  null value in column "author_id" violates not-null constraint
+  DETAIL:  Failing row contains (8, The Design of Everyday Things, null, null, f).
+  ROLLBACK
+</code></pre>
+				</section>
+
+				<section>
+					<h3>Transactions</h3>
+
+					<p class="compress">
+						This first example works exactly like the last example, since
+						END TRANSACTION and COMMIT behave the same:
+					</p>
+
+					<pre><code contenteditable class="sql">test_db# BEGIN TRANSACTION;
+  insert into author (name) values ('Donald A. Norman');
+  insert into fav_book (book_title) values ('The Design of Everyday Things');
+COMMIT;
+					</code></pre>
+
+					<p class="compress">
+						In the next example, the row will be inserted correctly
+						and then the changes will be rolled back:
+					</p>
+
+					<pre><code contenteditable class="sql">test_db# BEGIN TRANSACTION;
+  insert into author (name) values ('Donald A. Norman');
+ROLLBACK;
+
+BEGIN
+INSERT 0 1
+ROLLBACK
+</code></pre>
+				</section>
+
+				<section>
+					<h3>Transactions</h3>
+					<p class="compress--mild">
+						Final note: <em>Transactions only work with DML
+							(data manipulation language)</em>, i.e. inserts, updates and deletes.
+							<br><br>
+							<em>Transactions do not  apply to DDL (data definition language)</em>,
+							i.e. creating, altering, and dropping tables, columns, or databases.
+							These changes are already atomic (the A part of ACID).
+					</p>
+				</section>
+
+				<section>
+					<h3>Indexes</h3>
+					<p class="compress">
+						Another topic to have a working knowledge of if you are developer:
+						Indexes are a special lookup table that an RDBMS can use when
+						searching for a record given a value for a column or set of columns.
+						They are often added to speed up data retrieval.
+						<br><br>
+						Intuitively, you can think of an index in a database as being
+						like the index in the back of a book. Usually, the underlying
+						structure for an index is a B-tree.
+						<br><br>
+						For example, we could add an index to the book title column:
+					</p>
+
+					<pre><code contenteditable class="sql">test_db# CREATE INDEX ON fav_book (book_title);
+</code></pre>
+					<!-- <p>You can list all of the indexes on a TableBy using the <em>.indices TABLE</em> command.
+					<pre><code contenteditable class="sql">sqlite> .indices Employee
 IFK_EmployeeReportsTo
 IPK_Employee
-	</code></pre>
-					</section>
+</code></pre> -->
+				</section>
 
-					<section>
+				<section>
+					<h3>Indexes: Info &amp; Limitations</h3>
+					<p class="compress">
+						Indexes are not performance panaceas. They are not always appropriate and have some limitations:
+					</p>
+					<ul class="compress">
+						<li>
+							In PostgreSQL, unique columns already get an index when you declare them unique.
+							This includes primary keys, but not the referencing side of foreign keys.
+							This may not be true for other databases.
+						</li>
+						<li>
+							It&rsquo;s generally not useful to put an index on boolean or bit columns.
+							You should also think carefully before adding an index to a column
+							where most of the values in that column will be the same.
+						</li>
+						<li>
+							It&rsquo;s also generally a bad idea to index <em>wide columns</em>
+							(columns that have a lot of data in them, like a longtext field).
+							This makes the underlying structure large and there&rsquo;s a
+							very good change it will decrease performance, rather than increase it.
+						</li>
+						<li>
+							Remember that you may need to deal with case-sensitivity.
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Indexes: Info &amp; Limitations</h3>
+					<ul class="compress">
+						<li>
+							Indexes do not help you with initial wildcard queries
+							(e.g. WHERE email LIKE '%@gmail.com') because there&rsquo;s no way
+							to limit the search space. Every row will have to be checked to find
+							which ones match. This is called a <em>full table scan</em>.
+						</li>
+						<li>
+							In most databases (certainly the ones you spend money on),
+							you can have multiple indexes on single columns and when you
+							have a query that contains multiple columns, it will group those
+							indexes together. Notably, MySQL does not do this. You will need
+							to create a <em>composite index</em> for the columns you expect
+							you will be looking up together.
+						</li>
+						<li>
+							You can drop indexes, just like tables, columns, and databases.
+						</li>
+						<li>
+							<em>By default, when you add an index to a table, that table is
+							locked for writes.</em> This is good to be aware of
+							when scheduling database changes, esp. if you will be adding an index
+							to a large table, since creating that index may take a while.
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Indexes</h3>
+					<p class="compress--mild">
+						Good <em>index tuning</em> isn&rsquo;t easy, as any experienced
+						DBA (database administrator) will tell you. Different people have
+						different philosophies on what makes for good index tuning,
+						and you&rsquo;ll find a lot of op-eds about the right way to do to it.
+						Take them all with a grain of salt.
+
+						<br><br>
+
+						If you have a DBA, they will take care of most (or all) of this for you.
+						</p>
+				</section>
+
+					<!-- <section>
 						<h3>Advanced Topics</h3>
 						<h4>Views</h4>
 						<p>Views are a specific look at data from one or more tables.</p>
 						<p>You can think of a view as the results of a query that can be accessed as a virtual table</p>
 						<p>A view is not a part of the physical schema of a database, and
 							its values are computed dynamically from the data in the database.</p>
-						<pre><code contenteditable class="JavaScript">sqlite> CREATE VIEW cheap_tracks AS SELECT * FROM Track WHERE UnitPrice <= 0.99;
+						<pre><code contenteditable class="sql">sqlite> CREATE VIEW cheap_tracks AS SELECT * FROM Track WHERE UnitPrice <= 0.99;
 	</code></pre>
 					</section>
 
@@ -575,22 +904,38 @@ IPK_Employee
 						event occurs in your database.</p>
 						<p>Among other things, triggers often used to insert records into log tables when changes are made to data.</p>
 						<p>Creating triggers is beyond the scope of this class, but know they exist.</p>
-					</section>
+					</section> -->
 
 					<section>
-						<h3>Advanced Topics</h3>
-						<h4>Transactions</h4>
-						<p>A transaction is an atomic unit of database operations.</p>
-						<p>The effect of a transaction is that either all of the SQL statements
-							in a transaction are committed to the database, or all of them are rolled back (no changes).</p>
-						<p>A transaction begins with the BEGIN TRANSACTION statement, followed by COMMIT or ROLLBACK.</p>
-						<p>Transactions are beyond the scope of this class, but good to learn if you are dealing with
-							a group of changes that are "all or nothing".</p>
+						<h3>Topics to check out</h3>
+						<ul>
+							<li>Deadlocks</li>
+							<li>Race conditions</li>
+							<li>
+								<a href="https://www.postgresql.org/docs/9.6/static/transaction-iso.html">
+									Transactional isolation levels in PostgreSQL
+								</a>
+							</li>
+							<li>Writing your own functions</li>
+							<li>Stored procedures</li>
+							<li>Views</li>
+							<li>Triggers</li>
+						</ul>
 					</section>
 
 					<section>
 						<h3>Resources</h3>
 						<ul>
+							<li>
+								<a href="https://www.postgresql.org/docs/9.6/static/sql-altertable.html">
+									PostgreSQL alter table docs
+								</a>
+							</li>
+							<li>
+								<a href="https://www.postgresql.org/files/developer/concurrency.pdf">
+									Concurrency in PostgreSQL
+								</a>
+							</li>
 							<li><a href="http://sql.learncodethehardway.org/">Learn SQL the Hard Way</a></li>
 							<li>Jeff Atwood's blog post: <a href="http://blog.codinghorror.com/a-visual-explanation-of-sql-joins/">
 								A Visual Explanation of SQL Joins</a>, from which the join explanations in this class were borrowed.</li>
@@ -599,11 +944,13 @@ IPK_Employee
 						</ul>
 					</section>
 
-        <section>
-          <h2>Questions?</h2>
-          <div style = "font-size:1200%; height:100%; margin-top:40%" class ="blue">?
-            <div class ="clear"></div></div>
-        </section>
+					<section>
+	          <h2>Questions, final thoughts, feedback?</h2>
+	          <div class="question-mark">
+							?
+	          </div>
+	        </section>
+
 			</div>
   		<footer>
         <div class="copyright">

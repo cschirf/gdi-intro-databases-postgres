@@ -7,8 +7,7 @@
 		<title>Intro to Databases - Girl Develop It</title>
 
 		<meta name="description" content="Introduction to Databases.
-
-    The course is meant to be taught in four two-hour workshops.">
+    The course is meant to be taught in two four-hour workshops.">
 		<meta name="author" content="Girl Develop It">
 
 		<meta name="apple-mobile-web-app-capable" content="yes" />
@@ -39,9 +38,9 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
 				<section>
+          <img class="intro-slide-image" src="images/gdi_logo_badge.png" alt="GDI Logo" />
 					<h3>Introduction to Databases</h3>
-					<h4>Class 3 - More SQL</h4>
-                    <img src="images/gdi_logo_badge.png" alt="" />
+					<h4>Class 3 - Finding &amp; Manipulating Data</h4>
 				</section>
 
 				<!-- Welcome-->
@@ -61,333 +60,1042 @@
 
 		    <section>
 					<h3>Overview</h3>
-					<p>Today, we will learn:</p>
+					<p>In this section, we will learn:</p>
 					<ul>
-						<li>How to create a database</li>
-						<li>How to create, alter and drop tables</li>
-						<li>A little about column constraints</li>
+						<li>How to use functions to write more powerful queries</li>
+						<li>How to use aggregations</li>
+						<li>Joins! All the joins!</li>
 						<li>How to insert, update and delete records</li>
+						<li>A little about column constraints</li>
 					</ul>
         </section>
 
 				<section>
-					<h3>Create Database</h3>
-					<p>From Windows Command Line Tool:</p>
-					<pre><code contenteditable class="JavaScript">sqlite> .open test.db
-</code></pre>
-					<p>From Mac Terminal:</p>
-					<pre><code contenteditable class="JavaScript">$ sqlite3 test.db
-</code></pre>
-					<p>In each case, SQLite3 attempts to open a database called "test.db", which does not exists. Therefore, it is created.</p>
-				</section>
-
-				<section>
-					<h3>Create Tables</h3>
-					<p>The CREATE statement is used to create tables. It is also used to create indexes, views and triggers.</p>
-					<p>To create a table, we give a name to a table and to its columns. Each column can have one of these data types:</p>
+					<h3>Introduction to functions</h3>
 					<ul>
-						<li>NULL - The value is a NULL value</li>
-						<li>INTEGER - a signed integer</li>
-						<li>REAL - a floating point value</li>
-						<li>TEXT - a text string</li>
-						<li>BLOB - a blob of data</li>
-					</ul>
-					<pre><code contenteditable class="JavaScript">sqlite> CREATE TABLE Testing(Id INTEGER);
-sqlite> .schema Testing
-sqlite> CREATE TABLE Testing(Id INTEGER);
-</code></pre>
-				</section>
-
-				<section>
-					<h3>Drop Tables</h3>
-					<p>The DROP statement is used to delete a table from a database.</p>
-					<pre><code contenteditable class="JavaScript">sqlite> DROP TABLE Testing;
-sqlite> .tables
-</code></pre>
-					<a href="http://xkcd.com/327/"><img src="images/exploits_of_a_mom.png"/></a>
-				</section>
-
-				<section>
-					<h3>Drop Tables</h3>
-					<p>If you are trying to drop a table that does not exist, you will get an error. We can avoid this with the "IF EXISTS" clause.</p>
-					<pre><code contenteditable class="JavaScript">sqlite> DROP TABLE IF EXISTS Testing;
-sqlite> .tables
-</code></pre>
-				</section>
-
-				<section>
-					<h3>Alter Tables</h3>
-					<ul>
-						<li>Rename a table</li>
-						<li>Add a column to a table</li>
-						<li>In SQLite, ALTER cannot:
-							<ul>
-								<li>Rename a column</li>
-								<li>Remove a column</li>
-								<li>Add or remove constraints from a table</li>
-							</ul></li>
-					</ul>
-					<pre><code contenteditable class="JavaScript">sqlite> CREATE TABLE Names(Id INTEGER, Name TEXT);
-sqlite> .tables
-sqlite> ALTER TABLE Names RENAME TO NamesOfFriends;
-sqlite> .schema NamesOfFriends
-sqlite> ALTER TABLE NamesOfFriends ADD COLUMN Email TEXT;
-sqlite> .schema NamesOfFriends
-</code></pre>
-				</section>
-
-				<section>
-					<h3>What if Alter isn't good enough?</h3>
-					<p>Say we really do need to rename or remove a column. What do we do?</p>
-					<ul>
-						<li>Rename the old table</li>
-						<li>Create the new table, based on the old table but with the updated column</li>
-						<li>Copy the contents across from the original table</li>
-						<li>Drop the old table</li>
-					</ul>
-					<p>The .dump Table command in SQLite will output the instructions for recreating a table and its contents.</p>
-					<pre><code contenteditable class="JavaScript">sqlite> .dump Media
-</code></pre>
-				</section>
-
-				<section>
-					<h3>Primary and Foreign Keys</h3>
-					<pre><code contenteditable class="JavaScript">sqlite> .schema InvoiceLine
-CREATE TABLE [InvoiceLine]
-(
-    [InvoiceLineId] INTEGER  NOT NULL,
-    [InvoiceId] INTEGER  NOT NULL,
-    [TrackId] INTEGER  NOT NULL,
-    [UnitPrice] NUMERIC(10,2)  NOT NULL,
-    [Quantity] INTEGER  NOT NULL,
-    CONSTRAINT [PK_InvoiceLine] PRIMARY KEY  ([InvoiceLineId]),
-    FOREIGN KEY ([InvoiceId]) REFERENCES [Invoice] ([InvoiceId])
-		ON DELETE NO ACTION ON UPDATE NO ACTION,
-    FOREIGN KEY ([TrackId]) REFERENCES [Track] ([TrackId])
-		ON DELETE NO ACTION ON UPDATE NO ACTION
-);
-</code></pre>
-<p>We will ignore indexes in this class and discuss them next week.</p>
-				</section>
-
-				<section>
-					<h3>Constraints</h3>
-					<p>Constraints are placed on columns. They limit the data that can be inserted into tables.<p>
-					<ul>
-						<li>NOT NULL</li>
-						<li>UNIQUE</li>
-						<li>PRIMARY KEY</li>
-						<li>FOREIGN KEY</li>
-						<li>CHECK</li>
-						<li>DEFAULT</li>
+						<li>Functions are pieces of re-usable code</li>
+						<li>Some functions require input data in order to work. These inputs are <em>parameters</em>.</li>
+						<li>In the case of SQL functions, parameters usually take the form of a column name</li>
+						<li>You can recognize functions by the use of parentheses ()</li>
 					</ul>
 				</section>
 
 				<section>
-					<h3>NOT NULL CONSTRAINT</h3>
-					<p>A column with a NOT NULL constraint can't have NULL values.</p>
-					<pre><code contenteditable class="JavaScript">sqlite> CREATE TABLE People(Id INTEGER, LastName TEXT NOT NULL,
-	...> FirstName TEXT NOT NULL, City TEXT);
-sqlite> INSERT INTO People VALUES(1, 'Hanks', 'Robert', 'New York');
-sqlite> INSERT INTO People VALUES(2, NULL, 'Marianne', 'Chicago');
-Error: People.LastName may not be NULL
-</code></pre>
+					<h3>count(*)</h3>
+					<p class="centered">How many animals are in the database?</p>
+					<pre><code contenteditable class="sql">SELECT count(*) from animal;
+
+ count
+-------
+  20
+				</code></pre>
 				</section>
 
 				<section>
-					<h3>UNIQUE Constraint</h3>
-					<p>The UNIQUE constraint ensures that all data in a column are unique.</p>
-					<pre><code contenteditable class="JavaScript">sqlite> CREATE TABLE Brands(Id INTEGER, BrandName TEXT UNIQUE);
-sqlite> INSERT INTO Brands VALUES(1, 'Coca Cola');
-sqlite> INSERT INTO Brands VALUES(2, 'Pepsi');
-sqlite> INSERT INTO Brands VALUES(3, 'Pepsi');
-Error: column BrandName is not unique
-</code></pre>
-				<p>Note: the PRIMARY KEY constraint automatically has a UNIQUE constraint defined on it.</p>
+					<h3>now()</h3>
+					<p class="centered">We can get the current date &amp; time with <em>now()</em></p>
+					<pre><code contenteditable class="sql">SELECT now();
+
+            now
+-------------------------------
+2016-10-20 23:16:09.347612-05
+				</code></pre>
 				</section>
 
 				<section>
-					<h3>Primary Key Constraint</h3>
-					<ul>
-						<li>Uniquely identifies each row in a database table.</li>
-						<li>There can be additional UNIQUE columns, but only one PRIMARY KEY.</li>
-						<li>We use prmary keys as unique IDs to refer to table rows.</li>
-						<li>Primary keys <em>become</em> foreign keys when creating relations among tables.</li>
-					</ul>
-					<p><em>Note: Due to an oversight in SQLite, primary keys can be NULL in SQLite. This is not true for other relational databases.</em></p>
+					<h3>age(date)</h3>
+					<p class="centered compress--mild">Age returns the difference between today and a given date</p>
+					<p class="centered compress--mild">We need to provide the second date as a parameter</p>
+					<p class="centered compress--mild">We can use it to find the age of all the animals in the shelter</p>
+					<pre><code contenteditable class="sql">SELECT name, age(date_of_birth) from animal;
+
+  name   |          age
+---------+------------------------
+ Kestrel | 7 mons 13 days
+ Quintus | 5 mons 22 days
+ Paco    | 6 mons 8 days
+ Colin   | 5 mons 15 days
+ Izzy    | 1 year 4 mons
+ Oreo    | 7 mons 5 days
+...
+				</code></pre>
+
+
 				</section>
 
 				<section>
-					<h3>Foreign Key Constraint</h3>
-					<p>A FOREIGN KEY in one table points to a PRIMARY KEY in another table. This acts as a referential constraint between the two tables.</p>
-					<pre><code contenteditable class="JavaScript">sqlite> CREATE TABLE Authors(AuthorId INTEGER PRIMARY KEY, Name TEXT);
-sqlite> CREATE TABLE Books(BookId INTEGER PRIMARY KEY, Title TEXT, AuthorId INTEGER,
-	 ...> FOREIGN KEY(AuthorId) REFERENCES Authors(AuthorId));
-</code></pre>
-					<p>In SQLite, foreign keys are not enforced by default. Configuration is outside the scope of this class, but other databases will enforce by default.</p>
+					<h3>If we weren&rsquo;t spoiled</h3>
+					<p class="centered compress--mild">Most other RDBMSs aren&rsquo;t
+						this nice to us. We&rsquo;d have to calculate the difference between
+						now and a given date ourselves, using... functions!</p>
+					<p class="centered compress--mild">Let&rsquo; say we want to find the age of the animals in years.</p>
+
+						<pre><code contenteditable class="sql">SELECT name, floor(date_part('day', now() - date_of_birth) / 365) from animal;
+
+ name   | date_part
+---------+-----------
+...
+Izzy    |     1
+Oreo    |     0
+Massimo |     4
+Gracie  |     4
+Roxy    |     3
+...
+					</code></pre>
 				</section>
 
 				<section>
-					<h3>CHECK Constraint</h3>
-					<p>A CHECK clause imposes a validation on the value that is being added or updated to a column.</p>
-					<pre><code contenteditable class="JavaScript">sqlite> CREATE TABLE Orders(Id INTEGER PRIMARY KEY, OrderPrice INTEGER CHECK(OrderPrice>0), Customer TEXT);
-sqlite> INSERT INTO Orders(OrderPrice, Customer) VALUES(-10, 'Johnson');
-Error: constraint failed</code></pre>
-					<p>If we try to insert an order wtih a negative price, we get an error.</p>
-				</section>
+					<h3>In other dialects:</h3>
 
-				<section>
-					<h3>DEFAULT Constraint</h3>
-					<p>The DEFAULT constraint inserts a default value in a column if no value is provided.</p>
-					<pre><code contenteditable class="JavaScript">sqlite> CREATE TABLE Hotels(Id INTEGER PRIMARY KEY, Name TEXT,
-	...> City TEXT DEFAULT 'not available');
-sqlite> INSERT INTO Hotels(Name, City) VALUES('Kyjev', 'Bratislava');
-sqlite> INSERT INTO Hotels(Name) VALUES('Slovan');
-sqlite> .width 3 8 17
-sqlite> SELECT * FROM Hotels;
-Id   Name      City
----  --------  -----------------
-1    Kyjev     Bratislava
-2    Slovan    not available </code></pre>
-					<p>In the first statement, we provided values for both name and city. In the second statement, we only provided the hotel name.</p>
-				</section>
-
-				<section>
-					<h3>Let's Develop It!</h3>
-					<p>Create your own version of the Chinook database. Use the diagram below as a guide.</p>
-					<img style="width:60%" src="images/chinookschema.png">
-				</section>
-
-				<section>
-					<h3>Let's Develop It!</h3>
-					<p>Hint: Order matters due to foreign key constraints.</p>
-					<ul>
-						<li>Artist</li>
-						<li>Album</li>
-						<li>Employee</li>
-						<li>Customer</li>
-						<li>Genre</li>
-						<li>Invoice</li>
-						<li>MediaType</li>
-						<li>Track</li>
-						<li>InvoiceLine</li>
-						<li>Playlist</li>
-						<li>PlaylistTrack</li>
+					<ul class="compress--mild">
+						<li>
+							Sqlite
+							<br>
+							<pre><code contenteditable class="sql">SELECT name, floor((date('now') - date_of_birth)/365) from animal;</code></pre>
+						</li>
+						<li>
+							MySQL
+							<br>
+							<pre><code contenteditable class="sql">SELECT name, floor((datediff(now(), date_of_birth)) / 365) from animal;</code></pre>
+						</li>
+						<li>
+							SQL Server
+							<br>
+							<pre><code contenteditable class="sql">SELECT name, floor(datediff('day', getdate(), date_of_birth) / 365) from animal;</code></pre>
+						</li>
 					</ul>
 				</section>
 
 				<section>
-					<h3>Solution</h3>
-					<p>The solution can be found by executing the .schema command on each table for the Chinook database.</p>
-					<p>Alternatively, you can download this <a href="create_tables.sql">list of CREATE statements.</a></p>
+					<h3>Intro to aggregations</h3>
+					<p class="compress--mild">
+						So far, we&rsquo;ve been looking at a single row or a collection of rows.
+						<br><br>
+						But what if we wanted to get information across the whole table or a subset of the table?
+						<br><br>
+						For example, what if we wanted to know, on average, how old are the animals in our shelter?
+						Or the average age of the dogs vs. the cats? The average age of female dogs who haven&rsquo;t been spayed?
+						Or who&rsquo;s the oldest animal? The oldest cat?
+						<br><br>
+						Aggregations to the rescue!
+					</p>
 				</section>
 
 				<section>
-					<h3>Inserting Rows</h3>
-					<p>The INSERT statement is used to insert data into tables. Let's create a new table as an example.</p>
-					<pre><code contenteditable class="JavaScript">sqlite> CREATE TABLE Books(Id INTEGER PRIMARY KEY, Title TEXT, Author TEXT, ISBN TEXT DEFAULT 'not available');
-</code></pre>
-					<p>Now, we will use the INSERT statement to create a row with all the values we want to store.</p>
-					<pre><code contenteditable class="JavaScript">sqlite> INSERT INTO Books(Id, Title, Author, ISBN)
-   ...> VALUES(1, 'War and Peace', 'Leo Tolstoy', '978-0345472403');
-</code></pre>
-					<p>We omitted the Id column, as it was defined as an INTEGER PRIMARY KEY. In SQLite, this will autoincrement for us.</p>
+					<h3>Finding the average age</h3>
+					<p class="centered compress--mild">Oh, hey, it&rsquo;s another function!</p>
+					<pre><code contenteditable class="sql">SELECT avg(age(date_of_birth)) from animal;
+
+             avg
+---------------------------------
+2 years 8 mons 21 days 16:48:00
+				</code></pre>
 				</section>
 
 				<section>
-					<h3>Inserting Rows</h3>
-					<p>Let's add one more:</p>
-					<pre><code contenteditable class="JavaScript">sqlite> INSERT INTO Books(Title, Author, ISBN)
-   ...> VALUES('The Brothers Karamazov', 'Fyodor Dostoyevsky', '978-0486437910');
+					<h3>cat vs. dog</h3>
+					<p class="compress">To find the average age of cats
+						and dogs separately, we need to tell SQL to bucket the ages by the
+						animal&rsquo;s type. We do that with the keywords GROUP BY,
+						followed by the name of the column(s) that make up the buckets.
+					</p>
+					<pre><code contenteditable class="sql">
+SELECT type, avg(age(date_of_birth)) from animal
+	group by type;
+
+	type |               avg
+ ------+---------------------------------
+  dog  | 2 years 8 mons 16 days 14:24:00
+  cat  | 2 years 8 mons 28 days 19:12:00
+				</code></pre>
+				</section>
+
+				<section>
+					<h3>cat vs. dog / altered vs. unaltered</h3>
+					<p class="compress">
+						We can group by more than a single column simply by adding more column names (separated by commas):
+					</p>
+					<pre><code contenteditable class="sql">
+SELECT type, altered, avg(age(date_of_birth)) from animal
+	group by type, altered;
+
+type | altered |                  avg
+------+---------+---------------------------------------
+cat  | f       | 7 mons 6 days
+dog  | t       | 4 years 8 mons 26 days 14:24:00
+dog  | f       | 7 mons 36 days 14:24:00
+cat  | t       | 2 years 11 mons 24 days 15:59:59.9712
+				</code></pre>
+				</section>
+
+				<section>
+					<h3>Things to know</h3>
+					<ul class="compress--mild">
+						<li>
+							If you use a column in the GROUP BY clause, you can then
+							list it as a column to bring back.
+						</li>
+						<li>
+							The opposite is also true. If you don&rsquo;t specify the name
+							of the column in the GROUP BY clause, you can&rsquo;t SELECT it.
+						</li>
+						<li>
+							So, for example, this would error out:
+							<pre><code contenteditable class="sql">SELECT name, avg(age(date_of_birth)) from animal;</code></pre>
+						</li>
+					</ul>
+					<p class="centered"><em>Why?</em></p>
+				</section>
+
+				<section>
+					<h3>Things to know</h3>
+					<ul class="compress--mild">
+						<li>
+							If you want to filter out data in an aggregation query, you can&rsquo;t
+							use the WHERE keyword. You need to use HAVING.
+						</li>
+						<li>
+							HAVING functions the same way as WHERE.
+						</li>
+						<li>
+							A slightly contrived example:
+							<pre><code contenteditable class="sql">
+SELECT type, altered, avg(age(date_of_birth))
+	from animal group by type, altered
+	having type = 'cat';
+							</code></pre>
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Other common aggregations</h3>
+					<ul>
+						<li>sum(column_name)</li>
+						<li>min(column_name)</li>
+						<li>max(column_name)</li>
+						<li>count(column_name_or_wildcard)
+							 <br>
+							<i>(oops, we snuck that in already ;)</i>
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Joins</h3>
+					<p class="compress--mild">
+						Joins are at the heart of relational databases because they allow
+						us to get at the relationships between tables.
+						<br><br>
+						Joins require an association between one table and another.
+					</p>
+				</section>
+
+				<section>
+					<h3>Let&rsquo;s Develop It!</h3>
+					<p class="centered">
+						<br>
+						Look back at the animal and adoption tables.
+						<br><br>
+						How do you think we can connect these two tables?
+					</p>
+				</section>
+
+				<section>
+					<h4>Which animals have been adopted?</h4>
+					<pre><code contenteditable class="sql">
+SELECT * from animal
+	join adoption on animal.id = adoption.animal_id;
+
+
+ id |              shelter_id              |  name   | date_of_birth | type | gender | altered | ok_with_dogs | ok_with_cats | date_of_surrender | id | adoption_date | person_id | animal_id
+----+--------------------------------------+---------+---------------+------+--------+---------+--------------+--------------+-------------------+----+---------------+-----------+-----------
+  7 | 5d596464-bc1f-4e83-a963-36fc59f3272e | Massimo | 2012-06-13    | cat  | M      | t       | t            | t            | 2012-12-10        |  1 | 2016-07-19    |         6 |         7
+ 15 | a528a5d1-7934-4762-977d-20e3013d3761 | Bailey  | 2010-09-20    | dog  | M      | t       | t            | t            | 2014-06-24        |  2 | 2016-08-01    |        11 |        15
+ 20 | ae752b0f-cdfb-489b-84b0-0e96477d19f5 | Tigger  | 2013-08-20    | cat  | M      | t       | t            | t            | 2013-10-26        |  3 | 2014-07-05    |         6 |        20
+ 20 | ae752b0f-cdfb-489b-84b0-0e96477d19f5 | Tigger  | 2013-08-20    | cat  | M      | t       | t            | t            | 2013-10-26        |  4 | 2015-02-14    |        13 |        20
+				</code></pre>
+				</section>
+
+				<section>
+					<h3>Dissecting the join statement</h3>
+					<pre><code contenteditable class="sql">
+SELECT column_names_or_wildcard FROM table1
+	JOIN table2 ON table1.column_name = table2.column_corresponding_to_table1_column;
+				</code></pre>
+
+					<ul class="compress">
+						<li>This brings back columns from both tables</li>
+						<li>
+							Specifically, this is a <em>left inner join</em>, so we&rsquo;ll
+								only get back data if there&rsquo;s a match in animal and in adoption.
+						</li>
+						<li>
+							You can join any number of tables.
+						</li>
+						<li><i>Things to know</i>:
+							<br>
+							If both tables contain columns with the same name, then you
+							need to <em>qualify</em> the columm name by putting the table
+							name in front of it, like we did in the joins: <span class="code">animal.id</span>
+						</li>
+					</ul>
+
+				</section>
+
+				<section>
+					<h3>left inner join</h3>
+					<div class="column-container">
+						<img 	class="pic"
+									alt="left inner join"
+									src="images/joins/inner-join.jpg"/>
+						<div>
+							<ul class="compress">
+								<li>Returns rows that have a match in <em>both</em> tables.</li>
+								<li>You can also call this an <em>inner join</em>
+									(right inner join isn&rsquo;t a thing, though).</li>
+								<li>
+									If you don&rsquo;t specify a kind of join,
+									you&rsquo;ll be getting a left inner join.
+								</li>
+								<li>
+									All of these are equivalent:
+									<ul>
+										<li><span class="code">left inner join</span></li>
+										<li><span class="code">inner join</span></li>
+										<li><span class="code">join</span></li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</section>
+
+				<section>
+					<h3>Example inner join</h3>
+					<pre><code contenteditable class="sql">
+SELECT * FROM animal
+	JOIN adoption ON animal.id = adoption.animal_id;
+
+  id |  name   | ...      | type | ...      | id | adoption_date | person_id | animal_id
+ ----+---------+----------+------+----------+----+---------------+-----------+-----------
+   7 | Massimo | ...      | cat  | ...      |  1 | 2016-07-19    |         6 |         7
+  15 | Bailey  | ...      | dog  | ...      |  2 | 2016-08-01    |        11 |        15
+  20 | Tigger  | ...      | cat  | ...      |  3 | 2014-07-05    |         6 |        20
+  20 | Tigger  | ...      | cat  | ...      |  4 | 2015-02-14    |        13 |        20
+				</code></pre>
+				</section>
+
+				<section>
+					<h3>left outer join</h3>
+					<div class="column-container">
+						<img 	class="pic"
+									alt="left outer join"
+									src="images/joins/left-outer-join.jpg"/>
+						<div>
+							<ul class="compress">
+								<li>
+									Returns everything in the left table and returns
+									matching data from the right table if it exists.
+								</li>
+								<li>
+									If there is no matching data in the right table, we&rsquo;ll get
+									NULL values.
+								</li>
+								<li>
+									In order to specify this kind of join, you can use these keywords:
+									<ul>
+										<li><span class="code">left outer join</span></li>
+										<li><span class="code">left join</span></li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</section>
+
+				<section>
+					<h3>Example left outer join</h3>
+					<pre><code contenteditable class="sql">
+SELECT * FROM animal
+	LEFT OUTER JOIN adoption ON animal.id = adoption.animal_id;
+
+id |  name   | ...      | type | ...      | id | adoption_date | person_id | animal_id
+----+---------+----------+------+----------+----+---------------+-----------+-----------
+ 7 | Massimo | ...      | cat  | ...      |  1 | 2016-07-19    |         6 |         7
+15 | Bailey  | ...      | dog  | ...      |  2 | 2016-08-01    |        11 |        15
+20 | Tigger  | ...      | cat  | ...      |  3 | 2014-07-05    |         6 |        20
+20 | Tigger  | ...      | cat  | ...      |  4 | 2015-02-14    |        13 |        20
+11 | Gabby   | ...      | dog  | ...      |    |               |           |
+17 | Fenton  | ...      | dog  | ...      |    |               |           |
+12 | Anka    | ...      | cat  | ...      |    |               |           |
+10 | Phineas | ...      | cat  | ...      |    |               |           |
+18 | Oliver  | ...      | cat  | ...      |    |               |           |
+ 2 | Quintus | ...      | dog  | ...      |    |               |           |
+13 | Iris    | ...      | cat  | ...      |    |               |           |
+ 5 | Izzy    | ...      | dog  | ...      |    |               |           |
+19 | Zoe     | ...      | cat  | ...      |    |               |           |
+ 8 | Gracie  | ...      | dog  | ...      |    |               |           |
+ 6 | Oreo    | ...      | cat  | ...      |    |               |           |
+16 | Lucy    | ...      | dog  | ...      |    |               |           |
+ ...
+
+				</code></pre>
+				</section>
+
+				<section>
+					<h3>full outer join</h3>
+					<div class="column-container">
+						<img 	class="pic"
+									alt="full outer join"
+									src="images/joins/full-outer-join.jpg"/>
+						<div>
+							<ul class="compress">
+								<li>
+									Returns <em>everything</em> from the right table
+									<br>
+									AND <em>everything</em> from the left table.
+								</li>
+								<li>
+									Rarely seen in the wild &amp; therefore not supported by most RDBMSs.
+								</li>
+								<li>
+									The magical incantation is:
+									<br>
+									<span class="code">full outer join</span>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</section>
+
+				<section>
+					<h3>Example full outer join</h3>
+					<pre><code contenteditable class="sql">
+SELECT * FROM animal
+	FULL OUTER JOIN adoption ON animal.id = adoption.animal_id;
+
+id |  name   | ...      | type | ...      | id | adoption_date | person_id | animal_id
+----+---------+----------+------+----------+----+---------------+-----------+-----------
+ 7 | Massimo | ...      | cat  | ...      |  1 | 2016-07-19    |         6 |         7
+15 | Bailey  | ...      | dog  | ...      |  2 | 2016-08-01    |        11 |        15
+20 | Tigger  | ...      | cat  | ...      |  3 | 2014-07-05    |         6 |        20
+20 | Tigger  | ...      | cat  | ...      |  4 | 2015-02-14    |        13 |        20
+11 | Gabby   | ...      | dog  | ...      |    |               |           |
+17 | Fenton  | ...      | dog  | ...      |    |               |           |
+12 | Anka    | ...      | cat  | ...      |    |               |           |
+10 | Phineas | ...      | cat  | ...      |    |               |           |
+18 | Oliver  | ...      | cat  | ...      |    |               |           |
+ 2 | Quintus | ...      | dog  | ...      |    |               |           |
+13 | Iris    | ...      | cat  | ...      |    |               |           |
+ 5 | Izzy    | ...      | dog  | ...      |    |               |           |
+19 | Zoe     | ...      | cat  | ...      |    |               |           |
+ 8 | Gracie  | ...      | dog  | ...      |    |               |           |
+ 6 | Oreo    | ...      | cat  | ...      |    |               |           |
+16 | Lucy    | ...      | dog  | ...      |    |               |           |
+ ...
+
+				</code></pre>
+				</section>
+				</section>
+
+				<section>
+					<h3>right outer join</h3>
+					<div class="column-container">
+						<img 	class="pic"
+									alt="right outer join"
+									src="images/joins/right-outer-join.jpg"/>
+						<div>
+							<ul class="compress">
+								<li>
+									Returns everything in the right table and returns
+									matching data from the left table.
+								</li>
+								<li>
+									If there is no matching data in the left table, we&rsquo;ll get
+									NULL values.
+								</li>
+								<li>
+									In order to specify this kind of join, you can use these keywords:
+									<ul>
+										<li><span class="code">RIGHT OUTER JOIN</span></li>
+										<li><span class="code">right join</span></li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</section>
+
+				<section>
+					<h3>Example right outer join</h3>
+					<pre><code contenteditable class="sql">
+SELECT * FROM animal
+	RIGHT OUTER JOIN adoption ON animal.id = adoption.animal_id;
+
+id |  name   | ...      | type | ...     | id | adoption_date | person_id | animal_id
+----+---------+----------+------+----------+----+---------------+-----------+-----------
+ 7 | Massimo | ...      | cat  | ...      |  1 | 2016-07-19    |         6 |         7
+15 | Bailey  | ...      | dog  | ...      |  2 | 2016-08-01    |        11 |        15
+20 | Tigger  | ...      | cat  | ...      |  3 | 2014-07-05    |         6 |        20
+20 | Tigger  | ...      | cat  | ...      |  4 | 2015-02-14    |        13 |        20
+
+				</code></pre>
+
+				<p class="centered compress--mild">
+					<i>Those results look familiar&hellip;</i>
+				</p>
+				</section>
+
+				<section>
+					<h3>mental acrobatics</h3>
+					<p class="compress">
+							Because the limiting factor in the &ldquo;which animals have been
+							adopted&rdquo; join is the adoption table,
+							the right outer join and left inner join gave us the same results.
+							<br>
+							<br>
+							So these are equivalent:
+							<pre><code contenteditable class="sql">
+SELECT * FROM animal
+	LEFT INNER JOIN adoption ON animal.id = adoption.animal_id;
+							</code></pre>
+							<pre><code contenteditable class="sql">
+SELECT * FROM animal
+	RIGHT OUTER JOIN adoption ON animal.id = adoption.animal_id;
+							</code></pre>
+					</p>
+				</section>
+
+				<section>
+					<h3>mental acrobatics</h3>
+					<p class="compress">
+							We can also flip which table is on the right and which is on
+							the left.
+							<br>
+							<br>
+							So these are equivalent:
+							<pre><code contenteditable class="sql">
+SELECT * FROM animal
+	LEFT OUTER JOIN adoption ON animal.id = adoption.animal_id;
+							</code></pre>
+							<pre><code contenteditable class="sql">
+SELECT * FROM adoption
+	RIGHT OUTER JOIN animal ON animal.id = adoption.animal_id;
+							</code></pre>
+					</p>
+				</section>
+
+				<section>
+					<h3>Extra goodies</h3>
+					<ul class="compress">
+						<li>
+							Sometimes, table names are long and annoying to write out every single time.
+							A trick is to use <em>aliasing</em>, where you tell SQL you&rsquo;re going to
+							use a different name for that table for the duration of the query.
+							You can use the keyword <span class="code">AS</span> if you want
+							to be explicit about the rename, but it&rsquo;s not required:
+
+							<pre><code contenteditable class="sql">
+SELECT * FROM animal AS a
+	JOIN adoption AS d ON a.id = d.animal_id;
+							</code></pre>
+							<pre><code contenteditable class="sql">
+SELECT * FROM animal a
+	JOIN adoption d ON a.id = d.animal_id;
+							</code></pre>
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Extra goodies</h3>
+					<ul class="compress">
+						<li>
+							Once you create an alias, though, you must continue to refer to
+							the table by the same alias for the entire query.
+							If you try to refer to the table by its full name, you&rsquo;ll
+							get an error.
+						</li>
+						<li>
+							If you want all the columns from one table, you can use the * wildcard
+							after the table name (dot notation):
+							<br>
+							<pre><code contenteditable class="sql">
+SELECT a.name, d.* FROM animal AS a
+	JOIN adoption AS d ON a.id = d.animal_id;
+							</code></pre>
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<p class="do-it">Let&rsquo;s Develop It!</p>
+				</section>
+
+				<section>
+					<br><br>
+					<p class="key-concept">
+						How would we answer the question: Which people have adopted animals from the shelter?
+						<br><br>
+						Feel free to grab a partner!
+					</p>
+				</section>
+
+				<section>
+					<h4>Which people adopted animals?</h4>
+					<pre><code contenteditable class="sql">
+SELECT * FROM person
+	JOIN adoption ON person.id = adoption.person_id;
 </code></pre>
-				  <p>And we can use a SELECT statement to view what we inserted.</p>
-					<pre><code contenteditable class="JavaScript">sqlite> SELECT * FROM Books;
-Id|Title|Author|ISBN
-1|War and Peace|Leo Tolstoy|978-0345472403
-2|The Brothers Karamazov|Fyodor Dostoyevsky|978-0486437910
+
+<pre><code contenteditable class="sql">
+SELECT * FROM adoption
+	JOIN person ON person.id = adoption.person_id;
+</code></pre>
+
+<pre><code contenteditable class="sql">
+id |      name      |                 address                  | phone_number | gender | has_cats | has_dogs | id | adoption_date | person_id | animal_id
+----+----------------+------------------------------------------+--------------+--------+----------+----------+----+---------------+-----------+-----------
+ 6 | Jean Rye       | 701 W Riverside Dr, Austin, TX 78704     | 512-690-8488 | F      | t        | t        |  1 | 2016-07-19    |         6 |         7
+11 | Xochitl Moreno | 4301 W. William Cannon, Austin, TX 78749 | 512-427-2921 | F      | f        | t        |  2 | 2016-08-01    |        11 |        15
+ 6 | Jean Rye       | 701 W Riverside Dr, Austin, TX 78704     | 512-690-8488 | F      | t        | t        |  3 | 2014-07-05    |         6 |        20
+13 | Benicio Garcia | 1100 Congress Ave, Austin, TX 78701      | 918-562-3674 | M      | t        | f        |  4 | 2015-02-14    |        13 |        20
+</code></pre>
+
+				</section>
+
+				<section>
+					<br><br><br>
+					<p class="key-concept">
+						How would we answer the question: What are the names of the animals which have not been adopted?
+					</p>
+				</section>
+
+				<section>
+					<h3>Things to consider</h3>
+					<ul class="compress--mild">
+						<li>
+							What in the table tells you that animal hasn&rsquo;t been adopted?
+							<br>
+							(HINT: It&rsquo;s the absence of something.)
+						</li>
+						<li>
+							Given that, what kind of join will you need to use?
+						</li>
+						<li>
+							In order to only get the un-adopted animals, you will need to filter
+							out some of the rows, so you will need a WHERE clause.
+						</li>
+						<li>
+							You should get 17 animals.
+						</li>
+						<li>
+							Feel free to grab a partner!
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h4>Which animals haven&rsquo;t been adopted?</h4>
+					<pre><code contenteditable class="sql">
+SELECT * FROM animal
+	LEFT OUTER JOIN adoption ON animal.id = adoption.animal_id
+	WHERE adoption.id IS NULL;
+</code></pre>
+
+<pre><code contenteditable class="sql">
+SELECT * FROM adoption
+	RIGHT OUTER JOIN animal ON animal.id = adoption.animal_id
+	WHERE adoption.id IS NULL
+</code></pre>
+<p class="compress--mild">
+	Un-adopted animals:
+	<br>
+	Anka, Colin, Fenton, Gabby, Gracie, Iris, Izzy, Kestrel, Leo, Lucy, Oliver, Oreo, Paco, Phineas, Quintus, Roxy, Zoe
+</p>
+				</section>
+
+
+				<section>
+					<p class="do-it">
+						inserting, updating, &amp; deleting
+					</p>
+				</section>
+
+				<section>
+					<h4>A new puppy called Murphy is joining the shelter!</h4>
+					<p class="centered compress--mild">
+						We know that Murphy is a male dog who has just been surrendered.
+						<br>
+						Let&rsquo;s try to add his record to the database based on what we know:
+					</p>
+
+					<pre><code contenteditable class="sql">
+INSERT INTO animal (name, type, gender, date_of_surrender)
+	VALUES ('Murphy', 'dog', 'M', now());
+
+ERROR:  null value in column "shelter_id" violates not-null constraint
+DETAIL:  Failing row contains (21, null, Murphy, null, dog, M, f, f, f, 2016-11-06).
+</code></pre>
+
+					<p class="centered compress--mild">
+						Oh no! What does that mean?
+					</p>
+				</section>
+
+				<section>
+					<h3>the <i>not null</i> constraint</h3>
+					<ul class="compress">
+						<li>
+							RDBs let you define requirements on data called <em>constraints</em>.
+						</li>
+						<li>
+							A common constraint is the NOT NULL constraint, which means that when
+							someone inserts a row, they <i>must</i> provide a value for that column.
+						</li>
+						<li>
+							The error we got is telling us that we are trying to use NULL for
+							Murphy&rsquo;s shelter id.
+							<pre><code contenteditable class="sql">
+ERROR:  null value in column "shelter_id" violates not-null constraint
+DETAIL:  Failing row contains (21, null, Murphy, null, dog, M, f, f, f, 2016-11-06).
+		</code></pre>
+							<br>
+							It thinks the value is NULL because we didn&rsquo;t specify anything for that column.
+						</li>
+					</ul>
+				</section>
+
+
+				<section>
+					<h4>Adding Murphy</h4>
+					<p class="compress--mild">
+						Let&rsquo;s be lazy and copy an existing shelter id from the database.
+					</p>
+
+					<pre><code contenteditable class="sql">INSERT INTO animal (shelter_id, name, type, gender, date_of_surrender)                                                                                  VALUES ('822c13f0-115d-4035-b0c5-579bca4a1468', 'Murphy', 'dog', 'M', now());
+</code></pre>
+
+					<br>
+
+					<p class="compress--mild">
+						Oh no! We get another error!
+					</p>
+
+<pre><code contenteditable class="sql">ERROR:  duplicate key value violates unique constraint "shelter_id_unique"
+DETAIL:  Key (shelter_id)=(822c13f0-115d-4035-b0c5-579bca4a1468) already exists.
 </code></pre>
 				</section>
 
 				<section>
-					<h3>Inserting Rows</h3>
-					<p>We can insert a record without specifying column names.</p>
-					<pre><code contenteditable class="JavaScript">sqlite> INSERT INTO Books VALUES(3, 'Crime and Punishment', 'Fyodor Dostoevsky',
-   ...> '978-1840224306');
+					<h3>the <i>unique</i> constraint</h3>
+					<ul class="compress--mild">
+						<li>
+							Another constraint you might run into is the unique constraint. This means
+							that every value in that column must be unique across the table.
+						</li>
+						<li>
+							The error we got is telling us that there is already a record in the database
+							with that shelter id. To fix that, we&rsquo;ll need to
+							generate a new one.
+						</li>
+						<li>
+							Let&rsquo;s use:
+							e7ab69dc-8a15-4c13-895c-a657b7a22738
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h4>Adding Murphy</h4>
+
+					<p class="centered compress--mild">
+						Now that we&rsquo;ve generated a new shelter id, let&rsquo;s try to
+						add Murphy&rsquo;s record again:
+					</p>
+
+					<pre><code contenteditable class="sql">
+INSERT INTO animal (shelter_id, name, date_of_birth, type, gender, date_of_surrender)
+	VALUES ('e7ab69dc-8a15-4c13-895c-a657b7a22738', 'Murphy', '2016-08-18', 'dog', 'M', now());
 </code></pre>
-					<p>In this case, we must supply all values.</p>
-				</section>
 
-				<section>
-					<h3>Null Values</h3>
-					<p>By default, SQLite will show empty strings for NULL values. We can change this behavior.</p>
-					<pre><code contenteditable class="JavaScript">sqlite> .nullvalue NULL
+<p class="centered compress--mild">
+	Yay, it worked!
+	<br><br>
+	And now we can view the full record:
+</p>
+
+<pre><code contenteditable class="sql">
+SELECT * FROM animal WHERE name = 'Murphy';
+
+id |              shelter_id              |  name  | date_of_birth | type | gender | altered | ok_with_dogs | ok_with_cats | date_of_surrender
+----+--------------------------------------+--------+---------------+------+--------+---------+--------------+--------------+-------------------
+21 | e7ab69dc-8a15-4c13-895c-a657b7a22738 | Murphy | 2016-08-18    | dog  | M      | f       | f            | f            | 2016-10-22
 </code></pre>
 				</section>
 
 				<section>
-					<h3>Omitting Columns</h3>
-					<p>We can also insert records that are missing values for some columns.</p>
-					<pre><code contenteditable class="JavaScript">sqlite> INSERT INTO Books(Id, Title) VALUES(4, 'Paradise Lost');
+					<h3>Why didn&rsquo;t we have to add the id?</h3>
+					<ul class="compress">
+						<li>
+							Yesterday, we talked a little bit about primary keys. In most
+							databases you&rsquo;ll come across, the primary key for a table
+							is the id field and the column will be set to <i>serial</i>
+							or <i>auto increment</i>. This means that the database will take
+							care of adding new ids when a record is inserted and make sure
+							that those ids are unique.
+						</li>
+						<li>
+							We still could specify an id if we really wanted to:
+							<pre><code contenteditable class="sql">
+INSERT INTO animal (id, shelter_id, name, type, gender, date_of_surrender)
+	VALUES (22, 'e7ab69dc-8a15-4c13-895c-a657b7a22738', 'Murphy2', 'dog', 'M', now());
 </code></pre>
-					<p>Note the difference between the NULL value for the unspecified column and the default value of "not available" for the description.</p>
-					<pre><code contenteditable class="JavaScript">sqlite> SELECT * FROM Books WHERE Id=4;
-Id|Title|Author|ISBN
-4|Paradise Lost|NULL|not available
+							But then the onus is on us to make sure the id we use is unique.
+						</li>
+						<li>
+							If we try to insert a new record with an existing id, we&rsquo;ll get
+							an error about violating the unique constraint.
+
+							<pre><code contenteditable class="sql">
+INSERT INTO animal (id, shelter_id, name, type, gender, date_of_surrender)
+	VALUES (21, 'e7ab69dc-8a15-4c13-895c-a657b7a22738', 'Murphy3', 'dog', 'M', now());
+
+ERROR:  duplicate key value violates unique constraint "animal_pkey"
+DETAIL:  Key (id)=(21) already exists.
+</code></pre>
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Default values</h3>
+					<ul class="compress">
+						<li>
+							You may have noticed that we didn&rsquo;t specify the altered,
+							ok_with_cats, or ok_with_dogs columns, but when we retrieved
+							the new row, we have values for those fields.
+						</li>
+						<li>
+							If you describe the animal table, you&rsquo;ll see
+							the following lines:
+
+							<pre><code contenteditable class="sql">furbabies=# \d+ animal;
+                                                    Table "public.animal"
+      Column       |      Type       |                   Modifiers          | ...
+-------------------+-----------------+--------------------------------------+---------
+...
+ altered           | boolean         | not null default false                    | ...
+ ok_with_dogs      | boolean         | not null default false                    | ...
+ ok_with_cats      | boolean         | not null default false                    | ...
+ ...
+</code></pre>
+						</li>
+						<li>
+							That indicates that these columns have been created with <em>default values</em>.
+							If you don&rsquo;t specify anything for those columns, then the defaults will be used.
+						</li>
+						<li>
+							In this case, the default for all three columns is false.
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Without specifying columns</h3>
+					<ul class="compress">
+						<li>You don&rsquo;t have to specify column names when using inserting a row.</li>
+						<li>
+							If you opt for this way, <em>you must specify a value for every column</em>.
+							The <em>values will be added in the order of the columns</em> in the table, <em>if they match</em>.
+						</li>
+						<li>
+							It&rsquo;s generally frowned upon not to use column names, since table schemas can change.
+						</li>
+						<li>
+							Example:
+							<br>
+<pre><code contenteditable class="sql">INSERT INTO animals
+	VALUES (
+		21,
+		'e7ab69dc-8a15-4c13-895c-a657b7a22738',
+		'Murphy',
+		2016-08-18',
+		'dog',
+		'M',
+		false,
+		false,
+		false,
+		now()
+	)
+</code></pre>
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>insert statement template</h3>
+
+					<p class="compress--mild">
+						When specifying particular columns to add
+					</p>
+
+					<pre><code contenteditable class="sql">INSERT INTO tablename (column1, column2, ...)
+  VALUES (value_A1, value_A2, ...),
+     (value_B1, value_B2, ...),
+     (value_C1, value_C2, ...);
+</code></pre>
+
+<br>
+
+					<p class="compress--mild">
+						Or, without specifying any columns
+					</p>
+					<pre><code contenteditable class="sql">INSERT INTO tablename
+  VALUES (value_A1, value_A2, ...),
+      (value_B1, value_B2, ...),
+      (value_C1, value_C2, ...);
 </code></pre>
 				</section>
 
 				<section>
-					<h3>Updating Records</h3>
-					<p>Let's say we want to add the missing information for "Paradise Lost".</p>
-					<pre><code contenteditable class="JavaScript">sqlite> INSERT INTO Books VALUES(4, 'Paradise Lost', 'John Milton', '978-0486442877');
-Error: PRIMARY KEY must be unique
-sqlite> INSERT OR REPLACE INTO Books VALUES(4, 'Paradise Lost', 'John Milton',
-   ...> '978-0486442877');
+					<h4>Kestrel got neutered</h4>
+					<ul class="compress--mild">
+						<li>
+							To make his record reflect this change, we&rsquo;ll use the <em>UPDATE</em> statement.
+						</li>
+						<li>
+							The update statement is used to change the value of columns in selected rows of a table.
+						</li>
+						<li>
+							<em>If you don&rsquo;t specify a WHERE clause, every record will be updated.</em>
+						</li>
+						<li>Updating Kestrel&rsquo;s record:
+<pre><code contenteditable class="sql">UPDATE animal
+  SET altered = true
+  WHERE name = 'Kestrel';
 </code></pre>
-					<p>More commonly, you would use an UPDATE statement.</p>
+						</li>
+						<li>
+							You can also specify multiple columns to update in the same statement for the
+							same set of rows.
+						</li>
+					</ul>
 				</section>
 
 				<section>
-					<h3>Updating Records</h3>
-					<p>The UPDATE statement is used to change the value of columns in selected rows of a table.</p>
-					<p>Say we want to change "Leo Tolstoy" to "Lev Nikolayevich Tolstoy" in our Books table.</p>
-					<pre><code contenteditable class="JavaScript">sqlite> UPDATE Books SET Author='Lev Nikolayevich Tolstoy' WHERE Id=1;
-sqlite> SELECT * FROM Books WHERE Id=1;
-Id|Title|Author|ISBN
-1|War and Peace|Lev Nikolayevich Tolstoy|978-0345472403</code></pre>
-					<p>The row is correctly updated.</p>
-				</section>
+					<h3>update statement template</h3>
 
-				<section>
-					<h3>Deleting Records</h3>
-					<p>The DELETE keyword is used to delete data from tables.<p>
-					<pre><code contenteditable class="JavaScript">sqlite> DELETE FROM Books WHERE Id=1;
-SELECT * FROM Books;
-Id|Title|Author|ISBN
-2|The Brothers Karamazov|Fyodor Dostoyevsky|978-0486437910
-3|Crime and Punishment|Fyodor Dostoevsky|978-1840224306
-4|Paradise Lost|NULL|not available</code></pre>
-					<p><em><strong>WARNING: Like the DROP statement, DELETE can be destructive. Mind your WHERE clause!</strong></em></p>
-				</section>
-
-				<section>
-					<h3>Deleting Records</h3>
-					<h4>Appetite for Destruction</h3>
-					<pre><code contenteditable class="JavaScript">sqlite> DELETE FROM Books;
+					<pre><code contenteditable class="sql">UPDATE table_name
+	SET column1_name = new_value1,
+	    column2_name = new_value2
+	WHERE your_criteria_go_here;
 </code></pre>
-					<p>No WHERE clause means that this statement deletes all data in the table!</p>
+				</section>
+
+
+				<section>
+					<h4>Phineas got moved to a different shelter</h4>
+					<ul class="compress--mild">
+						<li>To remove his record, we&rsquo;ll use the DELETE command</li>
+						<li><pre><code contenteditable class="sql"> DELETE FROM animal WHERE name = 'Phineas';</code></pre>
+						</li>
+						<li>
+							<em>Deletes are permanent</em>. You may be able to reconstruct
+							data from backups, but be careful when real customer data is at stake.
+						</li>
+						<li>
+							As with updates, <em>if you do not specify a WHERE clause, every record will be deleted</em>.
+						</li>
+						<li>
+							Protip: When writing UPDATE or DELETE statements, write a SELECT query
+							first to make sure you&rsquo;re only targeting the rows you intend to change or delete.
+						</li>
+					</ul>
 				</section>
 
 				<section>
-					<h3>Let's Develop It!</h3>
-					<p>Using the database you created in the first exercise, practice inserting, updating and deleting records.</p>
+					<h3>Maybe I want to delete all the rows</h3>
+					<p class="compress--mild centered-text">
+						Bye-bye, furbabies:
+					</p>
+					<pre><code contenteditable class="sql">DELETE FROM animal;</code></pre>
+					<p class="compress--mild centered-text">
+						(don&rsquo;t actually run that)
+					</p>
 				</section>
 
-        <section>
+				<section>
+					<h3>Let&rsquo;s Develop It!</h3>
+						<p class="compress">
+							Working alone or with a partner, update the appropriate tables
+							in the furbabies database to reflect the following:
+						</p>
+						<ul class="compress">
+							<li>
+								Oreo is getting along great with her foster&rsquo;s dog.
+							</li>
+							<li>
+								Someone got Gabby&rsquo;s shelter id wrong. It should be: g88aa003-35ad-436d-b692-fdad21ab0d3d
+							</li>
+							<li>
+								Murphy&rsquo;s previous owners tell us he gets along great with dogs and cats.
+							</li>
+							<li>
+								A new female cat called Nala is joining the shelter today.
+								Her date of birth is 2015-04-17 and her shelter id is
+								9ae02cc1-27ad-472d-8c67-320987dd20d5. She&rsquo;s already been
+								altered, and gets along with other cats, but not dogs.
+							</li>
+							<li>
+								<em>Extra credit:</em> Add a record in the adoptions table to reflect the
+								fact that Benicio Garcia adopted Tigger on 1 Sept 2016.
+								<i>Hint</i>: You&rsquo;ll need to find the ids of Mr. Garcia and Tigger to do this.
+								And mind how you format the date.
+							</li>
+						</ul>
+				</section>
+
+				<section>
+					<h3>Topics to check out</h3>
+					<ul>
+						<li>
+							Subselects
+						</li>
+						<li>
+							Inserting rows from a select statement
+						</li>
+						<li>
+							Temporary tables
+						</li>
+						<li>
+							Common table expressions (CTEs) / with keyword
+						</li>
+						<li>
+							Truncate table (instead of deleting all the rows in a table)
+						</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Resources</h3>
+					<ul>
+						<li>
+							<a href="http://www.codeproject.com/Articles/33052/Visual-Representation-of-SQL-Joins">
+								Visual explanations of SQL joins
+							</a>
+						</li>
+					</ul>
+				</section>
+
+				<section>
           <h2>Questions?</h2>
-          <div style = "font-size:1200%; height:100%; margin-top:40%" class ="blue">?
-            <div class ="clear"></div></div>
+          <div class="question-mark">
+						?
+          </div>
         </section>
+
 			</div>
   		<footer>
         <div class="copyright">

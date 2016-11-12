@@ -107,6 +107,11 @@ section {
   line-height: inherit;
   letter-spacing: inherit;
 }
+.compress--extreme {
+  font-size: 14pt !important;
+  line-height: 120% !important;
+  letter-spacing: 0.1px !important;
+}
 
 pre {
   font-size: 11pt !important;
@@ -149,7 +154,7 @@ li.starred:before {
   content: ": ";
 }
 
-.centered, .do-it {
+.centered, .do-it, .question-mark {
   text-align: center !important;
   display: flex !important;
   justify-content: center !important;
@@ -208,6 +213,28 @@ em {
 
 p {
   text-align: left !important;
+}
+
+.definition-table {
+  text-align: left;
+}
+.definition-table .row {
+  display: flex;
+  flex-direction: row;
+  padding: 10px 0;
+  border-bottom: 1px solid #dfdfdf;
+}
+.definition-table .col1 {
+  min-width: 25%;
+  max-width: 25%;
+  width: 25%;
+  word-wrap: break-word;
+}
+
+.question-mark {
+  margin-top: 30vh !important;
+  color: #01A9B4;
+  font-size: 1000% !important;
 }
 
 /*********************************************
