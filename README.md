@@ -1,7 +1,7 @@
 Intro to Databases (Focus on Relational Databases)
 =====================================================
 
-This material was originally developed by Heather Wade, with Class 1 Data Modeling material adapted from Pamela Fox's one day workshop. Reworked for PostgreSQL by Courtney Schirf.
+This material was originally developed by Heather Wade, with Class 1 Data Modeling material adapted from Pamela Fox's one day workshop. Reworked for PostgreSQL by Courtney Lenna Schirf.
 
 The course is meant to be taught in a two four-hour classes.
 
