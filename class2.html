@@ -316,7 +316,7 @@ Type "help" for help.
 yourusername=#</code></pre>
 
 					<p class="compress">Or, if you&rsquo;re on Windows:</p>
-					<pre><code>psql -u postgres</code></pre>
+					<pre><code>psql -U postgres</code></pre>
 					<p class="compress">If successful, you will see the version info and
 						the psql prompt. After you have successfully logged in, hit
 						Control + C to kill the process.</p>
@@ -335,13 +335,13 @@ yourusername=#</code></pre>
 					<ul class="compress">
 						<li><a href="sql-scripts/furbabies-postgres.sql">Download the furbabies database sql dump</a></li>
 						<li>Execute the following commands to create the database and import the data to our new database:
-							<pre><code contenteditable class="sql">$ createdb furbabies
-$ psql furbabies < /full-path-to-/furbabies-postgres.sql
+							<pre><code contenteditable class="sql">$ /Applications/Postgres.app/Contents/Versions/latest/bin/createdb furbabies
+$ /Applications/Postgres.app/Contents/Versions/latest/bin/psql furbabies < /full-path-to-/furbabies-postgres.sql
 		</code></pre>
 						</li>
 						<li> Windows:
 		<pre><code contenteditable class="sql">$ createdb furbabies
-$ psql -u postgres -d furbabies -f /full-path-to-/furbabies-postgres.sql
+$ psql -U postgres -d furbabies -f /full-path-to-/furbabies-postgres.sql
 	</code></pre>
 						</li>
 					</ul>
@@ -376,7 +376,7 @@ $ psql -u postgres -d furbabies -f /full-path-to-/furbabies-postgres.sql
 					<pre><code>$ psql</code></pre>
 
 					<p class="compress">Windows:</p>
-					<pre><code>$ psql -u postgres</code></pre>
+					<pre><code>$ psql -U postgres</code></pre>
 
 					<p class="compress">Then, after the prompt, connect to the furbabies database</p>
 					<pre><code>yourusername# \c furbabies</code></pre>
@@ -800,11 +800,10 @@ id |              shelter_id              |  name   | date_of_birth | type | gen
 					<ul class="compress">
 						<li>Write SQL statements to answer the following questions:</li>
 						<ul>
-							<li>Which animals were surrendered this year?</li>
-							<li>Which animals were either born or surrendered this year?</li>
-							<li>Which dogs born in 2013 have not been altered?</li>
 							<li>What are the names of all the male cats?</li>
-							<li>Which animals have an 'l' (L) in the middle of their name?</li>
+							<li>Which animals were surrendered this year?</li>
+							<li>Which animals were either born or surrendered last year?</li>
+							<li>Which dogs born in 2013 have not been altered?</li>
 							<li>Which animals have a 'Z' or 'z' anywhere in their name?</li>
 							<li>Which dogs are not okay with other animals at all?</li>
 							<li>Which cats are okay with dogs but not other cats?</li>
