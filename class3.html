@@ -83,7 +83,7 @@
 				<section>
 					<h3>count(*)</h3>
 					<p class="centered">How many animals are in the database?</p>
-					<pre><code contenteditable class="sql">SELECT count(*) from animal;
+					<pre><code contenteditable class="sql">SELECT count(*) FROM animal;
 
  count
 -------
@@ -93,7 +93,11 @@
 
 				<section>
 					<h3>now()</h3>
-					<p class="centered">We can get the current date &amp; time with <em>now()</em></p>
+					<p class="centered">
+						We can get the current date &amp; time with
+						<span style="padding-right: .25em;">&nbsp;</span>
+						<em>now()</em>
+					</p>
 					<pre><code contenteditable class="sql">SELECT now();
 
             now
@@ -104,10 +108,10 @@
 
 				<section>
 					<h3>age(date)</h3>
-					<p class="centered compress--mild">Age returns the difference between today and a given date</p>
+					<p class="centered compress--mild">Age returns the difference between a given date and today</p>
 					<p class="centered compress--mild">We need to provide the second date as a parameter</p>
 					<p class="centered compress--mild">We can use it to find the age of all the animals in the shelter</p>
-					<pre><code contenteditable class="sql">SELECT name, age(date_of_birth) from animal;
+					<pre><code contenteditable class="sql">SELECT name, age(date_of_birth) FROM animal;
 
   name   |          age
 ---------+------------------------
@@ -130,7 +134,7 @@
 						now and a given date ourselves, using... functions!</p>
 					<p class="centered compress--mild">Let&rsquo; say we want to find the age of the animals in years.</p>
 
-						<pre><code contenteditable class="sql">SELECT name, floor(date_part('day', now() - date_of_birth) / 365) from animal;
+						<pre><code contenteditable class="sql">SELECT name, floor(date_part('day', now() - date_of_birth) / 365) FROM animal;
 
  name   | date_part
 ---------+-----------
@@ -151,17 +155,17 @@ Roxy    |     3
 						<li>
 							Sqlite
 							<br>
-							<pre><code contenteditable class="sql">SELECT name, floor((date('now') - date_of_birth)/365) from animal;</code></pre>
+							<pre><code contenteditable class="sql">SELECT name, floor((date('now') - date_of_birth)/365) FROM animal;</code></pre>
 						</li>
 						<li>
 							MySQL
 							<br>
-							<pre><code contenteditable class="sql">SELECT name, floor((datediff(now(), date_of_birth)) / 365) from animal;</code></pre>
+							<pre><code contenteditable class="sql">SELECT name, floor((datediff(now(), date_of_birth)) / 365) FROM animal;</code></pre>
 						</li>
 						<li>
 							SQL Server
 							<br>
-							<pre><code contenteditable class="sql">SELECT name, floor(datediff('day', getdate(), date_of_birth) / 365) from animal;</code></pre>
+							<pre><code contenteditable class="sql">SELECT name, floor(datediff('day', getdate(), date_of_birth) / 365) FROM animal;</code></pre>
 						</li>
 					</ul>
 				</section>
@@ -184,7 +188,7 @@ Roxy    |     3
 				<section>
 					<h3>Finding the average age</h3>
 					<p class="centered compress--mild">Oh, hey, it&rsquo;s another function!</p>
-					<pre><code contenteditable class="sql">SELECT avg(age(date_of_birth)) from animal;
+					<pre><code contenteditable class="sql">SELECT avg(age(date_of_birth)) FROM animal;
 
              avg
 ---------------------------------
@@ -200,10 +204,10 @@ Roxy    |     3
 						followed by the name of the column(s) that make up the buckets.
 					</p>
 					<pre><code contenteditable class="sql">
-SELECT type, avg(age(date_of_birth)) from animal
-	group by type;
+SELECT type, avg(age(date_of_birth)) FROM animal
+  GROUP BY type;
 
-	type |               avg
+  type |               avg
  ------+---------------------------------
   dog  | 2 years 8 mons 16 days 14:24:00
   cat  | 2 years 8 mons 28 days 19:12:00
@@ -215,9 +219,8 @@ SELECT type, avg(age(date_of_birth)) from animal
 					<p class="compress">
 						We can group by more than a single column simply by adding more column names (separated by commas):
 					</p>
-					<pre><code contenteditable class="sql">
-SELECT type, altered, avg(age(date_of_birth)) from animal
-	group by type, altered;
+					<pre><code contenteditable class="sql">SELECT type, altered, avg(age(date_of_birth)) FROM animal
+  GROUP BY type, altered;
 
 type | altered |                  avg
 ------+---------+---------------------------------------
@@ -241,7 +244,7 @@ cat  | t       | 2 years 11 mons 24 days 15:59:59.9712
 						</li>
 						<li>
 							So, for example, this would error out:
-							<pre><code contenteditable class="sql">SELECT name, avg(age(date_of_birth)) from animal;</code></pre>
+							<pre><code contenteditable class="sql">SELECT name, avg(age(date_of_birth)) FROM animal;</code></pre>
 						</li>
 					</ul>
 					<p class="centered"><em>Why?</em></p>
@@ -260,9 +263,15 @@ cat  | t       | 2 years 11 mons 24 days 15:59:59.9712
 						<li>
 							A slightly contrived example:
 							<pre><code contenteditable class="sql">
-SELECT type, altered, avg(age(date_of_birth))
-	from animal group by type, altered
-	having type = 'cat';
+SELECT type, altered, avg(age(date_of_birth)) FROM animal
+  GROUP BY type, altered
+  HAVING type = 'cat';
+
+type | altered |                  avg
+------+---------+---------------------------------------
+cat  | f       | 7 mons 6 days
+cat  | t       | 2 years 11 mons 24 days 15:59:59.9712
+
 							</code></pre>
 						</li>
 					</ul>
@@ -304,9 +313,8 @@ SELECT type, altered, avg(age(date_of_birth))
 				<section>
 					<h4>Which animals have been adopted?</h4>
 					<pre><code contenteditable class="sql">
-SELECT * from animal
-	join adoption on animal.id = adoption.animal_id;
-
+SELECT * FROM animal
+	JOIN adoption ON animal.id = adoption.animal_id;
 
  id |              shelter_id              |  name   | date_of_birth | type | gender | altered | ok_with_dogs | ok_with_cats | date_of_surrender | id | adoption_date | person_id | animal_id
 ----+--------------------------------------+---------+---------------+------+--------+---------+--------------+--------------+-------------------+----+---------------+-----------+-----------
@@ -327,20 +335,37 @@ SELECT column_names_or_wildcard FROM table1
 					<ul class="compress">
 						<li>This brings back columns from both tables</li>
 						<li>
+							You can specify column names from either tables into the SELECT statement, but
+							if both tables contain columns with the same name, then you
+							must <em>qualify</em> the columm name by putting the table
+							name in front of it, like we did in the joins: <span class="code">animal.id</span>.
+							Qualifying the column name is a good habit to get into, regardless of whether
+							or not the database requires it.
+						</li>
+						<li>
 							Specifically, this is a <em>left inner join</em>, so we&rsquo;ll
 								only get back data if there&rsquo;s a match in animal and in adoption.
 						</li>
 						<li>
 							You can join any number of tables.
 						</li>
-						<li><i>Things to know</i>:
-							<br>
-							If both tables contain columns with the same name, then you
-							need to <em>qualify</em> the columm name by putting the table
-							name in front of it, like we did in the joins: <span class="code">animal.id</span>
-						</li>
 					</ul>
+				</section>
 
+				<section>
+					<h3>joining more than two tables</h3>
+					<pre><code contenteditable class="sql">
+SELECT animal.name, person.name, adoption.adoption_date FROM animal
+  JOIN adoption ON animal.id = adoption.animal_id
+  JOIN person ON person.id = adoption.person_id;
+
+  name   |      name      | adoption_date
+---------+----------------+---------------
+ Massimo | Jean Rye       | 2016-07-19
+ Bailey  | Xochitl Moreno | 2016-08-01
+ Tigger  | Benicio Garcia | 2015-02-14
+ Tigger  | Jean Rye       | 2014-07-05
+				</code></pre>
 				</section>
 
 				<section>
@@ -587,7 +612,7 @@ SELECT * FROM adoption
 				</section>
 
 				<section>
-					<h3>Extra goodies</h3>
+					<h3>Extra goodies: Aliasing</h3>
 					<ul class="compress">
 						<li>
 							Sometimes, table names are long and annoying to write out every single time.
@@ -609,7 +634,7 @@ SELECT * FROM animal a
 				</section>
 
 				<section>
-					<h3>Extra goodies</h3>
+					<h3>Extra goodies: Aliasing</h3>
 					<ul class="compress">
 						<li>
 							Once you create an alias, though, you must continue to refer to
@@ -627,6 +652,50 @@ SELECT a.name, d.* FROM animal AS a
 							</code></pre>
 						</li>
 					</ul>
+				</section>
+
+				<section>
+					<h3>Extra Goodies: DISTINCT</h3>
+					<p class="compress">
+						Often, when using joins, you will get duplicate rows back because the
+						one of the tables contains multiple records that refer
+						to a record in the other table.
+						<br><br>
+						If you don&rsquo;t want to see duplicates in your results, you can
+						use the DISTINCT keyword. It refers to the whole row that gets returned.
+					</p>
+				</section>
+
+				<section>
+					<h3>Extra Goodies: DISTINCT</h3>
+					<p class="compress">
+						In the first example, we will get 3 rows back because there are only
+						3 unique names, but in the
+						second we will still get 4 because the adoption date makes the rows about
+						Tigger unique.
+					</p>
+					<pre><code contenteditable class="sql">
+SELECT DISTINCT animal.name FROM animal
+  JOIN adoption ON animal.id = adoption.animal_id;
+
+  name
+---------
+ Tigger
+ Massimo
+ Bailey
+					</code></pre>
+
+					<pre><code contenteditable class="sql">
+SELECT DISTINCT animal.name, adoption.adoption_date FROM animal
+  JOIN adoption ON animal.id = adoption.animal_id;
+
+name   | adoption_date
+---------+---------------
+Bailey  | 2016-08-01
+Massimo | 2016-07-19
+Tigger  | 2014-07-05
+Tigger  | 2015-02-14
+					</code></pre>
 				</section>
 
 				<section>
@@ -1070,7 +1139,7 @@ DETAIL:  Key (id)=(21) already exists.
 							Temporary tables
 						</li>
 						<li>
-							Common table expressions (CTEs) / with keyword
+							Common table expressions (CTEs) / WITH keyword
 						</li>
 						<li>
 							Truncate table (instead of deleting all the rows in a table)

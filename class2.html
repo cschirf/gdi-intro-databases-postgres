@@ -439,7 +439,7 @@ furbabies#
 				<section>
 					<h3>Viewing the data in a table</h3>
 					<p class="compress">Our first query!</p>
-					<pre><code contenteditable class="sql">furbabies# select * from animal;
+					<pre><code contenteditable class="sql">furbabies# SELECT * FROM animal;
 
 id |              shelter_id              |  name   | date_of_birth | type | gender | altered | ok_with_dogs | ok_with_cats | date_of_surrender
 ----+--------------------------------------+---------+---------------+------+--------+---------+--------------+--------------+-------------------
@@ -465,7 +465,7 @@ id |              shelter_id              |  name   | date_of_birth | type | gen
 						<li>
 							View what&rsquo;s in a table:
 							<br>
-							<pre><code contenteditable class="sql">furbabies# select * from TABLE_NAME;</code></pre>
+							<pre><code contenteditable class="sql">furbabies# SELECT * FROM TABLE_NAME;</code></pre>
 						</li>
 					</ul>
 				</section>
@@ -508,7 +508,7 @@ id |              shelter_id              |  name   | date_of_birth | type | gen
 						<li>The most simple SELECT statement retrieves all values from a single table</li>
 						<li>For this statement, we use a * (asterisk, read &ldquo;star&rdquo;) to tell SQL to return every <em>column</em> in the table</li>
 						<li>We also won&rsquo;t specify any filter criteria, so SQL will also return every <em>row</em> or <em>record</em> in the table</li>
-					<pre><code contenteditable class="sql">furbabies# select * from person;
+					<pre><code contenteditable class="sql">furbabies# SELECT * FROM person;
 
 id |         name         |                   address                    | phone_number | gender | has_cats | has_dogs
 ----+----------------------+----------------------------------------------+--------------+--------+----------+----------
@@ -530,7 +530,7 @@ id |         name         |                   address                    | phone
 						<li><i>Things to know:</i> names of database <em>entities</em>
 							(like columns, tables, databases) cannot contain spaces</li>
 					</ul>
-					<pre><code contenteditable class="sql">furbabies# select name, has_cats, has_dogs from person;
+					<pre><code contenteditable class="sql">furbabies# SELECT name, has_cats, has_dogs FROM person;
 
         name         | has_cats | has_dogs
 ----------------------+----------+----------
@@ -547,7 +547,7 @@ Anna Herbert         | f        | f
 						<li>We can tell SQL to only bring back rows that match certain criteria</li>
 						<li>One way to do that is with a WHERE clause</li>
 					</ul>
-					<pre><code contenteditable class="sql">furbabies# select * from animal where type = 'cat';
+					<pre><code contenteditable class="sql">furbabies# SELECT * FROM animal WHERE type = 'cat';
 
 id |              shelter_id              |  name   | date_of_birth | type | gender | altered | ok_with_dogs | ok_with_cats | date_of_surrender
 ----+--------------------------------------+---------+---------------+------+--------+---------+--------------+--------------+-------------------
@@ -571,7 +571,7 @@ id |              shelter_id              |  name   | date_of_birth | type | gen
 
 				<section>
 					<h3>Solution</h3>
-					<pre><code contenteditable class="sql">furbabies# select name from animal where type = 'dog';
+					<pre><code contenteditable class="sql">furbabies# SELECT name FROM animal WHERE type = 'dog';
 
 name
 ---------
@@ -665,7 +665,7 @@ Fenton
 				<section>
 					<h4>Which animals have been altered?</h4>
 					<h5>operator: IS</h5>
-					<pre><code contenteditable class="sql">select * from animal where altered is true;
+					<pre><code contenteditable class="sql">SELECT * FROM animal WHERE altered is true;
 
 id |              shelter_id              |  name   | date_of_birth | type | gender | altered | ok_with_dogs | ok_with_cats | date_of_surrender
 ----+--------------------------------------+---------+---------------+------+--------+---------+--------------+--------------+-------------------
@@ -689,7 +689,7 @@ id |              shelter_id              |  name   | date_of_birth | type | gen
 				<section>
 					<h4>Which dogs have been altered?</h4>
 					<h5>operators: =, AND</h5>
-					<pre><code contenteditable class="sql">select * from animal where altered = true and type = 'dog';
+					<pre><code contenteditable class="sql">SELECT * FROM animal WHERE altered = true AND type = 'dog';
 
 id |              shelter_id              |  name  | date_of_birth | type | gender | altered | ok_with_dogs | ok_with_cats | date_of_surrender
 ----+--------------------------------------+--------+---------------+------+--------+---------+--------------+--------------+-------------------
@@ -704,7 +704,7 @@ id |              shelter_id              |  name  | date_of_birth | type | gend
 				<section>
 					<h4>Which animals were born in 2015?</h4>
 					<h5>operators: >=, <</h5>
-					<pre><code contenteditable class="sql">select * from animal where date_of_birth >= '2015-01-01' and date_of_birth < '2016-01-01';
+					<pre><code contenteditable class="sql">SELECT * FROM animal WHERE date_of_birth >= '2015-01-01' AND date_of_birth < '2016-01-01';
 
 id |              shelter_id              | name | date_of_birth | type | gender | altered | ok_with_dogs | ok_with_cats | date_of_surrender
 ----+--------------------------------------+------+---------------+------+--------+---------+--------------+--------------+-------------------
@@ -732,7 +732,7 @@ id |              shelter_id              | name | date_of_birth | type | gender
 				<section>
 					<h4>Which animals have names starting with L?</h4>
 					<h5>operators: like</h5>
-					<pre><code contenteditable class="sql">select * from animal where name like 'L%';
+					<pre><code contenteditable class="sql">SELECT * FROM animal WHERE name LIKE 'L%';
 
 id |              shelter_id              | name | date_of_birth | type | gender | altered | ok_with_dogs | ok_with_cats | date_of_surrender
 ----+--------------------------------------+------+---------------+------+--------+---------+--------------+--------------+-------------------
@@ -746,7 +746,7 @@ id |              shelter_id              | name | date_of_birth | type | gender
 				<section>
 					<h4>Find a particular subset of animals by name</h4>
 					<h5>operators: IN</h5>
-					<pre><code contenteditable class="sql">select * from animal where name in ('Oreo', 'Tigger');
+					<pre><code contenteditable class="sql">SELECT * FROM animal WHERE name IN ('Oreo', 'Tigger');
 
 id |              shelter_id              |  name  | date_of_birth | type | gender | altered | ok_with_dogs | ok_with_cats | date_of_surrender
 ----+--------------------------------------+--------+---------------+------+--------+---------+--------------+--------------+-------------------
@@ -763,7 +763,7 @@ id |              shelter_id              |  name  | date_of_birth | type | gend
 						<li>This is called the <em>empty set</em>, and it&rsquo;s totally valid. It just means we won&rsquo;t get any rows back</li>
 					</ul>
 
-					<pre><code contenteditable class="sql">select * from animal where name = 'i do not exist';
+					<pre><code contenteditable class="sql">SELECT * FROM animal WHERE name = 'i do not exist';
 
 id | shelter_id | name | date_of_birth | type | gender | altered | ok_with_dogs | ok_with_cats | date_of_surrender
 ----+------------+------+---------------+------+--------+---------+--------------+--------------+-------------------
@@ -778,7 +778,7 @@ id | shelter_id | name | date_of_birth | type | gender | altered | ok_with_dogs 
 						<li>If you do&rsquo;t specify either ascending or descending, the database will assume you mean ascending.</li>
 					</ul>
 
-					<pre><code contenteditable class="sql">select * from animal order by name desc;
+					<pre><code contenteditable class="sql">SELECT * FROM animal ORDER BY name DESC;
 
 id |              shelter_id              |  name   | date_of_birth | type | gender | altered | ok_with_dogs | ok_with_cats | date_of_surrender
 ----+--------------------------------------+---------+---------------+------+--------+---------+--------------+--------------+-------------------

@@ -149,6 +149,7 @@ test_db# CREATE TABLE fav_book(id serial PRIMARY KEY);
 						Now if we look at all the tables in our new database, we should see the fav_book table!
 					</p>
 					<pre><code contenteditable class="sql">test_db# \dt;
+
            List of relations
  Schema |   Name    | Type  |  Owner
 --------+-----------+-------+---------
@@ -352,7 +353,7 @@ alter table fav_book add column book_title varchar(500) not null default 'no tit
 						Now if we describe the fav_book table, we should see our new
 						column and any constraints or defaults we&rsquo;ve added.
 						<br><br>
-						Depending on how you have declared your new constraint, you may
+						Depending on how you have declared your new column, you may
 						see something different:
 					</p>
 					<pre><code contenteditable class="sql">test_db# \d+ fav_book;
@@ -360,7 +361,7 @@ alter table fav_book add column book_title varchar(500) not null default 'no tit
 
   Column   |          Type          |                       Modifiers                        | Storage  | Stats target | Description
 ------------+------------------------+--------------------------------------------------------+----------+--------------+-------------
-id         | integer                | not null default nextval('fav_book_id_seq'::regclass) | plain    |              |
+id         | integer                | not null default nextval('fav_book_id_seq'::regclass)  | plain    |              |
 book_title | character varying(500) | not null default 'no title'::character varying         | extended |              |
 
 Indexes:
